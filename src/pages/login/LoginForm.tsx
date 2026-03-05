@@ -1,13 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import type { CheckedState } from '@radix-ui/react-checkbox'
-import { Loader2 } from 'lucide-react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -29,7 +27,7 @@ type LoginFormValues = z.infer<typeof loginSchema>
 
 export function LoginForm() {
   const [loading, setLoading] = useState(false)
-  const [remember, setRemember] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
   const { loginState, setLoginState } = useLoginStateContext()
   const loginMutation = useLogin()
@@ -88,37 +86,31 @@ export function LoginForm() {
               <FormItem>
                 <FormLabel>密码</FormLabel>
                 <FormControl>
-                  <Input type='password' placeholder='请输入密码' {...field} />
+                  <div className='relative'>
+                    <Input
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder='请输入密码'
+                      {...field}
+                    />
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='sm'
+                      className='absolute right-0 top-0 h-full px-3 hover:bg-transparent'
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className='h-4 w-4 text-muted-foreground' />
+                      ) : (
+                        <Eye className='h-4 w-4 text-muted-foreground' />
+                      )}
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div className='flex flex-row justify-between'>
-            <div className='flex items-center space-x-2'>
-              <Checkbox
-                id='remember'
-                checked={remember}
-                onCheckedChange={(checked: CheckedState) =>
-                  setRemember(checked === 'indeterminate' ? false : checked)
-                }
-              />
-              <label
-                htmlFor='remember'
-                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-              >
-                记住我
-              </label>
-            </div>
-            <Button
-              variant='link'
-              onClick={() => setLoginState(LoginStateEnum.RESET_PASSWORD)}
-              size='sm'
-            >
-              忘记密码？
-            </Button>
-          </div>
 
           <Button type='submit' className='w-full' disabled={loading}>
             {loading && <Loader2 className='animate-spin mr-2' />}
@@ -133,6 +125,16 @@ export function LoginForm() {
               onClick={() => setLoginState(LoginStateEnum.REGISTER)}
             >
               立即注册
+            </Button>
+          </div>
+
+          <div className='text-center'>
+            <Button
+              variant='link'
+              size='sm'
+              onClick={() => setLoginState(LoginStateEnum.RESET_PASSWORD)}
+            >
+              忘记密码？
             </Button>
           </div>
         </form>
