@@ -19,8 +19,8 @@ import { useLogin } from '@/hooks/useAuth'
 import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
 
 const loginSchema = z.object({
-  email: z.string().min(1, '请输入邮箱地址').email('请输入有效的邮箱地址'),
-  password: z.string().min(1, '请输入密码'),
+  email: z.email('请输入有效的邮箱地址').min(1, '请输入邮箱地址'),
+  password: z.string().min(1, '请输入密码').min(6, '密码长度至少为6位'),
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
@@ -45,7 +45,7 @@ export function LoginForm() {
     try {
       await loginMutation.mutateAsync(values)
       navigate('/dashboard', { replace: true })
-      toast.success('登录成功', { closeButton: true })
+      toast.success('登录成功')
     } catch (error) {
       console.error('登录失败:', error)
       toast.error('登录失败，请检查邮箱和密码')

@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { NotFound, ServerError, Unauthorized } from '@/components/common/ErrorPage'
 import DashboardLayout from '@/components/layout'
 import Dashboard from '@/pages/dashboard'
 import Login from '@/pages/login'
@@ -30,6 +31,18 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
     ],
+  },
+  {
+    path: '/401',
+    element: <Unauthorized />,
+  },
+  {
+    path: '/500',
+    element: <ServerError />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ])
 
