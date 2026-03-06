@@ -38,14 +38,11 @@ export default defineConfig(({ mode }) => {
         output: {
           // 分块策略
           manualChunks: {
-            // React 核心 + 路由 + 数据流
             'vendor-core': ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query'],
-            // UI 组件 + 图标 + 通知
-            'vendor-ui': ['lucide-react', '@radix-ui/react-slot', 'sonner'],
-            // 表单相关
-            'vendor-form': ['react-hook-form', '@hookform/resolvers', 'zod'],
-            // 工具库
+            'vendor-ui': ['lucide-react', 'radix-ui', 'sonner'],
             'vendor-utils': ['zustand', 'ky', 'clsx', 'tailwind-merge', 'class-variance-authority'],
+            'vendor-form': ['react-hook-form', '@hookform/resolvers', 'zod'],
+            'vendor-charts': ['apexcharts', 'react-apexcharts'],
           },
           // 文件命名
           chunkFileNames: 'assets/js/[name]-[hash].js',

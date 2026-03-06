@@ -1,6 +1,7 @@
+import { Moon, Sun } from 'lucide-react'
 import { Navigate } from 'react-router-dom'
-import { ThemeToggle } from '@/components/common/ThemeToggle'
-import { useAuthStore } from '@/stores/auth'
+import { Button } from '@/components/ui/button'
+import { useAuthStore, useThemeMode, useToggleTheme } from '@/stores'
 import LoginForm from './LoginForm'
 import { LoginProvider } from './providers/LoginProvider'
 import RegisterForm from './RegisterForm'
@@ -8,6 +9,8 @@ import ResetForm from './ResetForm'
 
 function LoginPage() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated)
+  const themeMode = useThemeMode()
+  const toggleTheme = useToggleTheme()
 
   if (isAuthenticated) {
     return <Navigate to='/dashboard' replace />
@@ -20,7 +23,9 @@ function LoginPage() {
           <div className='flex items-center gap-2 font-medium cursor-pointer'>
             <span className='text-xl font-bold text-primary'>Vidora Admin</span>
           </div>
-          <ThemeToggle />
+          <Button variant='ghost' size='icon' onClick={toggleTheme}>
+            {themeMode === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+          </Button>
         </div>
         <div className='flex flex-1 items-center justify-center'>
           <div className='w-full max-w-xs'>

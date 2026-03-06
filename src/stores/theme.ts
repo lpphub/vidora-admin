@@ -1,54 +1,51 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { StorageEnum, ThemeMode } from '@/types/enum'
 
-export type Theme = 'light' | 'dark' | 'system'
+type ThemeModeValue = typeof ThemeMode.Light | typeof ThemeMode.Dark
 
-export interface ThemeState {
-  theme: Theme
-  setTheme: (theme: Theme) => void
+type ThemeStore = {
+  themeMode: ThemeModeValue
+  setThemeMode: (mode: ThemeModeValue) => void
+  toggleTheme: () => void
 }
 
-const applyTheme = (theme: Theme) => {
+function applyTheme(mode: ThemeModeValue) {
   const root = document.documentElement
-  const isDark =
-    theme === 'dark' ||
-    (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-
-  if (isDark) {
+  if (mode === ThemeMode.Dark) {
     root.classList.add('dark')
   } else {
     root.classList.remove('dark')
   }
 }
 
-export const useThemeStore = create<ThemeState>()(
+export const useThemeStore = create<ThemeStore>()(
   persist(
-    set => ({
-      theme: 'system',
-      setTheme: theme => {
-        applyTheme(theme)
-        set({ theme })
+    (set, get) => ({
+      themeMode: ThemeMode.Light,
+      setThemeMode: mode => {
+        set({ themeMode: mode })
+        applyTheme(mode)
+      },
+      toggleTheme: () => {
+        const current = get().themeMode
+        const newMode = current === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light
+        set({ themeMode: newMode })
+        applyTheme(newMode)
       },
     }),
     {
-      name: 'vidora-theme',
-      partialize: state => ({ theme: state.theme }),
+      name: StorageEnum.Theme,
       onRehydrateStorage: () => state => {
-        if (state) {
-          applyTheme(state.theme)
+        // Apply theme on app startup after rehydration
+        if (state?.themeMode) {
+          applyTheme(state.themeMode)
         }
       },
     }
   )
 )
 
-// 监听系统主题变化
-if (typeof window !== 'undefined') {
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-  mediaQuery.addEventListener('change', () => {
-    const state = useThemeStore.getState()
-    if (state.theme === 'system') {
-      applyTheme('system')
-    }
-  })
-}
+export const useThemeMode = () => useThemeStore(state => state.themeMode)
+export const useToggleTheme = () => useThemeStore(state => state.toggleTheme)
+export const useSetThemeMode = () => useThemeStore(state => state.setThemeMode)

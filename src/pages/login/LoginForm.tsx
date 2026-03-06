@@ -19,14 +19,13 @@ import { useLogin } from '@/hooks/useAuth'
 import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
 
 const loginSchema = z.object({
-  email: z.string().email('请输入有效的邮箱地址'),
+  email: z.string().min(1, '请输入邮箱地址').email('请输入有效的邮箱地址'),
   password: z.string().min(1, '请输入密码'),
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
 
 export function LoginForm() {
-  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
   const { loginState, setLoginState } = useLoginStateContext()
@@ -43,7 +42,6 @@ export function LoginForm() {
   if (loginState !== LoginStateEnum.LOGIN) return null
 
   const handleFinish = async (values: LoginFormValues) => {
-    setLoading(true)
     try {
       await loginMutation.mutateAsync(values)
       navigate('/dashboard', { replace: true })
@@ -51,10 +49,10 @@ export function LoginForm() {
     } catch (error) {
       console.error('登录失败:', error)
       toast.error('登录失败，请检查邮箱和密码')
-    } finally {
-      setLoading(false)
     }
   }
+
+  const isLoading = loginMutation.isPending
 
   return (
     <div className='flex flex-col gap-6'>
@@ -112,8 +110,8 @@ export function LoginForm() {
             )}
           />
 
-          <Button type='submit' className='w-full' disabled={loading}>
-            {loading && <Loader2 className='animate-spin mr-2' />}
+          <Button type='submit' className='w-full' disabled={isLoading}>
+            {isLoading && <Loader2 className='animate-spin mr-2' />}
             登录
           </Button>
 

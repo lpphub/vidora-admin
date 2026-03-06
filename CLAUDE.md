@@ -13,7 +13,7 @@ pnpm dev        # Start dev server (port 5173)
 pnpm build      # Build for production (tsc + vite build)
 pnpm lint       # Biome lint check
 pnpm lint:fix   # Biome lint with auto-fix
-pnpm format     # Biome format (--ignore-pattern='*.css')
+pnpm format     # Biome format
 ```
 
 ## Tech Stack
@@ -77,8 +77,8 @@ API Layer (src/api/*.ts) → Hooks Layer (src/hooks/*.ts) → Components
 ### Component Organization
 
 - `src/components/ui/` - shadcn/ui primitives (do not edit directly - use CLI to add)
-- `src/components/common/` - Reusable components (ConfirmDialog, StatusBadge, ThemeToggle, etc.)
-- `src/components/layout/` - Layout components (Header, Sidebar, MainLayout)
+- `src/components/common/` - Reusable components (ConfirmDialog, StatusBadge, AppBreadcrumb, etc.)
+- `src/components/layout/` - Layout components (Header, Sidebar, Main)
 
 ### Key Files
 

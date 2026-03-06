@@ -18,7 +18,7 @@ export function AuthGuard({ children, requireAuth = false }: AuthGuardProps) {
 
   // 不需要登录但已登录 -> 跳转首页
   if (!requireAuth && isAuthenticated) {
-    return <Navigate to='/dashboard' replace />
+    return <Navigate to='/' replace />
   }
 
   return <>{children}</>
