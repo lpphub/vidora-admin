@@ -1,0 +1,31 @@
+{
+	"title": "Settings",
+	"tabs": {
+		"general": "General",
+		"security": "Security"
+	},
+	"general": {
+		"avatar": "Avatar",
+		"publicProfile": "Public Profile",
+		"deleteAccount": "Delete Account",
+		"username": "Username",
+		"email": "Email",
+		"phone": "Phone",
+		"about": "About",
+		"aboutPlaceholder": "Write something about yourself...",
+		"saveChanges": "Save Changes"
+	},
+	"security": {
+		"currentPassword": "Current Password",
+		"newPassword": "New Password",
+		"confirmPassword": "Confirm New Password",
+		"updatePassword": "Update Password",
+		"passwordRequired": "Password is required",
+		"passwordMinLength": "Password must be at least 6 characters",
+		"passwordMismatch": "Passwords do not match"
+	},
+	"toast": {
+		"profileUpdated": "Profile updated successfully",
+		"passwordUpdated": "Password updated successfully"
+	}
+}

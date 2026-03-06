@@ -1,0 +1,31 @@
+{
+	"title": "个人设置",
+	"tabs": {
+		"general": "基本信息",
+		"security": "安全设置"
+	},
+	"general": {
+		"avatar": "头像",
+		"publicProfile": "公开资料",
+		"deleteAccount": "删除账号",
+		"username": "用户名",
+		"email": "邮箱",
+		"phone": "电话",
+		"about": "简介",
+		"aboutPlaceholder": "写一些关于自己的介绍...",
+		"saveChanges": "保存更改"
+	},
+	"security": {
+		"currentPassword": "当前密码",
+		"newPassword": "新密码",
+		"confirmPassword": "确认新密码",
+		"updatePassword": "更新密码",
+		"passwordRequired": "请输入密码",
+		"passwordMinLength": "密码至少需要6个字符",
+		"passwordMismatch": "两次输入的密码不一致"
+	},
+	"toast": {
+		"profileUpdated": "个人资料更新成功",
+		"passwordUpdated": "密码更新成功"
+	}
+}

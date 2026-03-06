@@ -3,6 +3,7 @@ import { NotFound, ServerError, Unauthorized } from '@/components/common/ErrorPa
 import DashboardLayout from '@/components/layout'
 import Dashboard from '@/pages/dashboard'
 import Login from '@/pages/login'
+import Profile from '@/pages/profile'
 import { AuthGuard } from './guard'
 
 const router = createBrowserRouter([
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />,
       },
     ],
   },

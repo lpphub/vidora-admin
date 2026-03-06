@@ -48,7 +48,7 @@ export function UserDropdown() {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate('/settings')}>
+        <DropdownMenuItem onClick={() => navigate('/profile')}>
           <Settings size={16} className='mr-2' />
           {t('user.settings')}
         </DropdownMenuItem>
