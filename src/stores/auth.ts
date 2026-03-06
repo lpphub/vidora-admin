@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { StorageKey } from '@/lib/constants'
 import type { User } from '@/types'
 
 export interface AuthState {
@@ -29,7 +30,7 @@ export const useAuthStore = create<AuthState>()(
         set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false }),
     }),
     {
-      name: 'vidora-auth',
+      name: StorageKey.Auth,
       partialize: state => ({
         user: state.user,
         accessToken: state.accessToken,

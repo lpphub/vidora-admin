@@ -1,4 +1,5 @@
 import { LogOut, Settings, User } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -12,6 +13,7 @@ import {
 import { useAuthStore } from '@/stores'
 
 export function UserDropdown() {
+  const { t } = useTranslation('common')
   const navigate = useNavigate()
   const { user, logout } = useAuthStore()
 
@@ -41,19 +43,19 @@ export function UserDropdown() {
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col items-start'>
-            <div className='text-sm font-medium'>{user?.username || '用户'}</div>
+            <div className='text-sm font-medium'>{user?.username || t('user.defaultName')}</div>
             <div className='text-xs text-gray-500'>{user?.email || ''}</div>
           </div>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => navigate('/settings')}>
           <Settings size={16} className='mr-2' />
-          个人设置
+          {t('user.settings')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} className='text-red-500'>
           <LogOut size={16} className='mr-2' />
-          退出登录
+          {t('user.logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

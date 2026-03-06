@@ -1,0 +1,57 @@
+{
+	"stats": {
+		"totalVideos": "总视频数",
+		"totalContents": "总内容数",
+		"activeUsers": "活跃用户",
+		"playCount": "播放量"
+	},
+	"charts": {
+		"monthlyPlayTrend": "月度播放量趋势",
+		"projectProgress": "项目进度",
+		"dataDistribution": "数据分布",
+		"recentActivity": "最近动态"
+	},
+	"tasks": {
+		"videoTranscodeOptimization": "视频转码优化",
+		"contentReviewSystem": "内容审核系统",
+		"userPermissionRefactor": "用户权限重构",
+		"apiDocUpdate": "API文档更新",
+		"addTask": "添加任务"
+	},
+	"transactions": {
+		"videoUpload": "视频上传",
+		"contentPublish": "内容发布",
+		"newUserRegister": "新用户注册",
+		"playGrowth": "播放增长"
+	},
+	"quickActions": {
+		"title": "快速操作",
+		"uploadVideo": {
+			"title": "上传视频",
+			"description": "支持多种格式"
+		},
+		"createContent": {
+			"title": "新建内容",
+			"description": "创建视频内容"
+		},
+		"addUser": {
+			"title": "添加用户",
+			"description": "管理用户权限"
+		},
+		"viewReport": {
+			"title": "查看报告",
+			"description": "数据分析报告"
+		}
+	},
+	"tabs": {
+		"all": "全部",
+		"upload": "上传",
+		"review": "审核"
+	},
+	"labels": {
+		"video": "视频",
+		"content": "内容",
+		"user": "用户",
+		"play": "播放"
+	}
+}

@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
@@ -8,21 +9,22 @@ import { Input } from '@/components/ui/input'
 import { ReturnButton } from './components/ReturnButton'
 import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
 
-const registerSchema = z
-  .object({
-    email: z.string().email('请输入有效的邮箱地址'),
-    password: z.string().min(6, '密码至少6个字符'),
-    confirmPassword: z.string().min(1, '请确认密码'),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    message: '两次密码不一致',
-    path: ['confirmPassword'],
-  })
-
-type RegisterFormValues = z.infer<typeof registerSchema>
-
 function RegisterForm() {
+  const { t } = useTranslation('auth')
   const { loginState, backToLogin } = useLoginStateContext()
+
+  const registerSchema = z
+    .object({
+      email: z.string().email(t('register.emailInvalid')),
+      password: z.string().min(6, t('register.passwordMinLength')),
+      confirmPassword: z.string().min(1, t('register.confirmPasswordRequired')),
+    })
+    .refine(data => data.password === data.confirmPassword, {
+      message: t('register.confirmPasswordMismatch'),
+      path: ['confirmPassword'],
+    })
+
+  type RegisterFormValues = z.infer<typeof registerSchema>
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -36,7 +38,7 @@ function RegisterForm() {
   const onFinish = async (values: RegisterFormValues) => {
     // TODO: 调用实际的注册 API
     console.log('Register values:', values)
-    toast.success('注册成功，请登录')
+    toast.success(t('register.success'))
     backToLogin()
   }
 
@@ -46,7 +48,7 @@ function RegisterForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onFinish)} className='space-y-4'>
         <div className='flex flex-col items-center gap-2 text-center'>
-          <h1 className='text-2xl font-bold'>创建账户</h1>
+          <h1 className='text-2xl font-bold'>{t('register.title')}</h1>
         </div>
 
         <FormField
@@ -55,7 +57,7 @@ function RegisterForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type='email' placeholder='邮箱地址' {...field} />
+                <Input type='email' placeholder={t('register.emailPlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,7 +70,7 @@ function RegisterForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type='password' placeholder='密码' {...field} />
+                <Input type='password' placeholder={t('register.passwordPlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +83,11 @@ function RegisterForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type='password' placeholder='确认密码' {...field} />
+                <Input
+                  type='password'
+                  placeholder={t('register.confirmPasswordPlaceholder')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -89,17 +95,13 @@ function RegisterForm() {
         />
 
         <Button type='submit' className='w-full'>
-          注册
+          {t('register.submit')}
         </Button>
 
         <div className='mb-2 text-xs text-muted-foreground text-center'>
-          <span>注册即表示您同意</span>
+          <span>{t('register.hasAccount')}</span>
           <button type='button' className='text-primary underline ml-1'>
-            服务条款
-          </button>
-          {' & '}
-          <button type='button' className='text-primary underline'>
-            隐私政策
+            {t('register.login')}
           </button>
         </div>
 

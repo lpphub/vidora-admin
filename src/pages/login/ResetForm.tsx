@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
@@ -8,14 +9,15 @@ import { Input } from '@/components/ui/input'
 import { ReturnButton } from './components/ReturnButton'
 import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
 
-const resetSchema = z.object({
-  email: z.string().email('请输入有效的邮箱地址'),
-})
-
-type ResetFormValues = z.infer<typeof resetSchema>
-
 function ResetForm() {
+  const { t } = useTranslation('auth')
   const { loginState, backToLogin } = useLoginStateContext()
+
+  const resetSchema = z.object({
+    email: z.string().email(t('resetPassword.emailInvalid')),
+  })
+
+  type ResetFormValues = z.infer<typeof resetSchema>
 
   const form = useForm<ResetFormValues>({
     resolver: zodResolver(resetSchema),
@@ -27,7 +29,7 @@ function ResetForm() {
   const onFinish = async (values: ResetFormValues) => {
     // TODO: 调用实际的密码重置 API
     console.log('Reset password for:', values.email)
-    toast.success('密码重置邮件已发送，请查收邮箱')
+    toast.success(t('resetPassword.success'))
     backToLogin()
   }
 
@@ -36,9 +38,9 @@ function ResetForm() {
   return (
     <>
       <div className='mb-8 text-center'>
-        <h1 className='text-2xl font-bold'>忘记密码</h1>
+        <h1 className='text-2xl font-bold'>{t('resetPassword.title')}</h1>
         <p className='text-balance text-sm text-muted-foreground mt-2'>
-          输入您的邮箱地址，我们将发送密码重置链接
+          {t('resetPassword.subtitle')}
         </p>
       </div>
       <Form {...form}>
@@ -49,14 +51,14 @@ function ResetForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder='邮箱地址' {...field} />
+                  <Input placeholder={t('resetPassword.emailPlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <Button type='submit' className='w-full'>
-            发送重置邮件
+            {t('resetPassword.submit')}
           </Button>
           <ReturnButton onClick={backToLogin} />
         </form>

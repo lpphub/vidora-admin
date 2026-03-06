@@ -1,0 +1,57 @@
+{
+	"stats": {
+		"totalVideos": "Total Videos",
+		"totalContents": "Total Contents",
+		"activeUsers": "Active Users",
+		"playCount": "Play Count"
+	},
+	"charts": {
+		"monthlyPlayTrend": "Monthly Play Trend",
+		"projectProgress": "Project Progress",
+		"dataDistribution": "Data Distribution",
+		"recentActivity": "Recent Activity"
+	},
+	"tasks": {
+		"videoTranscodeOptimization": "Video Transcode Optimization",
+		"contentReviewSystem": "Content Review System",
+		"userPermissionRefactor": "User Permission Refactor",
+		"apiDocUpdate": "API Doc Update",
+		"addTask": "Add Task"
+	},
+	"transactions": {
+		"videoUpload": "Video Upload",
+		"contentPublish": "Content Publish",
+		"newUserRegister": "New User Registration",
+		"playGrowth": "Play Growth"
+	},
+	"quickActions": {
+		"title": "Quick Actions",
+		"uploadVideo": {
+			"title": "Upload Video",
+			"description": "Support multiple formats"
+		},
+		"createContent": {
+			"title": "Create Content",
+			"description": "Create video content"
+		},
+		"addUser": {
+			"title": "Add User",
+			"description": "Manage user permissions"
+		},
+		"viewReport": {
+			"title": "View Report",
+			"description": "Data analysis report"
+		}
+	},
+	"tabs": {
+		"all": "All",
+		"upload": "Upload",
+		"review": "Review"
+	},
+	"labels": {
+		"video": "Video",
+		"content": "Content",
+		"user": "User",
+		"play": "Play"
+	}
+}

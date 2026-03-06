@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -18,18 +19,19 @@ import { Input } from '@/components/ui/input'
 import { useLogin } from '@/hooks/useAuth'
 import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
 
-const loginSchema = z.object({
-  email: z.email('请输入有效的邮箱地址').min(1, '请输入邮箱地址'),
-  password: z.string().min(1, '请输入密码').min(6, '密码长度至少为6位'),
-})
-
-type LoginFormValues = z.infer<typeof loginSchema>
-
 export function LoginForm() {
+  const { t } = useTranslation('auth')
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
   const { loginState, setLoginState } = useLoginStateContext()
   const loginMutation = useLogin()
+
+  const loginSchema = z.object({
+    email: z.email(t('login.emailInvalid')).min(1, t('login.emailRequired')),
+    password: z.string().min(1, t('login.passwordRequired')).min(6, t('login.passwordMinLength')),
+  })
+
+  type LoginFormValues = z.infer<typeof loginSchema>
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -45,10 +47,10 @@ export function LoginForm() {
     try {
       await loginMutation.mutateAsync(values)
       navigate('/dashboard', { replace: true })
-      toast.success('登录成功')
+      toast.success(t('login.success'))
     } catch (error) {
-      console.error('登录失败:', error)
-      toast.error('登录失败，请检查邮箱和密码')
+      console.error(t('login.failed'), error)
+      toast.error(t('login.failed'))
     }
   }
 
@@ -59,8 +61,8 @@ export function LoginForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleFinish)} className='space-y-4'>
           <div className='flex flex-col items-center gap-2 text-center'>
-            <h1 className='text-2xl font-bold'>欢迎回来</h1>
-            <p className='text-balance text-sm text-muted-foreground'>请输入您的邮箱和密码登录</p>
+            <h1 className='text-2xl font-bold'>{t('login.title')}</h1>
+            <p className='text-balance text-sm text-muted-foreground'>{t('login.subtitle')}</p>
           </div>
 
           <FormField
@@ -68,9 +70,9 @@ export function LoginForm() {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>邮箱</FormLabel>
+                <FormLabel>{t('login.email')}</FormLabel>
                 <FormControl>
-                  <Input type='email' placeholder='请输入邮箱地址' {...field} />
+                  <Input type='email' placeholder={t('login.emailPlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,12 +84,12 @@ export function LoginForm() {
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>密码</FormLabel>
+                <FormLabel>{t('login.password')}</FormLabel>
                 <FormControl>
                   <div className='relative'>
                     <Input
                       type={showPassword ? 'text' : 'password'}
-                      placeholder='请输入密码'
+                      placeholder={t('login.passwordPlaceholder')}
                       {...field}
                     />
                     <Button
@@ -112,17 +114,17 @@ export function LoginForm() {
 
           <Button type='submit' className='w-full' disabled={isLoading}>
             {isLoading && <Loader2 className='animate-spin mr-2' />}
-            登录
+            {t('login.submit')}
           </Button>
 
           <div className='text-center text-sm'>
-            还没有账户？
+            {t('login.noAccount')}
             <Button
               variant='link'
               className='px-1'
               onClick={() => setLoginState(LoginStateEnum.REGISTER)}
             >
-              立即注册
+              {t('login.register')}
             </Button>
           </div>
 
@@ -132,7 +134,7 @@ export function LoginForm() {
               size='sm'
               onClick={() => setLoginState(LoginStateEnum.RESET_PASSWORD)}
             >
-              忘记密码？
+              {t('login.forgotPassword')}
             </Button>
           </div>
         </form>

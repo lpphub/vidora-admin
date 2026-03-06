@@ -1,87 +1,10 @@
 import { ArrowDown, ArrowUp, Film, Plus, TrendingUp, Users, Video } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Chart, useChart } from '@/components/chart'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-
-const quickStats = [
-  {
-    icon: Video,
-    label: '总视频数',
-    value: '1,234',
-    percent: 12.5,
-    color: '#10b981',
-    chart: [12, 18, 14, 16, 12, 10, 14, 18, 16, 14, 12, 10],
-  },
-  {
-    icon: Film,
-    label: '总内容数',
-    value: '5,678',
-    percent: 8.2,
-    color: '#3b82f6',
-    chart: [8, 12, 10, 14, 18, 16, 14, 12, 10, 14, 18, 16],
-  },
-  {
-    icon: Users,
-    label: '活跃用户',
-    value: '892',
-    percent: 23.1,
-    color: '#8b5cf6',
-    chart: [10, 14, 12, 16, 18, 14, 12, 10, 14, 18, 16, 12],
-  },
-  {
-    icon: TrendingUp,
-    label: '播放量',
-    value: '45.2K',
-    percent: -5.6,
-    color: '#f59e0b',
-    chart: [16, 14, 12, 10, 14, 18, 16, 12, 10, 14, 18, 16],
-  },
-]
-
-const monthlyRevenue = {
-  series: [
-    {
-      name: '播放量',
-      data: [30, 40, 35, 50, 49, 70, 91, 60, 50, 55, 60, 65],
-    },
-  ],
-  categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  percent: 5.44,
-}
-
-const projectTasks = [
-  { label: '视频转码优化', color: '#3b82f6', progress: 75 },
-  { label: '内容审核系统', color: '#10b981', progress: 60 },
-  { label: '用户权限重构', color: '#f59e0b', progress: 45 },
-  { label: 'API文档更新', color: '#8b5cf6', progress: 90 },
-]
-
-const recentTransactions = [
-  { icon: Video, name: '视频上传', id: '#T11032', amount: 15, time: '06:30 pm', status: 'up' },
-  { icon: Film, name: '内容发布', id: '#T11033', amount: -8, time: '08:30 pm', status: 'down' },
-  { icon: Users, name: '新用户注册', id: '#T11034', amount: 32, time: '08:40 pm', status: 'up' },
-  {
-    icon: TrendingUp,
-    name: '播放增长',
-    id: '#T11035',
-    amount: 128,
-    time: '07:40 pm',
-    status: 'up',
-  },
-]
-
-const totalIncome = {
-  series: [44, 55, 41, 17],
-  labels: ['视频', '内容', '用户', '播放'],
-  details: [
-    { label: '视频', value: 1234 },
-    { label: '内容', value: 5678 },
-    { label: '用户', value: 892 },
-    { label: '播放', value: 45200 },
-  ],
-}
 
 function rgbAlpha(color: string, alpha: number): string {
   const hex = color.replace('#', '')
@@ -105,7 +28,120 @@ function SparklineChart({ color, data }: { color: string; data: number[] }) {
 }
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('全部')
+  const { t } = useTranslation('dashboard')
+  const [activeTab, setActiveTab] = useState(t('tabs.all'))
+
+  const quickStats = [
+    {
+      icon: Video,
+      labelKey: 'stats.totalVideos',
+      value: '1,234',
+      percent: 12.5,
+      color: '#10b981',
+      chart: [12, 18, 14, 16, 12, 10, 14, 18, 16, 14, 12, 10],
+    },
+    {
+      icon: Film,
+      labelKey: 'stats.totalContents',
+      value: '5,678',
+      percent: 8.2,
+      color: '#3b82f6',
+      chart: [8, 12, 10, 14, 18, 16, 14, 12, 10, 14, 18, 16],
+    },
+    {
+      icon: Users,
+      labelKey: 'stats.activeUsers',
+      value: '892',
+      percent: 23.1,
+      color: '#8b5cf6',
+      chart: [10, 14, 12, 16, 18, 14, 12, 10, 14, 18, 16, 12],
+    },
+    {
+      icon: TrendingUp,
+      labelKey: 'stats.playCount',
+      value: '45.2K',
+      percent: -5.6,
+      color: '#f59e0b',
+      chart: [16, 14, 12, 10, 14, 18, 16, 12, 10, 14, 18, 16],
+    },
+  ]
+
+  const monthlyRevenue = {
+    series: [
+      {
+        name: t('labels.play'),
+        data: [30, 40, 35, 50, 49, 70, 91, 60, 50, 55, 60, 65],
+      },
+    ],
+    categories: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ],
+    percent: 5.44,
+  }
+
+  const projectTasks = [
+    { labelKey: 'tasks.videoTranscodeOptimization', color: '#3b82f6', progress: 75 },
+    { labelKey: 'tasks.contentReviewSystem', color: '#10b981', progress: 60 },
+    { labelKey: 'tasks.userPermissionRefactor', color: '#f59e0b', progress: 45 },
+    { labelKey: 'tasks.apiDocUpdate', color: '#8b5cf6', progress: 90 },
+  ]
+
+  const recentTransactions = [
+    {
+      icon: Video,
+      nameKey: 'transactions.videoUpload',
+      id: '#T11032',
+      amount: 15,
+      time: '06:30 pm',
+      status: 'up',
+    },
+    {
+      icon: Film,
+      nameKey: 'transactions.contentPublish',
+      id: '#T11033',
+      amount: -8,
+      time: '08:30 pm',
+      status: 'down',
+    },
+    {
+      icon: Users,
+      nameKey: 'transactions.newUserRegister',
+      id: '#T11034',
+      amount: 32,
+      time: '08:40 pm',
+      status: 'up',
+    },
+    {
+      icon: TrendingUp,
+      nameKey: 'transactions.playGrowth',
+      id: '#T11035',
+      amount: 128,
+      time: '07:40 pm',
+      status: 'up',
+    },
+  ]
+
+  const totalIncome = {
+    series: [44, 55, 41, 17],
+    labels: [t('labels.video'), t('labels.content'), t('labels.user'), t('labels.play')],
+    details: [
+      { labelKey: 'labels.video', value: 1234 },
+      { labelKey: 'labels.content', value: 5678 },
+      { labelKey: 'labels.user', value: 892 },
+      { labelKey: 'labels.play', value: 45200 },
+    ],
+  }
 
   const areaChartOptions = useChart({
     xaxis: { categories: monthlyRevenue.categories },
@@ -135,6 +171,8 @@ export default function Dashboard() {
     colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'],
   })
 
+  const tabs = [t('tabs.all'), t('tabs.upload'), t('tabs.review')]
+
   return (
     <div className='flex flex-col gap-4 w-full'>
       {/* 顶部四个统计卡片 */}
@@ -142,14 +180,14 @@ export default function Dashboard() {
         {quickStats.map(stat => {
           const Icon = stat.icon
           return (
-            <Card key={stat.label} className='flex flex-col justify-between h-full'>
+            <Card key={stat.labelKey} className='flex flex-col justify-between h-full'>
               <CardContent className='flex flex-col gap-2 p-4'>
                 <div className='flex items-center gap-2'>
                   <div className='rounded-lg p-2' style={{ background: rgbAlpha(stat.color, 0.1) }}>
                     <Icon size={20} color={stat.color} />
                   </div>
                   <span className='text-sm font-medium text-gray-600 dark:text-gray-400'>
-                    {stat.label}
+                    {t(stat.labelKey)}
                   </span>
                 </div>
                 <div className='flex items-center gap-2 mt-2'>
@@ -182,7 +220,9 @@ export default function Dashboard() {
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
         <Card className='lg:col-span-2'>
           <CardHeader className='flex flex-row items-center justify-between pb-2'>
-            <CardTitle className='text-base font-semibold'>月度播放量趋势</CardTitle>
+            <CardTitle className='text-base font-semibold'>
+              {t('charts.monthlyPlayTrend')}
+            </CardTitle>
             <span className='flex items-center gap-1 text-green-500 font-bold text-sm'>
               <ArrowUp size={14} />
               {monthlyRevenue.percent}%
@@ -198,17 +238,19 @@ export default function Dashboard() {
           </CardContent>
         </Card>
         <Card className='flex flex-col gap-4 p-6'>
-          <CardTitle className='text-base font-semibold'>项目进度</CardTitle>
+          <CardTitle className='text-base font-semibold'>{t('charts.projectProgress')}</CardTitle>
           <ul className='flex flex-col gap-4 mt-2'>
             {projectTasks.map(task => (
-              <li key={task.label} className='flex flex-col gap-2'>
+              <li key={task.labelKey} className='flex flex-col gap-2'>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center gap-2'>
                     <span
                       className='inline-block w-2 h-2 rounded-full'
                       style={{ background: task.color }}
                     />
-                    <span className='text-sm text-gray-700 dark:text-gray-300'>{task.label}</span>
+                    <span className='text-sm text-gray-700 dark:text-gray-300'>
+                      {t(task.labelKey)}
+                    </span>
                   </div>
                   <span className='text-xs font-bold' style={{ color: task.color }}>
                     {task.progress}%
@@ -219,7 +261,7 @@ export default function Dashboard() {
             ))}
           </ul>
           <Button className='w-full mt-auto' size='sm'>
-            <Plus size={16} className='mr-1' /> 添加任务
+            <Plus size={16} className='mr-1' /> {t('tasks.addTask')}
           </Button>
         </Card>
       </div>
@@ -228,9 +270,9 @@ export default function Dashboard() {
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
         <Card className='lg:col-span-2 flex flex-col p-6'>
           <div className='flex items-center justify-between mb-4'>
-            <CardTitle className='text-base font-semibold'>最近动态</CardTitle>
+            <CardTitle className='text-base font-semibold'>{t('charts.recentActivity')}</CardTitle>
             <div className='flex gap-2'>
-              {['全部', '上传', '审核'].map(tab => (
+              {tabs.map(tab => (
                 <Button
                   key={tab}
                   size='sm'
@@ -259,7 +301,9 @@ export default function Dashboard() {
                         </span>
                       </td>
                       <td className='py-3'>
-                        <div className='font-medium text-gray-900 dark:text-white'>{tx.name}</div>
+                        <div className='font-medium text-gray-900 dark:text-white'>
+                          {t(tx.nameKey)}
+                        </div>
                         <div className='text-xs text-gray-500'>{tx.id}</div>
                       </td>
                       <td className='py-3 text-right font-bold text-gray-900 dark:text-white'>
@@ -284,13 +328,15 @@ export default function Dashboard() {
           </div>
           <div className='flex items-center justify-between mt-4 gap-2'>
             <Button variant='outline' className='flex-1'>
-              查看全部
+              {t('actions.viewAll', { ns: 'common' })}
             </Button>
-            <Button className='flex-1'>创建新任务</Button>
+            <Button className='flex-1'>{t('actions.createNew', { ns: 'common' })}</Button>
           </div>
         </Card>
         <Card className='flex flex-col p-6'>
-          <CardTitle className='text-base font-semibold mb-4'>数据分布</CardTitle>
+          <CardTitle className='text-base font-semibold mb-4'>
+            {t('charts.dataDistribution')}
+          </CardTitle>
           <div className='flex-1 flex flex-col items-center justify-center'>
             <Chart
               type='donut'
@@ -300,7 +346,7 @@ export default function Dashboard() {
             />
             <div className='w-full mt-4 space-y-2'>
               {totalIncome.details.map((item, i) => (
-                <div key={item.label} className='flex items-center justify-between'>
+                <div key={item.labelKey} className='flex items-center justify-between'>
                   <div className='flex items-center gap-2'>
                     <span
                       className='inline-block w-3 h-3 rounded-full'
@@ -308,7 +354,9 @@ export default function Dashboard() {
                         background: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'][i],
                       }}
                     />
-                    <span className='text-sm text-gray-600 dark:text-gray-400'>{item.label}</span>
+                    <span className='text-sm text-gray-600 dark:text-gray-400'>
+                      {t(item.labelKey)}
+                    </span>
                   </div>
                   <span className='font-bold text-gray-900 dark:text-white'>
                     {item.value.toLocaleString()}
@@ -322,7 +370,7 @@ export default function Dashboard() {
 
       {/* 快速操作区域 */}
       <Card className='p-6'>
-        <CardTitle className='text-base font-semibold mb-4'>快速操作</CardTitle>
+        <CardTitle className='text-base font-semibold mb-4'>{t('quickActions.title')}</CardTitle>
         <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
           <button
             type='button'
@@ -332,8 +380,12 @@ export default function Dashboard() {
               <Video className='h-5 w-5 text-emerald-500' />
             </div>
             <div>
-              <div className='font-medium text-gray-900 dark:text-white'>上传视频</div>
-              <div className='text-xs text-gray-500'>支持多种格式</div>
+              <div className='font-medium text-gray-900 dark:text-white'>
+                {t('quickActions.uploadVideo.title')}
+              </div>
+              <div className='text-xs text-gray-500'>
+                {t('quickActions.uploadVideo.description')}
+              </div>
             </div>
           </button>
           <button
@@ -344,8 +396,12 @@ export default function Dashboard() {
               <Film className='h-5 w-5 text-blue-500' />
             </div>
             <div>
-              <div className='font-medium text-gray-900 dark:text-white'>新建内容</div>
-              <div className='text-xs text-gray-500'>创建视频内容</div>
+              <div className='font-medium text-gray-900 dark:text-white'>
+                {t('quickActions.createContent.title')}
+              </div>
+              <div className='text-xs text-gray-500'>
+                {t('quickActions.createContent.description')}
+              </div>
             </div>
           </button>
           <button
@@ -356,8 +412,10 @@ export default function Dashboard() {
               <Users className='h-5 w-5 text-purple-500' />
             </div>
             <div>
-              <div className='font-medium text-gray-900 dark:text-white'>添加用户</div>
-              <div className='text-xs text-gray-500'>管理用户权限</div>
+              <div className='font-medium text-gray-900 dark:text-white'>
+                {t('quickActions.addUser.title')}
+              </div>
+              <div className='text-xs text-gray-500'>{t('quickActions.addUser.description')}</div>
             </div>
           </button>
           <button
@@ -368,8 +426,12 @@ export default function Dashboard() {
               <TrendingUp className='h-5 w-5 text-orange-500' />
             </div>
             <div>
-              <div className='font-medium text-gray-900 dark:text-white'>查看报告</div>
-              <div className='text-xs text-gray-500'>数据分析报告</div>
+              <div className='font-medium text-gray-900 dark:text-white'>
+                {t('quickActions.viewReport.title')}
+              </div>
+              <div className='text-xs text-gray-500'>
+                {t('quickActions.viewReport.description')}
+              </div>
             </div>
           </button>
         </div>

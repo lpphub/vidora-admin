@@ -1,10 +1,10 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { StorageEnum, ThemeMode } from '@/types/enum'
+import { type PersistStorage, persist } from 'zustand/middleware'
+import { StorageKey, ThemeMode } from '@/lib/constants'
 
 type ThemeModeValue = typeof ThemeMode.Light | typeof ThemeMode.Dark
 
-type ThemeStore = {
+type ThemeState = {
   themeMode: ThemeModeValue
   setThemeMode: (mode: ThemeModeValue) => void
   toggleTheme: () => void
@@ -19,7 +19,7 @@ function applyTheme(mode: ThemeModeValue) {
   }
 }
 
-export const useThemeStore = create<ThemeStore>()(
+export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
       themeMode: ThemeMode.Light,
@@ -35,13 +35,25 @@ export const useThemeStore = create<ThemeStore>()(
       },
     }),
     {
-      name: StorageEnum.Theme,
+      name: StorageKey.Theme,
       onRehydrateStorage: () => state => {
-        // Apply theme on app startup after rehydration
         if (state?.themeMode) {
           applyTheme(state.themeMode)
         }
       },
+      storage: {
+        getItem: (name: string) => {
+          const value = localStorage.getItem(name)
+          if (value) {
+            return { state: { themeMode: value } }
+          }
+          return null
+        },
+        setItem: (name: string, value: { state: ThemeState }) => {
+          localStorage.setItem(name, value.state.themeMode)
+        },
+        removeItem: (name: string) => localStorage.removeItem(name),
+      } as PersistStorage<ThemeState>,
     }
   )
 )

@@ -1,0 +1,29 @@
+{
+	"language": {
+		"zh": "中文",
+		"en": "English"
+	},
+	"actions": {
+		"submit": "Submit",
+		"cancel": "Cancel",
+		"confirm": "Confirm",
+		"save": "Save",
+		"delete": "Delete",
+		"edit": "Edit",
+		"add": "Add",
+		"viewAll": "View All",
+		"createNew": "Create New Task"
+	},
+	"theme": {
+		"light": "Light",
+		"dark": "Dark"
+	},
+	"notifications": {
+		"title": "Notifications"
+	},
+	"user": {
+		"defaultName": "User",
+		"settings": "Settings",
+		"logout": "Logout"
+	}
+}

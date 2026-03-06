@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
 import { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useMatches } from 'react-router-dom'
 import {
   Breadcrumb,
@@ -20,10 +21,10 @@ import {
 
 interface BreadcrumbItemData {
   key: string
-  label: string
+  title: string
   items: Array<{
     key: string
-    label: string
+    title: string
   }>
 }
 
@@ -35,18 +36,18 @@ interface NavItem {
 
 // Navigation data for breadcrumb generation
 const navData: NavItem[] = [
-  { path: '/dashboard', title: '工作台' },
-  { path: '/contents', title: '内容列表' },
-  { path: '/contents/review', title: '内容审核' },
-  { path: '/videos', title: '视频列表' },
-  { path: '/videos/upload', title: '上传管理' },
-  { path: '/transcode', title: '转码任务' },
-  { path: '/categories', title: '分类管理' },
-  { path: '/calendar', title: '日历' },
-  { path: '/tags', title: '项目标签' },
-  { path: '/users', title: '用户管理' },
-  { path: '/settings', title: '系统设置' },
-  { path: '/components', title: '组件展示' },
+  { path: '/dashboard', title: 'items.dashboard' },
+  { path: '/contents', title: 'items.contentList' },
+  { path: '/contents/review', title: 'items.contentReview' },
+  { path: '/videos', title: 'items.videoList' },
+  { path: '/videos/upload', title: 'items.uploadManagement' },
+  { path: '/transcode', title: 'items.transcodeTasks' },
+  { path: '/categories', title: 'items.categoryManagement' },
+  { path: '/calendar', title: 'items.calendar' },
+  { path: '/tags', title: 'items.tagManagement' },
+  { path: '/users', title: 'items.userManagement' },
+  { path: '/settings', title: 'items.systemSettings' },
+  { path: '/components', title: 'items.components' },
 ]
 
 interface NavBreadcrumbProps {
@@ -54,6 +55,7 @@ interface NavBreadcrumbProps {
 }
 
 export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
+  const { t } = useTranslation('sidebar')
   const matches = useMatches()
 
   const findPathInNavData = useCallback((path: string, items: NavItem[]): NavItem[] => {
@@ -84,12 +86,12 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
         const children =
           currentItem.children?.map(child => ({
             key: child.path,
-            label: child.title,
+            title: child.title,
           })) ?? []
 
         return {
           key: currentItem.path,
-          label: currentItem.title,
+          title: currentItem.title,
           items: children,
         }
       })
@@ -104,13 +106,13 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
         <BreadcrumbItem>
           <DropdownMenu>
             <DropdownMenuTrigger className='flex items-center gap-1 cursor-pointer'>
-              {item.label}
+              {t(item.title)}
               <ChevronDown className='h-4 w-4' />
             </DropdownMenuTrigger>
             <DropdownMenuContent align='start'>
               {item.items.map(subItem => (
                 <DropdownMenuItem key={subItem.key} asChild>
-                  <Link to={subItem.key}>{subItem.label}</Link>
+                  <Link to={subItem.key}>{t(subItem.title)}</Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -122,10 +124,10 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
     return (
       <BreadcrumbItem>
         {isLast ? (
-          <BreadcrumbPage>{item.label}</BreadcrumbPage>
+          <BreadcrumbPage>{t(item.title)}</BreadcrumbPage>
         ) : (
           <BreadcrumbLink asChild>
-            <Link to={item.key}>{item.label}</Link>
+            <Link to={item.key}>{t(item.title)}</Link>
           </BreadcrumbLink>
         )}
       </BreadcrumbItem>
@@ -159,7 +161,7 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
             <DropdownMenuContent align='start'>
               {hiddenItems.map(item => (
                 <DropdownMenuItem key={item.key} asChild>
-                  <Link to={item.key}>{item.label}</Link>
+                  <Link to={item.key}>{t(item.title)}</Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
