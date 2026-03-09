@@ -2,32 +2,61 @@ import {
   ArrowLeftToLine,
   ArrowRightToLine,
   ChevronRight,
-  Film,
   FolderTree,
   LayoutDashboard,
-  RefreshCw,
   Settings,
   Tag,
-  Users,
-  Video,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 
-type SidebarItem = {
-  titleKey: string
+export interface NavItem {
+  title: string
   path: string
-  icon: React.ReactNode
-  children?: { titleKey: string; path: string }[]
+  icon?: React.ReactNode
+  children?: NavItem[]
 }
 
-type SidebarGroup = {
-  nameKey: string
-  items: SidebarItem[]
+export interface NavGroup {
+  name: string
+  items: NavItem[]
 }
+
+export const NAVIGATION_CONFIG: NavGroup[] = [
+  {
+    name: 'groups.navigation',
+    items: [{ title: 'items.dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> }],
+  },
+  {
+    name: 'groups.content',
+    items: [
+      { title: 'items.tagManagement', path: '/tags', icon: <Tag size={20} /> },
+      {
+        title: 'items.categoryManagement',
+        path: '/categories',
+        icon: <FolderTree size={20} />,
+      },
+    ],
+  },
+  {
+    name: 'groups.system',
+    items: [
+      {
+        title: 'items.systemSettings',
+        path: '/system',
+        icon: <Settings size={20} />,
+        children: [
+          { title: 'items.userManagement', path: '/system/users' },
+          { title: 'items.roleManagement', path: '/system/roles' },
+          { title: 'items.permissionManagement', path: '/system/permissions' },
+        ],
+      },
+    ],
+  },
+]
 
 interface SidebarProps {
   collapsed: boolean
@@ -37,52 +66,6 @@ interface SidebarProps {
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const { t } = useTranslation('sidebar')
   const location = useLocation()
-
-  const sidebarData: SidebarGroup[] = [
-    {
-      nameKey: 'groups.navigation',
-      items: [
-        { titleKey: 'items.dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> },
-      ],
-    },
-    {
-      nameKey: 'groups.contentManagement',
-      items: [
-        {
-          titleKey: 'items.contentManagement',
-          path: '/contents',
-          icon: <Film size={20} />,
-          children: [
-            { titleKey: 'items.contentList', path: '/contents' },
-            { titleKey: 'items.contentReview', path: '/contents/review' },
-          ],
-        },
-        {
-          titleKey: 'items.videoCenter',
-          path: '/videos',
-          icon: <Video size={20} />,
-          children: [
-            { titleKey: 'items.videoList', path: '/videos' },
-            { titleKey: 'items.uploadManagement', path: '/videos/upload' },
-          ],
-        },
-        { titleKey: 'items.transcodeTasks', path: '/transcode', icon: <RefreshCw size={20} /> },
-        {
-          titleKey: 'items.categoryManagement',
-          path: '/categories',
-          icon: <FolderTree size={20} />,
-        },
-        { titleKey: 'items.tagManagement', path: '/tags', icon: <Tag size={20} /> },
-      ],
-    },
-    {
-      nameKey: 'groups.system',
-      items: [
-        { titleKey: 'items.userManagement', path: '/users', icon: <Users size={20} /> },
-        { titleKey: 'items.systemSettings', path: '/settings', icon: <Settings size={20} /> },
-      ],
-    },
-  ]
 
   return (
     <nav
@@ -113,16 +96,16 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
       {/* Navigation */}
       <ScrollArea className='flex-1 px-2 py-2'>
-        {sidebarData.map(group => (
-          <div key={group.nameKey} className='mb-4'>
+        {NAVIGATION_CONFIG.map(group => (
+          <div key={group.name} className='mb-4'>
             {!collapsed && (
               <div className='px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400'>
-                {t(group.nameKey)}
+                {t(group.name)}
               </div>
             )}
             <div className='space-y-1'>
               {group.items.map(item => (
-                <NavItem
+                <NavItemComponent
                   key={item.path}
                   item={item}
                   collapsed={collapsed}
@@ -138,20 +121,31 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   )
 }
 
-function NavItem({
+function NavItemComponent({
   item,
   collapsed,
   location,
   t,
 }: {
-  item: SidebarItem
+  item: NavItem
   collapsed: boolean
   location: ReturnType<typeof useLocation>
   t: (key: string) => string
 }) {
-  const isActive = location.pathname === item.path || location.pathname.startsWith(`${item.path}/`)
-  const [expanded, setExpanded] = useState(false)
   const hasChildren = item.children && item.children.length > 0
+  const isChildActive =
+    hasChildren && item.children!.some(child => location.pathname === child.path)
+  const isParentActive =
+    location.pathname === item.path || location.pathname.startsWith(`${item.path}/`)
+  const isActive = hasChildren ? isChildActive : isParentActive
+  const [expanded, setExpanded] = useState(isChildActive)
+
+  // Sync expanded state with isChildActive when URL changes
+  useEffect(() => {
+    if (isChildActive) {
+      setExpanded(true)
+    }
+  }, [isChildActive])
 
   const content = (
     <div
@@ -165,7 +159,7 @@ function NavItem({
       {item.icon}
       {!collapsed && (
         <>
-          <span className='flex-1'>{t(item.titleKey)}</span>
+          <span className='flex-1'>{t(item.title)}</span>
           {hasChildren && (
             <ChevronRight
               size={14}
@@ -204,7 +198,7 @@ function NavItem({
                     : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                 )}
               >
-                {t(child.titleKey)}
+                {t(child.title)}
               </Link>
             ))}
           </div>

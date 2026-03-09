@@ -1,0 +1,28 @@
+{
+	"title": "Tag Management",
+	"search": {
+		"placeholder": "Search tag name"
+	},
+	"table": {
+		"name": "Tag Name",
+		"color": "Color",
+		"usageCount": "Usage Count",
+		"createdAt": "Created At",
+		"actions": "Actions"
+	},
+	"form": {
+		"addTitle": "Add Tag",
+		"editTitle": "Edit Tag",
+		"name": "Tag Name",
+		"namePlaceholder": "Enter tag name",
+		"nameRequired": "Tag name is required",
+		"color": "Tag Color",
+		"colorPlaceholder": "Select color",
+		"colorRequired": "Tag color is required"
+	},
+	"actions": {
+		"edit": "Edit",
+		"delete": "Delete",
+		"deleteConfirm": "Are you sure you want to delete this tag?"
+	}
+}

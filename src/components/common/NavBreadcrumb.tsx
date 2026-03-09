@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useMatches } from 'react-router-dom'
+import { NAVIGATION_CONFIG, type NavItem } from '@/components/layout/Sidebar'
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -28,28 +29,6 @@ interface BreadcrumbItemData {
   }>
 }
 
-interface NavItem {
-  path: string
-  title: string
-  children?: NavItem[]
-}
-
-// Navigation data for breadcrumb generation
-const navData: NavItem[] = [
-  { path: '/dashboard', title: 'items.dashboard' },
-  { path: '/contents', title: 'items.contentList' },
-  { path: '/contents/review', title: 'items.contentReview' },
-  { path: '/videos', title: 'items.videoList' },
-  { path: '/videos/upload', title: 'items.uploadManagement' },
-  { path: '/transcode', title: 'items.transcodeTasks' },
-  { path: '/categories', title: 'items.categoryManagement' },
-  { path: '/calendar', title: 'items.calendar' },
-  { path: '/tags', title: 'items.tagManagement' },
-  { path: '/users', title: 'items.userManagement' },
-  { path: '/settings', title: 'items.systemSettings' },
-  { path: '/components', title: 'items.components' },
-]
-
 interface NavBreadcrumbProps {
   maxItems?: number
 }
@@ -57,6 +36,17 @@ interface NavBreadcrumbProps {
 export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
   const { t } = useTranslation('sidebar')
   const matches = useMatches()
+
+  // Flatten all nav items from groups
+  const allNavItems = useMemo(() => {
+    const items: NavItem[] = []
+    for (const group of NAVIGATION_CONFIG) {
+      for (const item of group.items) {
+        items.push(item)
+      }
+    }
+    return items
+  }, [])
 
   const findPathInNavData = useCallback((path: string, items: NavItem[]): NavItem[] => {
     for (const item of items) {
@@ -78,7 +68,7 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
 
     return paths
       .map(path => {
-        const pathItems = findPathInNavData(path, navData)
+        const pathItems = findPathInNavData(path, allNavItems)
 
         if (pathItems.length === 0) return null
 
@@ -96,7 +86,7 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
         }
       })
       .filter((item): item is BreadcrumbItemData => item !== null)
-  }, [matches, findPathInNavData])
+  }, [matches, findPathInNavData, allNavItems])
 
   const renderBreadcrumbItem = (item: BreadcrumbItemData, isLast: boolean) => {
     const hasItems = item.items && item.items.length > 0

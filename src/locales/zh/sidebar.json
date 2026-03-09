@@ -1,23 +1,16 @@
 {
 	"groups": {
 		"navigation": "导航",
-		"contentManagement": "内容管理",
-		"system": "系统"
+		"system": "系统设置",
+		"content": "内容管理"
 	},
 	"items": {
 		"dashboard": "工作台",
-		"contentManagement": "内容管理",
-		"contentList": "内容列表",
-		"contentReview": "内容审核",
-		"videoCenter": "视频中心",
-		"videoList": "视频列表",
-		"uploadManagement": "上传管理",
-		"transcodeTasks": "转码任务",
-		"categoryManagement": "分类管理",
-		"tagManagement": "项目标签",
-		"userManagement": "用户管理",
 		"systemSettings": "系统设置",
-		"calendar": "日历",
-		"components": "组件展示"
+		"userManagement": "用户管理",
+		"roleManagement": "角色管理",
+		"permissionManagement": "权限管理",
+		"tagManagement": "标签管理",
+		"categoryManagement": "分类管理"
 	}
 }

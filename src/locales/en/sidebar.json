@@ -1,23 +1,16 @@
 {
 	"groups": {
 		"navigation": "Navigation",
-		"contentManagement": "Content Management",
-		"system": "System"
+		"system": "System Settings",
+		"content": "Content Management"
 	},
 	"items": {
 		"dashboard": "Dashboard",
-		"contentManagement": "Content Management",
-		"contentList": "Content List",
-		"contentReview": "Content Review",
-		"videoCenter": "Video Center",
-		"videoList": "Video List",
-		"uploadManagement": "Upload Management",
-		"transcodeTasks": "Transcode Tasks",
-		"categoryManagement": "Category Management",
-		"tagManagement": "Tags",
-		"userManagement": "User Management",
 		"systemSettings": "System Settings",
-		"calendar": "Calendar",
-		"components": "Components"
+		"userManagement": "User Management",
+		"roleManagement": "Role Management",
+		"permissionManagement": "Permission Management",
+		"tagManagement": "Tags",
+		"categoryManagement": "Categories"
 	}
 }

@@ -1,13 +1,20 @@
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Eye, EyeOff } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 export default function Security() {
@@ -48,25 +55,25 @@ export default function Security() {
 
   return (
     <Card>
-      <CardContent className="pt-6">
+      <CardContent className='pt-6'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
             <FormField
               control={form.control}
-              name="oldPassword"
+              name='oldPassword'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('security.currentPassword')}</FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className='relative'>
                       <Input
                         type={showOldPassword ? 'text' : 'password'}
                         {...field}
-                        className="pr-10"
+                        className='pr-10'
                       />
                       <button
-                        type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        type='button'
+                        className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground'
                         onClick={() => setShowOldPassword(!showOldPassword)}
                       >
                         {showOldPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -80,20 +87,20 @@ export default function Security() {
 
             <FormField
               control={form.control}
-              name="newPassword"
+              name='newPassword'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('security.newPassword')}</FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className='relative'>
                       <Input
                         type={showNewPassword ? 'text' : 'password'}
                         {...field}
-                        className="pr-10"
+                        className='pr-10'
                       />
                       <button
-                        type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        type='button'
+                        className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground'
                         onClick={() => setShowNewPassword(!showNewPassword)}
                       >
                         {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -107,20 +114,20 @@ export default function Security() {
 
             <FormField
               control={form.control}
-              name="confirmPassword"
+              name='confirmPassword'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('security.confirmPassword')}</FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className='relative'>
                       <Input
                         type={showConfirmPassword ? 'text' : 'password'}
                         {...field}
-                        className="pr-10"
+                        className='pr-10'
                       />
                       <button
-                        type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        type='button'
+                        className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground'
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       >
                         {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -132,8 +139,8 @@ export default function Security() {
               )}
             />
 
-            <div className="flex justify-end pt-2">
-              <Button type="submit">{t('security.updatePassword')}</Button>
+            <div className='flex justify-end pt-2'>
+              <Button type='submit'>{t('security.updatePassword')}</Button>
             </div>
           </form>
         </Form>

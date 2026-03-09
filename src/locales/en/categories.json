@@ -1,0 +1,34 @@
+{
+	"title": "Category Management",
+	"search": {
+		"placeholder": "Search category name"
+	},
+	"table": {
+		"name": "Category Name",
+		"sort": "Sort",
+		"contentCount": "Content Count",
+		"status": "Status",
+		"createdAt": "Created At",
+		"actions": "Actions"
+	},
+	"form": {
+		"addTitle": "Add Category",
+		"editTitle": "Edit Category",
+		"name": "Category Name",
+		"namePlaceholder": "Enter category name",
+		"nameRequired": "Category name is required",
+		"sort": "Sort",
+		"sortPlaceholder": "Enter sort value, lower numbers appear first",
+		"sortMin": "Sort value must be at least 0",
+		"status": "Status"
+	},
+	"status": {
+		"enabled": "Enabled",
+		"disabled": "Disabled"
+	},
+	"actions": {
+		"edit": "Edit",
+		"delete": "Delete",
+		"deleteConfirm": "Are you sure you want to delete this category?"
+	}
+}

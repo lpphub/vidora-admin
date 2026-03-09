@@ -1,9 +1,14 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { NotFound, ServerError, Unauthorized } from '@/components/common/ErrorPage'
 import DashboardLayout from '@/components/layout'
+import Auth from '@/pages/auth'
+import Categories from '@/pages/categories'
 import Dashboard from '@/pages/dashboard'
-import Login from '@/pages/login'
 import Profile from '@/pages/profile'
+import Permissions from '@/pages/system/permissions'
+import Roles from '@/pages/system/roles'
+import Users from '@/pages/system/users'
+import Tags from '@/pages/tags'
 import { AuthGuard } from './guard'
 
 const router = createBrowserRouter([
@@ -11,7 +16,7 @@ const router = createBrowserRouter([
     path: '/login',
     element: (
       <AuthGuard>
-        <Login />
+        <Auth />
       </AuthGuard>
     ),
   },
@@ -34,6 +39,26 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
+      },
+      {
+        path: 'system/users',
+        element: <Users />,
+      },
+      {
+        path: 'system/roles',
+        element: <Roles />,
+      },
+      {
+        path: 'system/permissions',
+        element: <Permissions />,
+      },
+      {
+        path: 'tags',
+        element: <Tags />,
+      },
+      {
+        path: 'categories',
+        element: <Categories />,
       },
     ],
   },

@@ -1,0 +1,28 @@
+{
+	"title": "标签管理",
+	"search": {
+		"placeholder": "搜索标签名称"
+	},
+	"table": {
+		"name": "标签名称",
+		"color": "颜色",
+		"usageCount": "使用次数",
+		"createdAt": "创建时间",
+		"actions": "操作"
+	},
+	"form": {
+		"addTitle": "新增标签",
+		"editTitle": "编辑标签",
+		"name": "标签名称",
+		"namePlaceholder": "请输入标签名称",
+		"nameRequired": "请输入标签名称",
+		"color": "标签颜色",
+		"colorPlaceholder": "选择颜色",
+		"colorRequired": "请选择标签颜色"
+	},
+	"actions": {
+		"edit": "编辑",
+		"delete": "删除",
+		"deleteConfirm": "确定要删除该标签吗？"
+	}
+}

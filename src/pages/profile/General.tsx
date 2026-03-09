@@ -1,6 +1,6 @@
-import { useTranslation } from 'react-i18next'
 import { User } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -36,25 +36,25 @@ export default function General() {
 
   return (
     <Card>
-      <CardContent className="pt-6">
-        <div className="flex items-start gap-6 mb-6">
-          <Avatar className="h-20 w-20 shrink-0">
+      <CardContent className='pt-6'>
+        <div className='flex items-start gap-6 mb-6'>
+          <Avatar className='h-20 w-20 shrink-0'>
             <AvatarImage src={user?.avatar} alt={user?.username} />
-            <AvatarFallback className="bg-emerald-500 text-white text-xl font-medium">
+            <AvatarFallback className='bg-emerald-500 text-white text-xl font-medium'>
               {userInitial || <User size={28} />}
             </AvatarFallback>
           </Avatar>
-          <Button variant="destructive" size="sm">
+          <Button variant='destructive' size='sm'>
             {t('general.deleteAccount')}
           </Button>
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
               <FormField
                 control={form.control}
-                name="username"
+                name='username'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t('general.username')}</FormLabel>
@@ -66,7 +66,7 @@ export default function General() {
               />
               <FormField
                 control={form.control}
-                name="email"
+                name='email'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t('general.email')}</FormLabel>
@@ -79,7 +79,7 @@ export default function General() {
             </div>
             <FormField
               control={form.control}
-              name="about"
+              name='about'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('general.about')}</FormLabel>
@@ -89,8 +89,8 @@ export default function General() {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end gap-2 pt-2">
-              <Button type="submit">{t('general.saveChanges')}</Button>
+            <div className='flex justify-end gap-2 pt-2'>
+              <Button type='submit'>{t('general.saveChanges')}</Button>
             </div>
           </form>
         </Form>
