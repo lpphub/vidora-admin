@@ -1,6 +1,4 @@
 import {
-  ArrowLeftToLine,
-  ArrowRightToLine,
   ChevronRight,
   FolderTree,
   Key,
@@ -13,8 +11,23 @@ import {
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { cn } from '@/lib/utils'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarRail,
+} from '@/components/ui/sidebar'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 export interface NavItem {
   title: string
@@ -31,16 +44,16 @@ export interface NavGroup {
 export const NAVIGATION_CONFIG: NavGroup[] = [
   {
     name: 'groups.navigation',
-    items: [{ title: 'items.dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> }],
+    items: [{ title: 'items.dashboard', path: '/dashboard', icon: <LayoutDashboard size={18} /> }],
   },
   {
     name: 'groups.features',
     items: [
-      { title: 'items.tagManagement', path: '/tags', icon: <Tag size={20} /> },
+      { title: 'items.tagManagement', path: '/tags', icon: <Tag size={18} /> },
       {
         title: 'items.categoryManagement',
         path: '/categories',
-        icon: <FolderTree size={20} />,
+        icon: <FolderTree size={18} />,
       },
     ],
   },
@@ -50,14 +63,14 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
       {
         title: 'items.systemSettings',
         path: '/system',
-        icon: <Settings size={20} />,
+        icon: <Settings size={18} />,
         children: [
-          { title: 'items.userManagement', path: '/system/users', icon: <Users size={18} /> },
-          { title: 'items.roleManagement', path: '/system/roles', icon: <Shield size={18} /> },
+          { title: 'items.userManagement', path: '/system/users', icon: <Users size={16} /> },
+          { title: 'items.roleManagement', path: '/system/roles', icon: <Shield size={16} /> },
           {
             title: 'items.permissionManagement',
             path: '/system/permissions',
-            icon: <Key size={18} />,
+            icon: <Key size={16} />,
           },
         ],
       },
@@ -65,77 +78,53 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
   },
 ]
 
-interface SidebarProps {
-  collapsed: boolean
-  onToggle: () => void
-}
-
-export function Sidebar({ collapsed, onToggle }: SidebarProps) {
+export function AppSidebar() {
   const { t } = useTranslation('sidebar')
   const location = useLocation()
 
   return (
-    <nav
-      className={cn(
-        'fixed inset-y-0 left-0 flex flex-col h-full bg-background border-r z-40',
-        collapsed ? 'w-16' : 'w-64'
-      )}
-    >
-      {/* Header - Logo */}
-      <div className='relative flex items-center h-16 px-3'>
-        <Link to='/' className={cn('flex items-center gap-4 justify-center')}>
-          <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500'>
-            <span className='text-lg font-bold text-white'>V</span>
-          </div>
-          {!collapsed && (
-            <span className='text-lg font-bold text-gray-900 dark:text-white'>Vidora</span>
-          )}
-        </Link>
-        {/* Toggle Button - on border line */}
-        <button
-          type='button'
-          onClick={onToggle}
-          className='absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-50 flex h-6 w-6 items-center justify-center rounded-full border bg-background hover:bg-gray-100 dark:hover:bg-gray-800 shadow-sm'
-        >
-          {collapsed ? <ArrowRightToLine size={14} /> : <ArrowLeftToLine size={14} />}
-        </button>
-      </div>
-
-      {/* Navigation */}
-      <ScrollArea className='flex-1 px-2 py-2'>
-        {NAVIGATION_CONFIG.map(group => (
-          <div key={group.name} className='mb-4'>
-            {!collapsed && (
-              <div className='px-3 py-2 text-xs text-gray-500 dark:text-gray-400'>
-                {t(group.name)}
-              </div>
-            )}
-            <div className='space-y-1'>
-              {group.items.map(item => (
-                <NavItemComponent
-                  key={item.path}
-                  item={item}
-                  collapsed={collapsed}
-                  location={location}
-                  t={t}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
-      </ScrollArea>
-    </nav>
+    <TooltipProvider>
+      <Sidebar collapsible='icon'>
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton size='lg' asChild>
+                <Link to='/'>
+                  <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground'>
+                    <span className='text-sm font-bold'>V</span>
+                  </div>
+                  <span className='text-base font-bold'>Vidora</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+          {NAVIGATION_CONFIG.map(group => (
+            <SidebarGroup key={group.name}>
+              <SidebarGroupLabel>{t(group.name)}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {group.items.map(item => (
+                    <NavItemComponent key={item.path} item={item} location={location} t={t} />
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </SidebarContent>
+        <SidebarRail />
+      </Sidebar>
+    </TooltipProvider>
   )
 }
 
 function NavItemComponent({
   item,
-  collapsed,
   location,
   t,
 }: {
   item: NavItem
-  collapsed: boolean
   location: ReturnType<typeof useLocation>
   t: (key: string) => string
 }) {
@@ -147,77 +136,50 @@ function NavItemComponent({
   const isActive = hasChildren ? isChildActive : isParentActive
   const [expanded, setExpanded] = useState(isChildActive)
 
-  // Sync expanded state with isChildActive when URL changes
   useEffect(() => {
     if (isChildActive) {
       setExpanded(true)
     }
   }, [isChildActive])
 
-  const content = (
-    <div
-      className={cn(
-        'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors',
-        isActive
-          ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400'
-          : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-      )}
-    >
-      {item.icon}
-      {!collapsed && (
-        <>
-          <span className='flex-1'>{t(item.title)}</span>
-          {hasChildren && (
-            <ChevronRight
-              size={14}
-              className={cn('transition-transform', expanded && 'rotate-90')}
-            />
-          )}
-        </>
-      )}
-    </div>
-  )
-
-  if (collapsed) {
-    return (
-      <Link to={item.path} className='block'>
-        {content}
-      </Link>
-    )
-  }
-
   if (hasChildren) {
     return (
-      <div>
-        <button type='button' onClick={() => setExpanded(!expanded)} className='w-full text-left'>
-          {content}
-        </button>
-        {expanded && (
-          <div className='ml-4 mt-1 space-y-1'>
-            {item.children!.map(child => (
-              <Link
-                key={child.path}
-                to={child.path}
-                className={cn(
-                  'flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors',
-                  location.pathname === child.path
-                    ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400'
-                    : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-                )}
-              >
-                {child.icon}
-                {t(child.title)}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
+      <Collapsible open={expanded} onOpenChange={setExpanded} className='group/collapsible'>
+        <SidebarMenuItem>
+          <CollapsibleTrigger asChild>
+            <SidebarMenuButton isActive={isActive} tooltip={t(item.title)}>
+              {item.icon}
+              <span>{t(item.title)}</span>
+              <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+            </SidebarMenuButton>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <SidebarMenuSub>
+              {item.children!.map(child => (
+                <SidebarMenuSubItem key={child.path}>
+                  <SidebarMenuSubButton asChild isActive={location.pathname === child.path}>
+                    <Link to={child.path}>
+                      {child.icon}
+                      <span>{t(child.title)}</span>
+                    </Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              ))}
+            </SidebarMenuSub>
+          </CollapsibleContent>
+        </SidebarMenuItem>
+      </Collapsible>
     )
   }
 
   return (
-    <Link to={item.path} className='block'>
-      {content}
-    </Link>
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild isActive={isActive} tooltip={t(item.title)}>
+        <Link to={item.path}>
+          {item.icon}
+          <span>{t(item.title)}</span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
   )
 }

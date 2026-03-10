@@ -5,6 +5,7 @@ import { NavBreadcrumb } from '@/components/common/NavBreadcrumb'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
 import { UserDropdown } from '@/components/common/UserDropdown'
 import { Button } from '@/components/ui/button'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 
 interface HeaderProps {
   leftSlot?: ReactNode
@@ -12,8 +13,9 @@ interface HeaderProps {
 
 export function Header({ leftSlot }: HeaderProps) {
   return (
-    <header className='sticky top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-16 bg-background/80 backdrop-blur-xl'>
+    <header className='sticky top-0 z-30 flex items-center justify-between px-4 h-16 bg-background/80 backdrop-blur-xl border-b'>
       <div className='flex items-center'>
+        <SidebarTrigger />
         {leftSlot}
         <div className='hidden md:block ml-4'>
           <NavBreadcrumb />
