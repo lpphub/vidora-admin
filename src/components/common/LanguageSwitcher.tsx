@@ -27,7 +27,7 @@ export function LanguageSwitcher() {
           <Globe size={20} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='center' className='min-w-20'>
+      <DropdownMenuContent align='center'>
         {supportedLanguages.map(lang => (
           <DropdownMenuItem
             key={lang.code}
