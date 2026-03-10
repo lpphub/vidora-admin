@@ -1,6 +1,6 @@
 # Vidora Admin
 
-视频管理后台系统
+管理后台系统
 
 ## 技术栈
 
@@ -8,7 +8,7 @@
 - Vite 7 (Rolldown)
 - TanStack Query (数据请求)
 - Zustand (状态管理)
-- shadcn/ui + Tailwind CSS 4 (UI组件)
+- shadcn/ui v4 + Tailwind CSS 4 (UI组件，radix-lyra 风格)
 - React Router v7 (路由)
 - Biome (代码检查和格式化)
 
@@ -116,3 +116,12 @@ pnpm lint       # Biome 代码检查
 pnpm lint:fix   # Biome 代码检查并自动修复
 pnpm format     # Biome 代码格式化
 ```
+
+## 添加 UI 组件
+
+```bash
+npx shadcn@latest add <component>           # 添加新组件
+npx shadcn@latest add <component> --overwrite  # 覆盖现有组件
+```
+
+> 注意：项目使用 shadcn v4 的 radix-lyra 风格，组件从统一的 `radix-ui` 包导入，而非单独的 `@radix-ui/react-*` 包。

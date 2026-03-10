@@ -19,7 +19,8 @@ pnpm format     # Biome format
 ## Tech Stack
 
 - **Build**: Vite 7 (Rolldown) + TypeScript 5.9
-- **UI**: React 19, shadcn/ui (Radix), Tailwind CSS 4
+- **UI**: React 19, shadcn/ui v4 (radix-lyra style), Tailwind CSS 4
+- **Radix**: Unified `radix-ui` package (not individual `@radix-ui/react-*`)
 - **Data**: TanStack Query (react-query), Zustand
 - **HTTP**: ky (lightweight fetch wrapper)
 - **Routing**: React Router v7
@@ -76,9 +77,18 @@ API Layer (src/api/*.ts) → Hooks Layer (src/hooks/*.ts) → Components
 
 ### Component Organization
 
-- `src/components/ui/` - shadcn/ui primitives (do not edit directly - use CLI to add)
+- `src/components/ui/` - shadcn/ui primitives (do not edit directly - use `npx shadcn@latest add <component>`)
 - `src/components/common/` - Reusable components (ConfirmDialog, StatusBadge, AppBreadcrumb, etc.)
 - `src/components/layout/` - Layout components (Header, Sidebar, Main)
+
+### Adding UI Components
+
+```bash
+npx shadcn@latest add <component>   # Add a new shadcn component
+npx shadcn@latest add <component> --overwrite  # Overwrite existing component
+```
+
+Note: shadcn v4 uses the unified `radix-ui` package with "radix-lyra" style. Components import from `'radix-ui'` rather than individual `@radix-ui/react-*` packages.
 
 ### Key Files
 
