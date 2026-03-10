@@ -3,9 +3,12 @@ import {
   ArrowRightToLine,
   ChevronRight,
   FolderTree,
+  Key,
   LayoutDashboard,
   Settings,
+  Shield,
   Tag,
+  Users,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,7 +34,7 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
     items: [{ title: 'items.dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> }],
   },
   {
-    name: 'groups.content',
+    name: 'groups.features',
     items: [
       { title: 'items.tagManagement', path: '/tags', icon: <Tag size={20} /> },
       {
@@ -49,9 +52,13 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
         path: '/system',
         icon: <Settings size={20} />,
         children: [
-          { title: 'items.userManagement', path: '/system/users' },
-          { title: 'items.roleManagement', path: '/system/roles' },
-          { title: 'items.permissionManagement', path: '/system/permissions' },
+          { title: 'items.userManagement', path: '/system/users', icon: <Users size={18} /> },
+          { title: 'items.roleManagement', path: '/system/roles', icon: <Shield size={18} /> },
+          {
+            title: 'items.permissionManagement',
+            path: '/system/permissions',
+            icon: <Key size={18} />,
+          },
         ],
       },
     ],
@@ -99,7 +106,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         {NAVIGATION_CONFIG.map(group => (
           <div key={group.name} className='mb-4'>
             {!collapsed && (
-              <div className='px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400'>
+              <div className='px-3 py-2 text-xs text-gray-500 dark:text-gray-400'>
                 {t(group.name)}
               </div>
             )}
@@ -192,12 +199,13 @@ function NavItemComponent({
                 key={child.path}
                 to={child.path}
                 className={cn(
-                  'block px-3 py-1.5 rounded-md text-sm transition-colors',
+                  'flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors',
                   location.pathname === child.path
                     ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400'
                     : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                 )}
               >
+                {child.icon}
                 {t(child.title)}
               </Link>
             ))}

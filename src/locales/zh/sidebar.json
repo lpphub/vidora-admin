@@ -1,8 +1,8 @@
 {
 	"groups": {
 		"navigation": "导航",
-		"system": "系统设置",
-		"content": "内容管理"
+		"system": "系统",
+		"features": "功能"
 	},
 	"items": {
 		"dashboard": "工作台",

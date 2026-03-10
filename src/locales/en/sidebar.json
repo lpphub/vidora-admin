@@ -1,8 +1,8 @@
 {
 	"groups": {
 		"navigation": "Navigation",
-		"system": "System Settings",
-		"content": "Content Management"
+		"system": "System",
+		"features": "Features"
 	},
 	"items": {
 		"dashboard": "Dashboard",
