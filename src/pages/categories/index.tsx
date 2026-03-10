@@ -152,11 +152,11 @@ export default function Categories() {
             <TableHeader>
               <TableRow>
                 <TableHead>{t('table.name')}</TableHead>
-                <TableHead className='w-[80px]'>{t('table.sort')}</TableHead>
+                <TableHead className='w-20'>{t('table.sort')}</TableHead>
                 <TableHead>{t('table.contentCount')}</TableHead>
                 <TableHead>{t('table.status')}</TableHead>
                 <TableHead>{t('table.createdAt')}</TableHead>
-                <TableHead className='w-[100px]'>{t('table.actions')}</TableHead>
+                <TableHead className='w-25'>{t('table.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -194,7 +194,7 @@ export default function Categories() {
 
       {/* Add/Edit Sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent className='w-[400px] sm:w-[540px]'>
+        <SheetContent className='w-100 sm:w-135'>
           <SheetHeader>
             <SheetTitle>{editingCategory ? t('form.editTitle') : t('form.addTitle')}</SheetTitle>
           </SheetHeader>

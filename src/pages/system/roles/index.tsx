@@ -152,14 +152,14 @@ export default function Roles() {
                 <TableHead>{t('table.description')}</TableHead>
                 <TableHead>{t('table.permissionCount')}</TableHead>
                 <TableHead>{t('table.createdAt')}</TableHead>
-                <TableHead className='w-[100px]'>{t('table.actions')}</TableHead>
+                <TableHead className='w-25'>{t('table.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredRoles.map(role => (
                 <TableRow key={role.id}>
                   <TableCell className='font-medium'>{role.name}</TableCell>
-                  <TableCell className='max-w-[300px] truncate'>{role.description}</TableCell>
+                  <TableCell className='max-w-75 truncate'>{role.description}</TableCell>
                   <TableCell>
                     <Badge variant='secondary'>{role.permissionCount}</Badge>
                   </TableCell>
@@ -183,7 +183,7 @@ export default function Roles() {
 
       {/* Add/Edit Sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent className='w-[400px] sm:w-[540px]'>
+        <SheetContent className='w-100 sm:w-135'>
           <SheetHeader>
             <SheetTitle>{editingRole ? t('form.editTitle') : t('form.addTitle')}</SheetTitle>
           </SheetHeader>
@@ -222,7 +222,7 @@ export default function Roles() {
                   <FormItem>
                     <FormLabel>{t('form.permissions')}</FormLabel>
                     <FormControl>
-                      <div className='grid grid-cols-2 gap-2 p-3 border rounded-lg max-h-[200px] overflow-y-auto'>
+                      <div className='grid grid-cols-2 gap-2 p-3 border rounded-lg max-h-50 overflow-y-auto'>
                         {allPermissions.map(permission => (
                           <div key={permission.id} className='flex items-center space-x-2'>
                             <Checkbox

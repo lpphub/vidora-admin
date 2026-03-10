@@ -182,7 +182,7 @@ export default function Permissions() {
                 <TableHead>{t('table.type')}</TableHead>
                 <TableHead>{t('table.status')}</TableHead>
                 <TableHead>{t('table.createdAt')}</TableHead>
-                <TableHead className='w-[100px]'>{t('table.actions')}</TableHead>
+                <TableHead className='w-25'>{t('table.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -222,7 +222,7 @@ export default function Permissions() {
 
       {/* Add/Edit Sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent className='w-[400px] sm:w-[540px]'>
+        <SheetContent className='w-100 sm:w-135'>
           <SheetHeader>
             <SheetTitle>{editingPermission ? t('form.editTitle') : t('form.addTitle')}</SheetTitle>
           </SheetHeader>

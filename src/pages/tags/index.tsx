@@ -162,7 +162,7 @@ export default function Tags() {
                 <TableHead>{t('table.color')}</TableHead>
                 <TableHead>{t('table.usageCount')}</TableHead>
                 <TableHead>{t('table.createdAt')}</TableHead>
-                <TableHead className='w-[100px]'>{t('table.actions')}</TableHead>
+                <TableHead className='w-25'>{t('table.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -209,7 +209,7 @@ export default function Tags() {
 
       {/* Add/Edit Sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent className='w-[400px] sm:w-[540px]'>
+        <SheetContent className='w-100 sm:w-135'>
           <SheetHeader>
             <SheetTitle>{editingTag ? t('form.editTitle') : t('form.addTitle')}</SheetTitle>
           </SheetHeader>
