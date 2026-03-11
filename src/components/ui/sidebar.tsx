@@ -635,7 +635,7 @@ function SidebarMenuSubButton({
       data-size={size}
       data-active={isActive}
       className={cn(
-        'flex h-8 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sm ring-sidebar-ring outline-hidden group-data-[collapsible=icon]:hidden hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400 focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-emerald-50 data-[active=true]:text-emerald-600 dark:data-[active=true]:bg-emerald-900/20 dark:data-[active=true]:text-emerald-400 data-[active=true]:font-medium [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+        'flex h-8 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sm ring-sidebar-ring outline-hidden group-data-[collapsible=icon]:hidden hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-700 dark:data-[active=true]:bg-slate-800 dark:data-[active=true]:text-slate-300 data-[active=true]:font-medium [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
         className
       )}
       {...props}
