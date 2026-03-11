@@ -1,4 +1,4 @@
-import type { AuthData, LoginRequest, User } from '@/types'
+import type { AuthData, LoginRequest, User } from '@/types/auth'
 import api from './index'
 
 export const authApi = {

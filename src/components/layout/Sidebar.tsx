@@ -8,7 +8,6 @@ import {
   Tag,
   Users,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -78,6 +77,10 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
   },
 ]
 
+function isChildActive(item: NavItem, pathname: string): boolean {
+  return item.children?.some(child => pathname === child.path) ?? false
+}
+
 export function AppSidebar() {
   const { t } = useTranslation('sidebar')
   const location = useLocation()
@@ -129,22 +132,14 @@ function NavItemComponent({
   t: (key: string) => string
 }) {
   const hasChildren = item.children && item.children.length > 0
-  const isChildActive =
-    hasChildren && item.children!.some(child => location.pathname === child.path)
+  const childActive = isChildActive(item, location.pathname)
   const isParentActive =
     location.pathname === item.path || location.pathname.startsWith(`${item.path}/`)
-  const isActive = hasChildren ? isChildActive : isParentActive
-  const [expanded, setExpanded] = useState(isChildActive)
-
-  useEffect(() => {
-    if (isChildActive) {
-      setExpanded(true)
-    }
-  }, [isChildActive])
+  const isActive = hasChildren ? childActive : isParentActive
 
   if (hasChildren) {
     return (
-      <Collapsible open={expanded} onOpenChange={setExpanded} className='group/collapsible'>
+      <Collapsible defaultOpen={childActive} className='group/collapsible'>
         <SidebarMenuItem>
           <CollapsibleTrigger asChild>
             <SidebarMenuButton isActive={isActive} tooltip={t(item.title)}>

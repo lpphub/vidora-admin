@@ -1,22 +1,27 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { NotFound, ServerError, Unauthorized } from '@/components/common/ErrorPage'
+import { PageSkeleton } from '@/components/common/PageSkeleton'
 import DashboardLayout from '@/components/layout'
-import Auth from '@/pages/auth'
-import Categories from '@/pages/categories'
-import Dashboard from '@/pages/dashboard'
-import Profile from '@/pages/profile'
-import Permissions from '@/pages/system/permissions'
-import Roles from '@/pages/system/roles'
-import Users from '@/pages/system/users'
-import Tags from '@/pages/tags'
 import { AuthGuard } from './guard'
+
+const Auth = lazy(() => import('@/pages/auth'))
+const Categories = lazy(() => import('@/pages/categories'))
+const Dashboard = lazy(() => import('@/pages/dashboard'))
+const Profile = lazy(() => import('@/pages/profile'))
+const Permissions = lazy(() => import('@/pages/system/permissions'))
+const Roles = lazy(() => import('@/pages/system/roles'))
+const Users = lazy(() => import('@/pages/system/users'))
+const Tags = lazy(() => import('@/pages/tags'))
 
 const router = createBrowserRouter([
   {
     path: '/login',
     element: (
       <AuthGuard>
-        <Auth />
+        <Suspense fallback={<PageSkeleton />}>
+          <Auth />
+        </Suspense>
       </AuthGuard>
     ),
   },
@@ -34,31 +39,59 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <Dashboard />,
+        element: (
+          <Suspense fallback={<PageSkeleton />}>
+            <Dashboard />
+          </Suspense>
+        ),
       },
       {
         path: 'profile',
-        element: <Profile />,
+        element: (
+          <Suspense fallback={<PageSkeleton />}>
+            <Profile />
+          </Suspense>
+        ),
       },
       {
         path: 'system/users',
-        element: <Users />,
+        element: (
+          <Suspense fallback={<PageSkeleton />}>
+            <Users />
+          </Suspense>
+        ),
       },
       {
         path: 'system/roles',
-        element: <Roles />,
+        element: (
+          <Suspense fallback={<PageSkeleton />}>
+            <Roles />
+          </Suspense>
+        ),
       },
       {
         path: 'system/permissions',
-        element: <Permissions />,
+        element: (
+          <Suspense fallback={<PageSkeleton />}>
+            <Permissions />
+          </Suspense>
+        ),
       },
       {
         path: 'tags',
-        element: <Tags />,
+        element: (
+          <Suspense fallback={<PageSkeleton />}>
+            <Tags />
+          </Suspense>
+        ),
       },
       {
         path: 'categories',
-        element: <Categories />,
+        element: (
+          <Suspense fallback={<PageSkeleton />}>
+            <Categories />
+          </Suspense>
+        ),
       },
     ],
   },

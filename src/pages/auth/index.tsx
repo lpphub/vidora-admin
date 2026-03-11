@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
-import { useAuthStore } from '@/stores'
+import { useAuthStore } from '@/stores/auth'
 import LoginForm from './LoginForm'
 import { LoginProvider } from './providers/LoginProvider'
 import RegisterForm from './RegisterForm'

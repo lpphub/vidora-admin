@@ -34,8 +34,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-// Mock data
-const mockUsers = [
+const MOCK_USERS = [
   {
     id: 1,
     username: 'admin',
@@ -62,11 +61,31 @@ const mockUsers = [
   },
 ]
 
-const roles = ['管理员', '编辑', '访客']
+const ROLES = ['管理员', '编辑', '访客']
 
-type User = (typeof mockUsers)[0]
+type User = (typeof MOCK_USERS)[0]
 
 const getStatusBadgeVariant = (status: string) => (status === 'enabled' ? 'default' : 'destructive')
+
+function createUserSchema(t: (key: string) => string) {
+  return z.object({
+    username: z.string().min(1, t('form.usernameRequired')),
+    email: z.string().email(t('form.emailInvalid')).min(1, t('form.emailRequired')),
+    password: z.string().optional(),
+    role: z.string().min(1, t('form.roleRequired')),
+    status: z.boolean(),
+  })
+}
+
+type UserFormValues = z.infer<ReturnType<typeof createUserSchema>>
+
+const DEFAULT_FORM_VALUES: UserFormValues = {
+  username: '',
+  email: '',
+  password: '',
+  role: '',
+  status: true,
+}
 
 export default function Users() {
   const { t } = useTranslation('users')
@@ -75,28 +94,14 @@ export default function Users() {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingUser, setEditingUser] = useState<User | null>(null)
 
-  const userSchema = z.object({
-    username: z.string().min(1, t('form.usernameRequired')),
-    email: z.string().email(t('form.emailInvalid')).min(1, t('form.emailRequired')),
-    password: z.string().optional(),
-    role: z.string().min(1, t('form.roleRequired')),
-    status: z.boolean(),
-  })
-
-  type UserFormValues = z.infer<typeof userSchema>
+  const userSchema = createUserSchema(t)
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
-    defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-      role: '',
-      status: true,
-    },
+    defaultValues: DEFAULT_FORM_VALUES,
   })
 
-  const filteredUsers = mockUsers.filter(
+  const filteredUsers = MOCK_USERS.filter(
     user =>
       user.username.toLowerCase().includes(searchLower) ||
       user.email.toLowerCase().includes(searchLower)
@@ -109,13 +114,7 @@ export default function Users() {
 
   const handleAdd = () => {
     setEditingUser(null)
-    form.reset({
-      username: '',
-      email: '',
-      password: '',
-      role: '',
-      status: true,
-    })
+    form.reset(DEFAULT_FORM_VALUES)
     setSheetOpen(true)
   }
 
@@ -201,7 +200,6 @@ export default function Users() {
         </CardContent>
       </Card>
 
-      {/* Add/Edit Sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent className='w-100 sm:w-135'>
           <SheetHeader>
@@ -267,7 +265,7 @@ export default function Users() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {roles.map(role => (
+                        {ROLES.map(role => (
                           <SelectItem key={role} value={role}>
                             {role}
                           </SelectItem>

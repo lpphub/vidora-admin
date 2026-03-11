@@ -14,65 +14,23 @@ function rgbAlpha(color: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
-function SparklineChart({ color, data }: { color: string; data: number[] }) {
-  const options = useChart({
-    chart: { sparkline: { enabled: true } },
-    colors: [color],
-    grid: { show: false },
-    yaxis: { show: false },
-    tooltip: { enabled: false },
-    plotOptions: { bar: { borderRadius: 2, columnWidth: '60%' } },
-  })
+const QUICK_STATS_CONFIG = [
+  { icon: Video, labelKey: 'stats.totalVideos', value: '1,234', percent: 12.5, color: '#10b981' },
+  { icon: Film, labelKey: 'stats.totalContents', value: '5,678', percent: 8.2, color: '#3b82f6' },
+  { icon: Users, labelKey: 'stats.activeUsers', value: '892', percent: 23.1, color: '#8b5cf6' },
+  {
+    icon: TrendingUp,
+    labelKey: 'stats.playCount',
+    value: '45.2K',
+    percent: -5.6,
+    color: '#f59e0b',
+  },
+]
 
-  return <Chart type='bar' height={40} options={options} series={[{ data }]} />
-}
-
-export default function Dashboard() {
-  const { t } = useTranslation('dashboard')
-  const [activeTab, setActiveTab] = useState(t('tabs.all'))
-
-  const quickStats = [
-    {
-      icon: Video,
-      labelKey: 'stats.totalVideos',
-      value: '1,234',
-      percent: 12.5,
-      color: '#10b981',
-      chart: [12, 18, 14, 16, 12, 10, 14, 18, 16, 14, 12, 10],
-    },
-    {
-      icon: Film,
-      labelKey: 'stats.totalContents',
-      value: '5,678',
-      percent: 8.2,
-      color: '#3b82f6',
-      chart: [8, 12, 10, 14, 18, 16, 14, 12, 10, 14, 18, 16],
-    },
-    {
-      icon: Users,
-      labelKey: 'stats.activeUsers',
-      value: '892',
-      percent: 23.1,
-      color: '#8b5cf6',
-      chart: [10, 14, 12, 16, 18, 14, 12, 10, 14, 18, 16, 12],
-    },
-    {
-      icon: TrendingUp,
-      labelKey: 'stats.playCount',
-      value: '45.2K',
-      percent: -5.6,
-      color: '#f59e0b',
-      chart: [16, 14, 12, 10, 14, 18, 16, 12, 10, 14, 18, 16],
-    },
-  ]
-
-  const monthlyRevenue = {
-    series: [
-      {
-        name: t('labels.play'),
-        data: [30, 40, 35, 50, 49, 70, 91, 60, 50, 55, 60, 65],
-      },
-    ],
+const CHART_DATA = {
+  quickStats: [12, 18, 14, 16, 12, 10, 14, 18, 16, 14, 12, 10],
+  monthly: {
+    series: [{ name: 'labels.play', data: [30, 40, 35, 50, 49, 70, 91, 60, 50, 55, 60, 65] }],
     categories: [
       'Jan',
       'Feb',
@@ -87,53 +45,79 @@ export default function Dashboard() {
       'Nov',
       'Dec',
     ],
+  },
+}
+
+const PROJECT_TASKS_CONFIG = [
+  { labelKey: 'tasks.videoTranscodeOptimization', color: '#3b82f6', progress: 75 },
+  { labelKey: 'tasks.contentReviewSystem', color: '#10b981', progress: 60 },
+  { labelKey: 'tasks.userPermissionRefactor', color: '#f59e0b', progress: 45 },
+  { labelKey: 'tasks.apiDocUpdate', color: '#8b5cf6', progress: 90 },
+]
+
+const RECENT_TRANSACTIONS_CONFIG = [
+  {
+    icon: Video,
+    nameKey: 'transactions.videoUpload',
+    id: '#T11032',
+    amount: 15,
+    status: 'up' as const,
+  },
+  {
+    icon: Film,
+    nameKey: 'transactions.contentPublish',
+    id: '#T11033',
+    amount: -8,
+    status: 'down' as const,
+  },
+  {
+    icon: Users,
+    nameKey: 'transactions.newUserRegister',
+    id: '#T11034',
+    amount: 32,
+    status: 'up' as const,
+  },
+  {
+    icon: TrendingUp,
+    nameKey: 'transactions.playGrowth',
+    id: '#T11035',
+    amount: 128,
+    status: 'up' as const,
+  },
+]
+
+const TOTAL_INCOME_CONFIG = {
+  series: [44, 55, 41, 17],
+  colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'],
+}
+
+function SparklineChart({ color }: { color: string }) {
+  const options = useChart({
+    chart: { sparkline: { enabled: true } },
+    colors: [color],
+    grid: { show: false },
+    yaxis: { show: false },
+    tooltip: { enabled: false },
+    plotOptions: { bar: { borderRadius: 2, columnWidth: '60%' } },
+  })
+
+  return (
+    <Chart type='bar' height={40} options={options} series={[{ data: CHART_DATA.quickStats }]} />
+  )
+}
+
+export default function Dashboard() {
+  const { t } = useTranslation('dashboard')
+  const [activeTab, setActiveTab] = useState(t('tabs.all'))
+
+  const monthlyRevenue = {
+    series: [{ name: t('labels.play'), data: CHART_DATA.monthly.series[0].data }],
+    categories: CHART_DATA.monthly.categories,
     percent: 5.44,
   }
 
-  const projectTasks = [
-    { labelKey: 'tasks.videoTranscodeOptimization', color: '#3b82f6', progress: 75 },
-    { labelKey: 'tasks.contentReviewSystem', color: '#10b981', progress: 60 },
-    { labelKey: 'tasks.userPermissionRefactor', color: '#f59e0b', progress: 45 },
-    { labelKey: 'tasks.apiDocUpdate', color: '#8b5cf6', progress: 90 },
-  ]
-
-  const recentTransactions = [
-    {
-      icon: Video,
-      nameKey: 'transactions.videoUpload',
-      id: '#T11032',
-      amount: 15,
-      time: '06:30 pm',
-      status: 'up',
-    },
-    {
-      icon: Film,
-      nameKey: 'transactions.contentPublish',
-      id: '#T11033',
-      amount: -8,
-      time: '08:30 pm',
-      status: 'down',
-    },
-    {
-      icon: Users,
-      nameKey: 'transactions.newUserRegister',
-      id: '#T11034',
-      amount: 32,
-      time: '08:40 pm',
-      status: 'up',
-    },
-    {
-      icon: TrendingUp,
-      nameKey: 'transactions.playGrowth',
-      id: '#T11035',
-      amount: 128,
-      time: '07:40 pm',
-      status: 'up',
-    },
-  ]
-
   const totalIncome = {
-    series: [44, 55, 41, 17],
+    series: TOTAL_INCOME_CONFIG.series,
     labels: [t('labels.video'), t('labels.content'), t('labels.user'), t('labels.play')],
     details: [
       { labelKey: 'labels.video', value: 1234 },
@@ -142,6 +126,8 @@ export default function Dashboard() {
       { labelKey: 'labels.play', value: 45200 },
     ],
   }
+
+  const tabs = [t('tabs.all'), t('tabs.upload'), t('tabs.review')]
 
   const areaChartOptions = useChart({
     xaxis: { categories: monthlyRevenue.categories },
@@ -168,16 +154,13 @@ export default function Dashboard() {
     legend: { show: false },
     dataLabels: { enabled: false },
     plotOptions: { pie: { donut: { size: '70%' } } },
-    colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'],
+    colors: TOTAL_INCOME_CONFIG.colors,
   })
-
-  const tabs = [t('tabs.all'), t('tabs.upload'), t('tabs.review')]
 
   return (
     <div className='flex flex-col gap-4 w-full'>
-      {/* 顶部四个统计卡片 */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-        {quickStats.map(stat => {
+        {QUICK_STATS_CONFIG.map(stat => {
           const Icon = stat.icon
           return (
             <Card key={stat.labelKey} className='flex flex-col justify-between h-full'>
@@ -208,7 +191,7 @@ export default function Dashboard() {
                   </span>
                 </div>
                 <div className='w-full h-10 mt-2'>
-                  <SparklineChart color={stat.color} data={stat.chart} />
+                  <SparklineChart color={stat.color} />
                 </div>
               </CardContent>
             </Card>
@@ -216,7 +199,6 @@ export default function Dashboard() {
         })}
       </div>
 
-      {/* 月度播放量 + 项目进度区块 */}
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
         <Card className='lg:col-span-2'>
           <CardHeader className='flex flex-row items-center justify-between pb-2'>
@@ -240,7 +222,7 @@ export default function Dashboard() {
         <Card className='flex flex-col gap-4 p-6'>
           <CardTitle className='text-base font-semibold'>{t('charts.projectProgress')}</CardTitle>
           <ul className='flex flex-col gap-4 mt-2'>
-            {projectTasks.map(task => (
+            {PROJECT_TASKS_CONFIG.map(task => (
               <li key={task.labelKey} className='flex flex-col gap-2'>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center gap-2'>
@@ -266,7 +248,6 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* 最近动态 + 快速操作 */}
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
         <Card className='lg:col-span-2 flex flex-col p-6'>
           <div className='flex items-center justify-between mb-4'>
@@ -288,7 +269,7 @@ export default function Dashboard() {
           <div className='flex-1'>
             <table className='w-full text-sm'>
               <tbody>
-                {recentTransactions.map(tx => {
+                {RECENT_TRANSACTIONS_CONFIG.map(tx => {
                   const Icon = tx.icon
                   return (
                     <tr
@@ -350,9 +331,7 @@ export default function Dashboard() {
                   <div className='flex items-center gap-2'>
                     <span
                       className='inline-block w-3 h-3 rounded-full'
-                      style={{
-                        background: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'][i],
-                      }}
+                      style={{ background: TOTAL_INCOME_CONFIG.colors[i] }}
                     />
                     <span className='text-sm text-gray-600 dark:text-gray-400'>
                       {t(item.labelKey)}
@@ -368,7 +347,6 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* 快速操作区域 */}
       <Card className='p-6'>
         <CardTitle className='text-base font-semibold mb-4'>{t('quickActions.title')}</CardTitle>
         <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
