@@ -13,7 +13,7 @@ interface HeaderProps {
 
 export function Header({ leftSlot }: HeaderProps) {
   return (
-    <header className='sticky top-0 z-30 flex items-center justify-between px-4 h-16 bg-background/80 backdrop-blur-xl border-b'>
+    <header className='sticky top-0 z-30 flex items-center justify-between px-4 h-16 bg-background/80 backdrop-blur-xl'>
       <div className='flex items-center'>
         <SidebarTrigger />
         {leftSlot}
