@@ -6,13 +6,13 @@ import DashboardLayout from '@/components/layout'
 import { AuthGuard } from './guard'
 
 const Auth = lazy(() => import('@/features/auth'))
-const Categories = lazy(() => import('@/pages/categories'))
-const Dashboard = lazy(() => import('@/pages/dashboard'))
-const Profile = lazy(() => import('@/pages/profile'))
-const Permissions = lazy(() => import('@/pages/system/permissions'))
-const Roles = lazy(() => import('@/pages/system/roles'))
-const Users = lazy(() => import('@/pages/system/users'))
-const Tags = lazy(() => import('@/pages/tags'))
+const Categories = lazy(() => import('@/features/categories'))
+const Dashboard = lazy(() => import('@/features/dashboard'))
+const Profile = lazy(() => import('@/features/profile'))
+const Permissions = lazy(() => import('@/features/permissions'))
+const Roles = lazy(() => import('@/features/roles'))
+const Users = lazy(() => import('@/features/users'))
+const Tags = lazy(() => import('@/features/tags'))
 
 const router = createBrowserRouter([
   {
