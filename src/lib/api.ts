@@ -1,6 +1,6 @@
 import ky, { type Options } from 'ky'
-import { env } from '@/lib/env'
 import { useAuthStore } from '@/features/auth/store'
+import { env } from '@/lib/env'
 import type { ApiResponse } from '@/types/api'
 
 // ==================== Types ====================

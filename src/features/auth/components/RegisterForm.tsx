@@ -6,8 +6,8 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { ReturnButton } from './ReturnButton'
 import { LoginStateEnum, useLoginStateContext } from './LoginProvider'
+import { ReturnButton } from './ReturnButton'
 
 function RegisterForm() {
   const { t } = useTranslation('auth')
