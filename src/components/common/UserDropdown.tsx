@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/features/auth'
 
 export function UserDropdown() {
   const { t } = useTranslation('common')

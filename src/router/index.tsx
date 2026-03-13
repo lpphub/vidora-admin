@@ -5,7 +5,7 @@ import { PageSkeleton } from '@/components/common/PageSkeleton'
 import DashboardLayout from '@/components/layout'
 import { AuthGuard } from './guard'
 
-const Auth = lazy(() => import('@/pages/auth'))
+const Auth = lazy(() => import('@/features/auth'))
 const Categories = lazy(() => import('@/pages/categories'))
 const Dashboard = lazy(() => import('@/pages/dashboard'))
 const Profile = lazy(() => import('@/pages/profile'))
