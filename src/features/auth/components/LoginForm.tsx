@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useLogin } from '@/hooks/useAuth'
-import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
+import { useLogin } from '../hooks'
+import { LoginStateEnum, useLoginStateContext } from './LoginProvider'
 
 export function LoginForm() {
   const { t } = useTranslation('auth')

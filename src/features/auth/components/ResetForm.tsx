@@ -6,8 +6,8 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { ReturnButton } from './components/ReturnButton'
-import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
+import { ReturnButton } from './ReturnButton'
+import { LoginStateEnum, useLoginStateContext } from './LoginProvider'
 
 function ResetForm() {
   const { t } = useTranslation('auth')
@@ -27,7 +27,6 @@ function ResetForm() {
   })
 
   const onFinish = async (values: ResetFormValues) => {
-    // TODO: 调用实际的密码重置 API
     console.log('Reset password for:', values.email)
     toast.success(t('resetPassword.success'))
     backToLogin()

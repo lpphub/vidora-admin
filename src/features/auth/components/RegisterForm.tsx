@@ -6,8 +6,8 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { ReturnButton } from './components/ReturnButton'
-import { LoginStateEnum, useLoginStateContext } from './providers/LoginProvider'
+import { ReturnButton } from './ReturnButton'
+import { LoginStateEnum, useLoginStateContext } from './LoginProvider'
 
 function RegisterForm() {
   const { t } = useTranslation('auth')
@@ -36,7 +36,6 @@ function RegisterForm() {
   })
 
   const onFinish = async (values: RegisterFormValues) => {
-    // TODO: 调用实际的注册 API
     console.log('Register values:', values)
     toast.success(t('register.success'))
     backToLogin()
