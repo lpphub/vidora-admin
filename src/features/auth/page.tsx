@@ -1,10 +1,10 @@
 import { Navigate } from 'react-router-dom'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
-import { useAuthStore } from '@/stores/auth'
-import LoginForm from './LoginForm'
-import { LoginProvider } from './providers/LoginProvider'
-import RegisterForm from './RegisterForm'
-import ResetForm from './ResetForm'
+import { useAuthStore } from './store'
+import LoginForm from './components/LoginForm'
+import { LoginProvider } from './components/LoginProvider'
+import RegisterForm from './components/RegisterForm'
+import ResetForm from './components/ResetForm'
 
 function LoginPage() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated)
