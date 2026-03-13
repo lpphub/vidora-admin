@@ -155,6 +155,7 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 
 **Files:**
 - Create: `src/features/auth/store.ts`
+- Modify: `src/lib/api.ts:3` (update import to use new store location)
 - Delete: `src/stores/auth.ts`
 
 - [ ] **Step 1: Create features/auth/store.ts**
@@ -207,14 +208,27 @@ export const useAuthStore = create<AuthState>()(
 )
 ```
 
-- [ ] **Step 2: Delete old store file**
+- [ ] **Step 2: Update lib/api.ts import (CRITICAL)**
+
+**IMPORTANT:** This must be done BEFORE deleting the old store to prevent build failures.
+
+File: `src/lib/api.ts`
+
+```typescript
+// Change:
+import { useAuthStore } from '@/stores/auth'
+// To:
+import { useAuthStore } from '@/features/auth/store'
+```
+
+- [ ] **Step 3: Delete old store file**
 
 Run: `rm src/stores/auth.ts`
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add src/features/auth/store.ts
+git add src/features/auth/store.ts src/lib/api.ts
 git rm src/stores/auth.ts
 git commit -m "refactor(auth): move auth store to features/auth/store.ts
 
@@ -508,21 +522,13 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 ### Task 9: Update external auth consumers
 
 **Files:**
-- Modify: `src/lib/api.ts:3`
 - Modify: `src/router/guard.tsx:2`
 - Modify: `src/components/common/UserDropdown.tsx:13`
 - Modify: `src/pages/profile/General.tsx:11`
 
-- [ ] **Step 1: Update lib/api.ts import**
+**Note:** `src/lib/api.ts` was already updated in Task 4.
 
-```typescript
-// Change:
-import { useAuthStore } from '@/stores/auth'
-// To:
-import { useAuthStore } from '@/features/auth/store'
-```
-
-- [ ] **Step 2: Update router/guard.tsx import**
+- [ ] **Step 1: Update router/guard.tsx import**
 
 ```typescript
 // Change:
@@ -531,7 +537,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useAuth } from '@/features/auth'
 ```
 
-- [ ] **Step 3: Update components/common/UserDropdown.tsx import**
+- [ ] **Step 2: Update components/common/UserDropdown.tsx import**
 
 ```typescript
 // Change:
@@ -540,7 +546,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useAuthStore } from '@/features/auth'
 ```
 
-- [ ] **Step 4: Update pages/profile/General.tsx import**
+- [ ] **Step 3: Update pages/profile/General.tsx import**
 
 ```typescript
 // Change:
@@ -549,15 +555,15 @@ import { useAuthStore } from '@/stores/auth'
 import { useAuthStore } from '@/features/auth'
 ```
 
-- [ ] **Step 5: Verify TypeScript compiles**
+- [ ] **Step 4: Verify TypeScript compiles**
 
 Run: `pnpm build`
 Expected: Build succeeds
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/api.ts src/router/guard.tsx src/components/common/UserDropdown.tsx src/pages/profile/General.tsx
+git add src/router/guard.tsx src/components/common/UserDropdown.tsx src/pages/profile/General.tsx
 git commit -m "refactor: update auth imports to use features/auth
 
 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
@@ -762,24 +768,15 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 - Create: `src/features/profile/index.ts`
 - Create: `src/features/profile/components/General.tsx`
 - Create: `src/features/profile/components/Security.tsx`
-- Modify: `src/features/profile/components/General.tsx:11`
 - Delete: `src/pages/profile/`
 
 - [ ] **Step 1: Create features/profile/page.tsx**
 
 Copy content from `src/pages/profile/index.tsx` to `src/features/profile/page.tsx` (no import changes needed).
 
-- [ ] **Step 2: Copy General.tsx with updated import**
+- [ ] **Step 2: Copy General.tsx**
 
-Copy `src/pages/profile/General.tsx` to `src/features/profile/components/General.tsx`:
-
-```typescript
-// Change:
-import { useAuthStore } from '@/features/auth'
-// To:
-import { useAuthStore } from '@/features/auth'
-// (Already updated in Task 9, just copy the file)
-```
+Copy `src/pages/profile/General.tsx` to `src/features/profile/components/General.tsx` (import already updated in Task 9, no changes needed).
 
 - [ ] **Step 3: Copy Security.tsx**
 
