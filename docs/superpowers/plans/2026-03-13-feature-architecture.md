@@ -571,12 +571,254 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 
 ---
 
-### Task 10: Update router imports (CRITICAL - do before deleting pages)
+## Chunk 3: System Features (Users, Roles, Permissions)
+
+**IMPORTANT:** These tasks create new features but DO NOT delete old pages yet. Page deletion happens in Task 19 after router is updated.
+
+### Task 10: Migrate users feature
+
+**Files:**
+- Create: `src/features/users/page.tsx`
+- Create: `src/features/users/index.ts`
+
+- [ ] **Step 1: Create features/users/page.tsx**
+
+Copy content from `src/pages/system/users/index.tsx` to `src/features/users/page.tsx` (no import changes needed).
+
+- [ ] **Step 2: Create features/users/index.ts**
+
+```typescript
+// src/features/users/index.ts
+export { default } from './page'
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/features/users/
+git commit -m "refactor(users): create users feature
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+### Task 11: Migrate roles feature
+
+**Files:**
+- Create: `src/features/roles/page.tsx`
+- Create: `src/features/roles/index.ts`
+
+- [ ] **Step 1: Create features/roles/page.tsx**
+
+Copy content from `src/pages/system/roles/index.tsx` to `src/features/roles/page.tsx` (no import changes needed).
+
+- [ ] **Step 2: Create features/roles/index.ts**
+
+```typescript
+// src/features/roles/index.ts
+export { default } from './page'
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/features/roles/
+git commit -m "refactor(roles): create roles feature
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+### Task 12: Migrate permissions feature
+
+**Files:**
+- Create: `src/features/permissions/page.tsx`
+- Create: `src/features/permissions/index.ts`
+
+- [ ] **Step 1: Create features/permissions/page.tsx**
+
+Copy content from `src/pages/system/permissions/index.tsx` to `src/features/permissions/page.tsx` (no import changes needed).
+
+- [ ] **Step 2: Create features/permissions/index.ts**
+
+```typescript
+// src/features/permissions/index.ts
+export { default } from './page'
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/features/permissions/
+git commit -m "refactor(permissions): create permissions feature
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+## Chunk 4: Other Features (Dashboard, Profile, Categories, Tags, Video)
+
+### Task 13: Migrate dashboard feature
+
+**Files:**
+- Create: `src/features/dashboard/page.tsx`
+- Create: `src/features/dashboard/index.ts`
+
+- [ ] **Step 1: Create features/dashboard/page.tsx**
+
+Copy content from `src/pages/dashboard/index.tsx` to `src/features/dashboard/page.tsx` (no import changes needed).
+
+- [ ] **Step 2: Create features/dashboard/index.ts**
+
+```typescript
+// src/features/dashboard/index.ts
+export { default } from './page'
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/features/dashboard/
+git commit -m "refactor(dashboard): create dashboard feature
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+### Task 14: Migrate profile feature
+
+**Files:**
+- Create: `src/features/profile/page.tsx`
+- Create: `src/features/profile/index.ts`
+- Create: `src/features/profile/components/General.tsx`
+- Create: `src/features/profile/components/Security.tsx`
+
+- [ ] **Step 1: Create features/profile/page.tsx**
+
+Copy content from `src/pages/profile/index.tsx` to `src/features/profile/page.tsx` (no import changes needed).
+
+- [ ] **Step 2: Copy General.tsx**
+
+Copy `src/pages/profile/General.tsx` to `src/features/profile/components/General.tsx` (import already updated in Task 9, no changes needed).
+
+- [ ] **Step 3: Copy Security.tsx**
+
+Copy `src/pages/profile/Security.tsx` to `src/features/profile/components/Security.tsx` (no import changes needed).
+
+- [ ] **Step 4: Create features/profile/index.ts**
+
+```typescript
+// src/features/profile/index.ts
+export { default } from './page'
+```
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/features/profile/
+git commit -m "refactor(profile): create profile feature
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+### Task 15: Migrate categories feature
+
+**Files:**
+- Create: `src/features/categories/page.tsx`
+- Create: `src/features/categories/index.ts`
+
+- [ ] **Step 1: Create features/categories/page.tsx**
+
+Copy content from `src/pages/categories/index.tsx` to `src/features/categories/page.tsx` (no import changes needed).
+
+- [ ] **Step 2: Create features/categories/index.ts**
+
+```typescript
+// src/features/categories/index.ts
+export { default } from './page'
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/features/categories/
+git commit -m "refactor(categories): create categories feature
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+### Task 16: Migrate tags feature
+
+**Files:**
+- Create: `src/features/tags/page.tsx`
+- Create: `src/features/tags/index.ts`
+
+- [ ] **Step 1: Create features/tags/page.tsx**
+
+Copy content from `src/pages/tags/index.tsx` to `src/features/tags/page.tsx` (no import changes needed).
+
+- [ ] **Step 2: Create features/tags/index.ts**
+
+```typescript
+// src/features/tags/index.ts
+export { default } from './page'
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/features/tags/
+git commit -m "refactor(tags): create tags feature
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+### Task 17: Migrate video types
+
+**Files:**
+- Create: `src/features/video/types.ts`
+- Create: `src/features/video/index.ts`
+
+- [ ] **Step 1: Create features/video/types.ts**
+
+Copy content from `src/pages/video/types.ts` to `src/features/video/types.ts` (no import changes needed).
+
+- [ ] **Step 2: Create features/video/index.ts**
+
+```typescript
+// src/features/video/index.ts
+export type { Video, Season, Episode, TranscodingTask, UploadFile, VideoType, VideoStatus } from './types'
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/features/video/
+git commit -m "refactor(video): create video feature types
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```
+
+---
+
+## Chunk 5: Router Update, Cleanup and Verification
+
+### Task 18: Update router imports
 
 **Files:**
 - Modify: `src/router/index.tsx`
 
-**IMPORTANT:** This task MUST be completed BEFORE any page deletions (Tasks 11+). Router uses lazy loading, so old page paths must remain valid until router is updated.
+**IMPORTANT:** This task MUST happen after all features are created (Tasks 10-17) but BEFORE old pages are deleted (Task 19).
 
 - [ ] **Step 1: Update all lazy imports**
 
@@ -621,317 +863,29 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 
 ---
 
-## Chunk 3: System Features (Users, Roles, Permissions)
-
-### Task 11: Migrate users feature
+### Task 19: Delete old pages and cleanup
 
 **Files:**
-- Create: `src/features/users/page.tsx`
-- Create: `src/features/users/index.ts`
-- Delete: `src/pages/system/users/index.tsx`
-
-- [ ] **Step 1: Create features/users/page.tsx**
-
-Copy content from `src/pages/system/users/index.tsx` to `src/features/users/page.tsx` (no import changes needed).
-
-- [ ] **Step 2: Create features/users/index.ts**
-
-```typescript
-// src/features/users/index.ts
-export { default } from './page'
-```
-
-- [ ] **Step 3: Delete old page**
-
-Run: `rm -r src/pages/system/users`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/features/users/
-git rm -r src/pages/system/users
-git commit -m "refactor(users): migrate users to features/users
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-### Task 12: Migrate roles feature
-
-**Files:**
-- Create: `src/features/roles/page.tsx`
-- Create: `src/features/roles/index.ts`
-- Delete: `src/pages/system/roles/index.tsx`
-
-- [ ] **Step 1: Create features/roles/page.tsx**
-
-Copy content from `src/pages/system/roles/index.tsx` to `src/features/roles/page.tsx` (no import changes needed).
-
-- [ ] **Step 2: Create features/roles/index.ts**
-
-```typescript
-// src/features/roles/index.ts
-export { default } from './page'
-```
-
-- [ ] **Step 3: Delete old page**
-
-Run: `rm -r src/pages/system/roles`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/features/roles/
-git rm -r src/pages/system/roles
-git commit -m "refactor(roles): migrate roles to features/roles
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-### Task 13: Migrate permissions feature
-
-**Files:**
-- Create: `src/features/permissions/page.tsx`
-- Create: `src/features/permissions/index.ts`
-- Delete: `src/pages/system/permissions/index.tsx`
-
-- [ ] **Step 1: Create features/permissions/page.tsx**
-
-Copy content from `src/pages/system/permissions/index.tsx` to `src/features/permissions/page.tsx` (no import changes needed).
-
-- [ ] **Step 2: Create features/permissions/index.ts**
-
-```typescript
-// src/features/permissions/index.ts
-export { default } from './page'
-```
-
-- [ ] **Step 3: Delete old page and system directory**
-
-Run: `rm -r src/pages/system/permissions && rmdir src/pages/system`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/features/permissions/
-git rm -r src/pages/system
-git commit -m "refactor(permissions): migrate permissions to features/permissions
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-## Chunk 4: Other Features (Dashboard, Profile, Categories, Tags, Video)
-
-### Task 14: Migrate dashboard feature
-
-**Files:**
-- Create: `src/features/dashboard/page.tsx`
-- Create: `src/features/dashboard/index.ts`
-- Delete: `src/pages/dashboard/index.tsx`
-
-- [ ] **Step 1: Create features/dashboard/page.tsx**
-
-Copy content from `src/pages/dashboard/index.tsx` to `src/features/dashboard/page.tsx` (no import changes needed).
-
-- [ ] **Step 2: Create features/dashboard/index.ts**
-
-```typescript
-// src/features/dashboard/index.ts
-export { default } from './page'
-```
-
-- [ ] **Step 3: Delete old page**
-
-Run: `rm -r src/pages/dashboard`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/features/dashboard/
-git rm -r src/pages/dashboard
-git commit -m "refactor(dashboard): migrate dashboard to features/dashboard
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-### Task 15: Migrate profile feature
-
-**Files:**
-- Create: `src/features/profile/page.tsx`
-- Create: `src/features/profile/index.ts`
-- Create: `src/features/profile/components/General.tsx`
-- Create: `src/features/profile/components/Security.tsx`
-- Delete: `src/pages/profile/`
-
-- [ ] **Step 1: Create features/profile/page.tsx**
-
-Copy content from `src/pages/profile/index.tsx` to `src/features/profile/page.tsx` (no import changes needed).
-
-- [ ] **Step 2: Copy General.tsx**
-
-Copy `src/pages/profile/General.tsx` to `src/features/profile/components/General.tsx` (import already updated in Task 9, no changes needed).
-
-- [ ] **Step 3: Copy Security.tsx**
-
-Copy `src/pages/profile/Security.tsx` to `src/features/profile/components/Security.tsx` (no import changes needed).
-
-- [ ] **Step 4: Create features/profile/index.ts**
-
-```typescript
-// src/features/profile/index.ts
-export { default } from './page'
-```
-
-- [ ] **Step 5: Delete old profile directory**
-
-Run: `rm -r src/pages/profile`
-
-- [ ] **Step 6: Commit**
-
-```bash
-git add src/features/profile/
-git rm -r src/pages/profile
-git commit -m "refactor(profile): migrate profile to features/profile
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-### Task 16: Migrate categories feature
-
-**Files:**
-- Create: `src/features/categories/page.tsx`
-- Create: `src/features/categories/index.ts`
-- Delete: `src/pages/categories/index.tsx`
-
-- [ ] **Step 1: Create features/categories/page.tsx**
-
-Copy content from `src/pages/categories/index.tsx` to `src/features/categories/page.tsx` (no import changes needed).
-
-- [ ] **Step 2: Create features/categories/index.ts**
-
-```typescript
-// src/features/categories/index.ts
-export { default } from './page'
-```
-
-- [ ] **Step 3: Delete old page**
-
-Run: `rm -r src/pages/categories`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/features/categories/
-git rm -r src/pages/categories
-git commit -m "refactor(categories): migrate categories to features/categories
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-### Task 17: Migrate tags feature
-
-**Files:**
-- Create: `src/features/tags/page.tsx`
-- Create: `src/features/tags/index.ts`
-- Delete: `src/pages/tags/index.tsx`
-
-- [ ] **Step 1: Create features/tags/page.tsx**
-
-Copy content from `src/pages/tags/index.tsx` to `src/features/tags/page.tsx` (no import changes needed).
-
-- [ ] **Step 2: Create features/tags/index.ts**
-
-```typescript
-// src/features/tags/index.ts
-export { default } from './page'
-```
-
-- [ ] **Step 3: Delete old page**
-
-Run: `rm -r src/pages/tags`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/features/tags/
-git rm -r src/pages/tags
-git commit -m "refactor(tags): migrate tags to features/tags
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-### Task 18: Migrate video types
-
-**Files:**
-- Create: `src/features/video/types.ts`
-- Create: `src/features/video/index.ts`
-- Delete: `src/pages/video/types.ts`
-
-- [ ] **Step 1: Create features/video/types.ts**
-
-Copy content from `src/pages/video/types.ts` to `src/features/video/types.ts` (no import changes needed).
-
-- [ ] **Step 2: Create features/video/index.ts**
-
-```typescript
-// src/features/video/index.ts
-export type { Video, Season, Episode, TranscodingTask, UploadFile, VideoType, VideoStatus } from './types'
-```
-
-- [ ] **Step 3: Delete old video directory**
-
-Run: `rm -r src/pages/video && rmdir src/pages 2>/dev/null || true`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/features/video/
-git rm -r src/pages/video
-git commit -m "refactor(video): migrate video types to features/video
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
-```
-
----
-
-## Chunk 5: Cleanup and Verification
-
-### Task 19: Remove empty directories and files
-
-**Files:**
+- Delete: `src/pages/` directory
 - Delete: `src/api/` directory
-- Delete: `src/pages/` directory (if still exists)
 
-- [ ] **Step 1: Remove empty api directory**
+- [ ] **Step 1: Delete old pages directory**
 
 ```bash
-rmdir src/api 2>/dev/null || rm -rf src/api
+rm -rf src/pages
 ```
 
-- [ ] **Step 2: Remove empty pages directory**
+- [ ] **Step 2: Delete old api directory**
 
 ```bash
-rmdir src/pages 2>/dev/null || rm -rf src/pages
+rm -rf src/api
 ```
 
 - [ ] **Step 3: Commit**
 
 ```bash
 git add -A
-git commit -m "refactor: remove empty pages and api directories
+git commit -m "refactor: remove old pages and api directories
 
 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 ```
@@ -987,10 +941,10 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 | Phase | Tasks | Description |
 |-------|-------|-------------|
 | Chunk 1 | 1-2 | Core infrastructure (API client, features directory) |
-| Chunk 2 | 3-10 | Auth feature migration + router update |
-| Chunk 3 | 11-13 | System features (users, roles, permissions) |
-| Chunk 4 | 14-18 | Other features (dashboard, profile, categories, tags, video) |
-| Chunk 5 | 19-20 | Cleanup and verification |
+| Chunk 2 | 3-9 | Auth feature migration (with lib/api.ts update in Task 4) |
+| Chunk 3 | 10-12 | System features (users, roles, permissions) |
+| Chunk 4 | 13-17 | Other features (dashboard, profile, categories, tags, video) |
+| Chunk 5 | 18-20 | Router update, cleanup, and verification |
 
 **Total Tasks:** 20
 **Estimated Time:** 1-2 hours
