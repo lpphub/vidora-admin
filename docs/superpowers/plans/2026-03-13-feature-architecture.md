@@ -17,7 +17,7 @@
 **Files:**
 - Create: `src/lib/api.ts`
 - Modify: `src/hooks/useUpload.ts:3`
-- Delete: `src/api/index.ts`, `src/api/auth.ts` (moved in Task 2)
+- Delete: `src/api/index.ts` (moved)
 
 - [ ] **Step 1: Move api/index.ts to lib/api.ts**
 
@@ -44,8 +44,7 @@ Expected: Build succeeds (may have errors for auth imports - that's OK for now)
 - [ ] **Step 4: Commit**
 
 ```bash
-git add src/lib/api.ts src/hooks/useUpload.ts
-git rm src/api/index.ts
+git add -A
 git commit -m "refactor: move API client to lib/api.ts
 
 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
@@ -800,7 +799,12 @@ Copy content from `src/pages/video/types.ts` to `src/features/video/types.ts` (n
 export type { Video, Season, Episode, TranscodingTask, UploadFile, VideoType, VideoStatus } from './types'
 ```
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 3: Verify no external consumers**
+
+Run: `grep -r "@/pages/video" src/ || echo "No external consumers found"`
+Expected: "No external consumers found" (video types are self-contained)
+
+- [ ] **Step 4: Commit**
 
 ```bash
 git add src/features/video/
