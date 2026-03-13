@@ -1,4 +1,4 @@
-import type { User } from '@/types/auth'
+import type { User } from '@/features/auth/types'
 
 // 模拟数据库
 const users: Map<string, { password: string; user: User }> = new Map()
