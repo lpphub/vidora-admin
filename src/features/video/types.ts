@@ -54,8 +54,11 @@ export interface TranscodingTask {
 
 export interface UploadFile {
   id: string
-  file: File
+  file: File | null
+  fileName?: string
   md5?: string
+  uploadId?: string
+  uploadedChunks?: number[]
   progress: {
     loaded: number
     total: number
@@ -70,4 +73,31 @@ export interface UploadFile {
     total: number
     uploaded: number
   }
+}
+
+export type VideoSortField = 'createdAt' | 'updatedAt' | 'title'
+export type SortOrder = 'asc' | 'desc'
+
+export interface VideoListParams {
+  page?: number
+  pageSize?: number
+  type?: VideoType | 'all'
+  status?: VideoStatus | 'all'
+  categoryId?: string
+  keyword?: string
+  sortBy?: VideoSortField
+  sortOrder?: SortOrder
+}
+
+export interface TranscodingConfig {
+  resolution: '1080p' | '720p' | '480p' | '360p'
+  codec: 'h264' | 'h265'
+  bitrate: number
+  segmentDuration: number
+}
+
+export interface BatchOperationResult {
+  success: number
+  failed: number
+  errors?: Array<{ id: string; error: string }>
 }

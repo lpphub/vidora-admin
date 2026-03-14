@@ -10,6 +10,10 @@
 		"userManagement": "User Management",
 		"roleManagement": "Role Management",
 		"permissionManagement": "Permission Management",
-		"tagManagement": "Tags"
+		"tagManagement": "Tags",
+		"videoCenter": "Video Center",
+		"videoLibrary": "Video Library",
+		"videoTranscoding": "Transcoding",
+		"videoUpload": "Upload"
 	}
 }

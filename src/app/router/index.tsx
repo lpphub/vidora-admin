@@ -11,6 +11,9 @@ const Permissions = lazy(() => import('@/pages/Permissions'))
 const Roles = lazy(() => import('@/pages/Roles'))
 const Users = lazy(() => import('@/pages/Users'))
 const Tags = lazy(() => import('@/pages/Tags'))
+const VideoLibrary = lazy(() => import('@/pages/video/Library'))
+const VideoTranscoding = lazy(() => import('@/pages/video/Transcoding'))
+const VideoUpload = lazy(() => import('@/pages/video/Upload'))
 
 const router = createBrowserRouter([
   {
@@ -56,6 +59,27 @@ const router = createBrowserRouter([
       {
         path: 'tags',
         element: <Tags />,
+      },
+      {
+        path: 'video',
+        children: [
+          {
+            index: true,
+            element: <Navigate to='library' replace />,
+          },
+          {
+            path: 'library',
+            element: <VideoLibrary />,
+          },
+          {
+            path: 'transcoding',
+            element: <VideoTranscoding />,
+          },
+          {
+            path: 'upload',
+            element: <VideoUpload />,
+          },
+        ],
       },
     ],
   },

@@ -10,6 +10,10 @@
 		"userManagement": "用户管理",
 		"roleManagement": "角色管理",
 		"permissionManagement": "权限管理",
-		"tagManagement": "标签管理"
+		"tagManagement": "标签管理",
+		"videoCenter": "视频中心",
+		"videoLibrary": "视频库",
+		"videoTranscoding": "转码任务",
+		"videoUpload": "上传中心"
 	}
 }
