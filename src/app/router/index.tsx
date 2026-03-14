@@ -1,6 +1,6 @@
 import { lazy } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { NotFound, ServerError, Unauthorized } from '@/pages/base/ErrorPage'
+import { NotFound, ServerError, Unauthorized } from '@/pages/base'
 import MainLayout from '@/shared/components/layout'
 import { AuthGuard } from './guard'
 
