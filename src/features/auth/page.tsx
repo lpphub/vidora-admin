@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-import { ThemeToggle } from '@/components/common/ThemeToggle'
+import { ThemeToggle } from '@/shared/components/common/ThemeToggle'
 import LoginForm from './components/LoginForm'
 import { LoginProvider } from './components/LoginProvider'
 import RegisterForm from './components/RegisterForm'

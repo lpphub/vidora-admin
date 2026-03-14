@@ -1,5 +1,5 @@
 import { setupWorker } from 'msw/browser'
-import { env } from '@/lib/env'
+import { env } from '@/shared/lib/env'
 import { handlers } from './handlers'
 
 export const worker = setupWorker(...handlers)

@@ -1,8 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { NotFound, ServerError, Unauthorized } from '@/components/common/ErrorPage'
-import { PageSkeleton } from '@/components/common/PageSkeleton'
-import DashboardLayout from '@/components/layout'
+import { NotFound, ServerError, Unauthorized } from '@/shared/components/common/ErrorPage'
+import { PageSkeleton } from '@/shared/components/common/PageSkeleton'
+import DashboardLayout from '@/shared/components/layout'
 import { AuthGuard } from './guard'
 
 const Auth = lazy(() => import('@/features/auth'))

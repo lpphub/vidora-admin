@@ -1,4 +1,4 @@
-import api from '@/lib/api'
+import api from '@/shared/lib/api'
 import type { AuthData, LoginRequest, User } from './types'
 
 export const authApi = {

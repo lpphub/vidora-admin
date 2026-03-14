@@ -1,10 +1,10 @@
 import { ArrowDown, ArrowUp, Film, Plus, TrendingUp, Users, Video } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Chart, useChart } from '@/components/chart'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
+import { Chart, useChart } from '@/shared/components/chart'
+import { Button } from '@/shared/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
+import { Progress } from '@/shared/components/ui/progress'
 
 function rgbAlpha(color: string, alpha: number): string {
   const hex = color.replace('#', '')
