@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import DashboardLayout from '@/shared/components/layout'
 import { NotFound, ServerError, Unauthorized } from '@/shared/components/widgets/ErrorPage'
-import { PageSkeleton } from '@/shared/components/widgets/PageSkeleton'
+import { SkeletonPage } from '@/shared/components/widgets/SkeletonPage'
 import { AuthGuard } from './guard'
 
 const Auth = lazy(() => import('@/features/auth'))
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     path: '/login',
     element: (
       <AuthGuard>
-        <Suspense fallback={<PageSkeleton />}>
+        <Suspense fallback={<SkeletonPage />}>
           <Auth />
         </Suspense>
       </AuthGuard>
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: (
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={<SkeletonPage />}>
             <Dashboard />
           </Suspense>
         ),
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: (
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={<SkeletonPage />}>
             <Profile />
           </Suspense>
         ),
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       {
         path: 'system/users',
         element: (
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={<SkeletonPage />}>
             <Users />
           </Suspense>
         ),
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
       {
         path: 'system/roles',
         element: (
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={<SkeletonPage />}>
             <Roles />
           </Suspense>
         ),
@@ -72,7 +72,7 @@ const router = createBrowserRouter([
       {
         path: 'system/permissions',
         element: (
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={<SkeletonPage />}>
             <Permissions />
           </Suspense>
         ),
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
       {
         path: 'tags',
         element: (
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={<SkeletonPage />}>
             <Tags />
           </Suspense>
         ),
@@ -88,7 +88,7 @@ const router = createBrowserRouter([
       {
         path: 'categories',
         element: (
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={<SkeletonPage />}>
             <Categories />
           </Suspense>
         ),

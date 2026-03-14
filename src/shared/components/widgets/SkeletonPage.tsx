@@ -1,6 +1,6 @@
 import { Skeleton } from '@/shared/components/ui/skeleton'
 
-export function PageSkeleton() {
+export function SkeletonPage() {
   return (
     <div className='flex flex-col gap-4 p-6 w-full'>
       <div className='flex items-center justify-between'>
