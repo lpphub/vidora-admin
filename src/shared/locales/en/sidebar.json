@@ -11,8 +11,7 @@
 		"roleManagement": "Role Management",
 		"permissionManagement": "Permission Management",
 		"tagManagement": "Tags",
-		"videoCenter": "Video Center",
-		"videoLibrary": "Video Library",
+		"videoLibrary": "Media Library",
 		"videoTranscoding": "Transcoding",
 		"videoUpload": "Upload"
 	}
