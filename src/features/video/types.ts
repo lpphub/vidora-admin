@@ -89,6 +89,37 @@ export interface VideoListParams {
   sortOrder?: SortOrder
 }
 
+export interface VideoListResponse {
+  items: Video[]
+  total: number
+  page: number
+  pageSize: number
+}
+
+export interface CreateVideoDto {
+  title: string
+  description?: string
+  cover?: string
+  type: VideoType
+  tags?: string[]
+  categoryId?: string
+}
+
+export interface UpdateVideoDto extends Partial<CreateVideoDto> {
+  status?: VideoStatus
+}
+
+export interface CreateSeasonDto {
+  seasonNumber: number
+  title?: string
+}
+
+export interface CreateEpisodeDto {
+  episodeNumber: number
+  title?: string
+  duration?: number
+}
+
 export interface TranscodingConfig {
   resolution: '1080p' | '720p' | '480p' | '360p'
   codec: 'h264' | 'h265'
