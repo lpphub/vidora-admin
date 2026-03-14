@@ -6,6 +6,7 @@ import profile from './profile.json'
 import roles from './roles.json'
 import sidebar from './sidebar.json'
 import tags from './tags.json'
+import transcoding from './transcoding.json'
 import users from './users.json'
 import videos from './videos.json'
 
@@ -19,5 +20,6 @@ export default {
   roles,
   permissions,
   tags,
+  transcoding,
   videos,
 }

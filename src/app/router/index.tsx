@@ -12,6 +12,7 @@ const Roles = lazy(() => import('@/pages/system/Roles'))
 const Users = lazy(() => import('@/pages/system/Users'))
 const Tags = lazy(() => import('@/pages/Tags'))
 const Videos = lazy(() => import('@/pages/videos'))
+const Transcoding = lazy(() => import('@/pages/transcoding'))
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: 'videos',
         element: <Videos />,
+      },
+      {
+        path: 'transcoding',
+        element: <Transcoding />,
       },
     ],
   },
