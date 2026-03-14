@@ -2,7 +2,7 @@
 export const StorageKey = {
   Auth: 'vidora-auth',
   Theme: 'vidora-theme',
-  Locale: 'vidora-locale-language',
+  Locale: 'vidora-locale',
 } as const
 
 // theme modes

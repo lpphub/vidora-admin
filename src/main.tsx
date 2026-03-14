@@ -1,8 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { startMsw } from '@/mocks/browser'
-import '@/app/providers/i18n'
 import App from '@/app/App'
+import { startMsw } from '@/mocks/browser'
 import '@/index.css'
 
 await startMsw()
