@@ -99,7 +99,7 @@ function RegisterForm() {
 
         <div className='mb-2 text-xs text-muted-foreground text-center'>
           <span>{t('register.hasAccount')}</span>
-          <button type='button' className='text-primary underline ml-1'>
+          <button type='button' className='text-primary underline ml-1' onClick={backToLogin}>
             {t('register.login')}
           </button>
         </div>
