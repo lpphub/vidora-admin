@@ -1,7 +1,6 @@
 import { LogOut, Settings, User } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '@/features/auth'
 import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar'
 import { Button } from '@/shared/components/ui/button'
 import {
@@ -11,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu'
+import { useAuthStore } from '@/shared/stores/auth'
 
 export function UserDropdown() {
   const { t } = useTranslation('common')

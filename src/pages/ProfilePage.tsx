@@ -1,8 +1,8 @@
 import { Key, User } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import General from '@/features/profile/components/General'
+import Security from '@/features/profile/components/Security'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs'
-import General from './components/General'
-import Security from './components/Security'
 
 function Profile() {
   const { t } = useTranslation('profile')

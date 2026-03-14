@@ -5,14 +5,14 @@ import { NotFound, ServerError, Unauthorized } from '@/shared/components/widgets
 import { SkeletonPage } from '@/shared/components/widgets/SkeletonPage'
 import { AuthGuard } from './guard'
 
-const Auth = lazy(() => import('@/features/auth'))
-const Categories = lazy(() => import('@/features/categories'))
-const Dashboard = lazy(() => import('@/features/dashboard'))
-const Profile = lazy(() => import('@/features/profile'))
-const Permissions = lazy(() => import('@/features/system/permissions'))
-const Roles = lazy(() => import('@/features/system/roles'))
-const Users = lazy(() => import('@/features/system/users'))
-const Tags = lazy(() => import('@/features/tags'))
+const Auth = lazy(() => import('@/pages/AuthPage'))
+const Categories = lazy(() => import('@/pages/CategoriesPage'))
+const Dashboard = lazy(() => import('@/pages/DashboardPage'))
+const Profile = lazy(() => import('@/pages/ProfilePage'))
+const Permissions = lazy(() => import('@/pages/SystemPermissionsPage'))
+const Roles = lazy(() => import('@/pages/SystemRolesPage'))
+const Users = lazy(() => import('@/pages/SystemUsersPage'))
+const Tags = lazy(() => import('@/pages/TagsPage'))
 
 const router = createBrowserRouter([
   {

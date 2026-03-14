@@ -2,13 +2,13 @@ import { User } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { useAuthStore } from '@/features/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar'
 import { Button } from '@/shared/components/ui/button'
 import { Card, CardContent } from '@/shared/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import { Textarea } from '@/shared/components/ui/textarea'
+import { useAuthStore } from '@/shared/stores/auth'
 
 type FormValues = {
   username: string
