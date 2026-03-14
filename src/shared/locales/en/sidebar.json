@@ -10,7 +10,6 @@
 		"userManagement": "User Management",
 		"roleManagement": "Role Management",
 		"permissionManagement": "Permission Management",
-		"tagManagement": "Tags",
-		"categoryManagement": "Categories"
+		"tagManagement": "Tags"
 	}
 }

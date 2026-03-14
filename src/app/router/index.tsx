@@ -1,27 +1,23 @@
-import { lazy, Suspense } from 'react'
+import { lazy } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import DashboardLayout from '@/shared/components/layout'
-import { NotFound, ServerError, Unauthorized } from '@/shared/components/widgets/ErrorPage'
-import { SkeletonPage } from '@/shared/components/widgets/SkeletonPage'
+import { NotFound, ServerError, Unauthorized } from '@/pages/ErrorPages'
+import MainLayout from '@/shared/components/layout'
 import { AuthGuard } from './guard'
 
-const Auth = lazy(() => import('@/pages/AuthPage'))
-const Categories = lazy(() => import('@/pages/CategoriesPage'))
-const Dashboard = lazy(() => import('@/pages/DashboardPage'))
-const Profile = lazy(() => import('@/pages/ProfilePage'))
-const Permissions = lazy(() => import('@/pages/SystemPermissionsPage'))
-const Roles = lazy(() => import('@/pages/SystemRolesPage'))
-const Users = lazy(() => import('@/pages/SystemUsersPage'))
-const Tags = lazy(() => import('@/pages/TagsPage'))
+const Auth = lazy(() => import('@/pages/Auth'))
+const Dashboard = lazy(() => import('@/pages/Dashboard'))
+const Profile = lazy(() => import('@/pages/Profile'))
+const Permissions = lazy(() => import('@/pages/Permissions'))
+const Roles = lazy(() => import('@/pages/Roles'))
+const Users = lazy(() => import('@/pages/Users'))
+const Tags = lazy(() => import('@/pages/Tags'))
 
 const router = createBrowserRouter([
   {
     path: '/login',
     element: (
       <AuthGuard>
-        <Suspense fallback={<SkeletonPage />}>
-          <Auth />
-        </Suspense>
+        <Auth />
       </AuthGuard>
     ),
   },
@@ -29,7 +25,7 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <AuthGuard requireAuth>
-        <DashboardLayout />
+        <MainLayout />
       </AuthGuard>
     ),
     children: [
@@ -39,59 +35,27 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: (
-          <Suspense fallback={<SkeletonPage />}>
-            <Dashboard />
-          </Suspense>
-        ),
+        element: <Dashboard />,
       },
       {
         path: 'profile',
-        element: (
-          <Suspense fallback={<SkeletonPage />}>
-            <Profile />
-          </Suspense>
-        ),
+        element: <Profile />,
       },
       {
         path: 'system/users',
-        element: (
-          <Suspense fallback={<SkeletonPage />}>
-            <Users />
-          </Suspense>
-        ),
+        element: <Users />,
       },
       {
         path: 'system/roles',
-        element: (
-          <Suspense fallback={<SkeletonPage />}>
-            <Roles />
-          </Suspense>
-        ),
+        element: <Roles />,
       },
       {
         path: 'system/permissions',
-        element: (
-          <Suspense fallback={<SkeletonPage />}>
-            <Permissions />
-          </Suspense>
-        ),
+        element: <Permissions />,
       },
       {
         path: 'tags',
-        element: (
-          <Suspense fallback={<SkeletonPage />}>
-            <Tags />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'categories',
-        element: (
-          <Suspense fallback={<SkeletonPage />}>
-            <Categories />
-          </Suspense>
-        ),
+        element: <Tags />,
       },
     ],
   },

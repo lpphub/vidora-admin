@@ -1,13 +1,4 @@
-import {
-  ChevronRight,
-  FolderTree,
-  Key,
-  LayoutDashboard,
-  Settings,
-  Shield,
-  Tag,
-  Users,
-} from 'lucide-react'
+import { ChevronRight, Key, LayoutDashboard, Settings, Shield, Tag, Users } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import {
@@ -51,14 +42,7 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
   },
   {
     name: 'groups.features',
-    items: [
-      { title: 'items.tagManagement', path: '/tags', icon: <Tag size={18} /> },
-      {
-        title: 'items.categoryManagement',
-        path: '/categories',
-        icon: <FolderTree size={18} />,
-      },
-    ],
+    items: [{ title: 'items.tagManagement', path: '/tags', icon: <Tag size={18} /> }],
   },
   {
     name: 'groups.system',

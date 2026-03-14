@@ -13,19 +13,23 @@
 		"phone": "Phone",
 		"about": "About",
 		"aboutPlaceholder": "Write something about yourself...",
-		"saveChanges": "Save Changes"
+		"saveChanges": "Save Changes",
+		"saving": "Saving..."
 	},
 	"security": {
 		"currentPassword": "Current Password",
 		"newPassword": "New Password",
 		"confirmPassword": "Confirm New Password",
 		"updatePassword": "Update Password",
+		"updating": "Updating...",
 		"passwordRequired": "Password is required",
 		"passwordMinLength": "Password must be at least 6 characters",
 		"passwordMismatch": "Passwords do not match"
 	},
 	"toast": {
 		"profileUpdated": "Profile updated successfully",
-		"passwordUpdated": "Password updated successfully"
+		"profileUpdateFailed": "Failed to update profile",
+		"passwordUpdated": "Password updated successfully",
+		"passwordUpdateFailed": "Failed to update password"
 	}
 }

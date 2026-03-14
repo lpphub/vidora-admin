@@ -1,5 +1,4 @@
 import auth from './auth.json'
-import categories from './categories.json'
 import common from './common.json'
 import dashboard from './dashboard.json'
 import permissions from './permissions.json'
@@ -19,5 +18,4 @@ export default {
   roles,
   permissions,
   tags,
-  categories,
 }

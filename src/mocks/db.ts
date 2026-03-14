@@ -26,6 +26,21 @@ function removeToken(token: string): boolean {
   return tokens.delete(token)
 }
 
+// 更新用户信息
+function updateUser(email: string, data: Partial<User>): User | null {
+  const record = users.get(email)
+  if (!record) return null
+
+  const updatedUser = { ...record.user, ...data }
+  users.set(email, { ...record, user: updatedUser })
+  return updatedUser
+}
+
+// 删除用户
+function deleteUser(email: string): boolean {
+  return users.delete(email)
+}
+
 // 初始化测试账户
 function seedMockUsers(): void {
   const testUser: User = {
@@ -33,6 +48,8 @@ function seedMockUsers(): void {
     email: 'test@vidora.com',
     username: '测试用户',
     role: 'admin',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=test',
+    about: '这是一个测试用户',
   }
 
   users.set('test@vidora.com', {
@@ -46,6 +63,7 @@ function seedMockUsers(): void {
     email: 'admin@vidora.com',
     username: '管理员',
     role: 'admin',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin',
   }
 
   users.set('admin@vidora.com', {
@@ -57,4 +75,13 @@ function seedMockUsers(): void {
 // 自动初始化
 seedMockUsers()
 
-export { users, tokens, generateToken, storeToken, getEmailByToken, removeToken }
+export {
+  users,
+  tokens,
+  generateToken,
+  storeToken,
+  getEmailByToken,
+  removeToken,
+  updateUser,
+  deleteUser,
+}

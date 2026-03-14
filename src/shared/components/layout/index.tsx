@@ -3,7 +3,7 @@ import { Header } from './Header'
 import Main from './Main'
 import { AppSidebar } from './Sidebar'
 
-export default function DashboardLayout() {
+export default function MainLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />

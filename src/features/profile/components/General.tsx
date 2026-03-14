@@ -2,6 +2,7 @@ import { User } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useUpdateProfile } from '@/features/profile/hooks'
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar'
 import { Button } from '@/shared/components/ui/button'
 import { Card, CardContent } from '@/shared/components/ui/card'
@@ -19,17 +20,28 @@ type FormValues = {
 export default function General() {
   const { t } = useTranslation('profile')
   const { user } = useAuthStore()
+  const updateProfile = useUpdateProfile()
 
   const form = useForm<FormValues>({
     defaultValues: {
       username: user?.username || '',
       email: user?.email || '',
-      about: '',
+      about: user?.about || '',
     },
   })
 
-  const handleSubmit = () => {
-    toast.success(t('toast.profileUpdated'))
+  const onSubmit = (data: FormValues) => {
+    updateProfile.mutate(
+      { username: data.username, about: data.about },
+      {
+        onSuccess: () => {
+          toast.success(t('toast.profileUpdated'))
+        },
+        onError: () => {
+          toast.error(t('toast.profileUpdateFailed'))
+        },
+      }
+    )
   }
 
   const userInitial = user?.username?.charAt(0).toUpperCase() || null
@@ -50,7 +62,7 @@ export default function General() {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
               <FormField
                 control={form.control}
@@ -90,7 +102,9 @@ export default function General() {
               )}
             />
             <div className='flex justify-end gap-2 pt-2'>
-              <Button type='submit'>{t('general.saveChanges')}</Button>
+              <Button type='submit' disabled={updateProfile.isPending}>
+                {updateProfile.isPending ? t('general.saving') : t('general.saveChanges')}
+              </Button>
             </div>
           </form>
         </Form>

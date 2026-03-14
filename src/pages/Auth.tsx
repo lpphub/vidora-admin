@@ -3,7 +3,7 @@ import LoginForm from '@/features/auth/components/LoginForm'
 import { LoginProvider } from '@/features/auth/components/LoginProvider'
 import RegisterForm from '@/features/auth/components/RegisterForm'
 import ResetForm from '@/features/auth/components/ResetForm'
-import { ThemeToggle } from '@/shared/components/widgets/ThemeToggle'
+import { ThemeToggle } from '@/shared/components/ThemeToggle'
 import { useAuthStore } from '@/shared/stores/auth'
 
 function LoginPage() {

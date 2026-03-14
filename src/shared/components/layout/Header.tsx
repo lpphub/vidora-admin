@@ -1,11 +1,11 @@
 import { Bell } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { LanguageSwitcher } from '@/shared/components/LanguageSwitcher'
+import { NavBreadcrumb } from '@/shared/components/NavBreadcrumb'
+import { ThemeToggle } from '@/shared/components/ThemeToggle'
+import { UserDropdown } from '@/shared/components/UserDropdown'
 import { Button } from '@/shared/components/ui/button'
 import { SidebarTrigger } from '@/shared/components/ui/sidebar'
-import { LanguageSwitcher } from '@/shared/components/widgets/LanguageSwitcher'
-import { NavBreadcrumb } from '@/shared/components/widgets/NavBreadcrumb'
-import { ThemeToggle } from '@/shared/components/widgets/ThemeToggle'
-import { UserDropdown } from '@/shared/components/widgets/UserDropdown'
 
 interface HeaderProps {
   leftSlot?: ReactNode

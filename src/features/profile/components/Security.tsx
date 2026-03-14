@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { useChangePassword } from '@/features/profile/hooks'
 import { Button } from '@/shared/components/ui/button'
 import { Card, CardContent } from '@/shared/components/ui/card'
 import {
@@ -22,6 +23,7 @@ export default function Security() {
   const [showOldPassword, setShowOldPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const changePassword = useChangePassword()
 
   const passwordSchema = z
     .object({
@@ -45,19 +47,29 @@ export default function Security() {
     },
   })
 
-  const handleSubmit = () => {
-    toast.success(t('toast.passwordUpdated'))
-    form.reset()
-    setShowOldPassword(false)
-    setShowNewPassword(false)
-    setShowConfirmPassword(false)
+  const onSubmit = (data: PasswordFormValues) => {
+    changePassword.mutate(
+      { oldPassword: data.oldPassword, newPassword: data.newPassword },
+      {
+        onSuccess: () => {
+          toast.success(t('toast.passwordUpdated'))
+          form.reset()
+          setShowOldPassword(false)
+          setShowNewPassword(false)
+          setShowConfirmPassword(false)
+        },
+        onError: () => {
+          toast.error(t('toast.passwordUpdateFailed'))
+        },
+      }
+    )
   }
 
   return (
     <Card>
       <CardContent className='pt-6'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
             <FormField
               control={form.control}
               name='oldPassword'
@@ -140,7 +152,9 @@ export default function Security() {
             />
 
             <div className='flex justify-end pt-2'>
-              <Button type='submit'>{t('security.updatePassword')}</Button>
+              <Button type='submit' disabled={changePassword.isPending}>
+                {changePassword.isPending ? t('security.updating') : t('security.updatePassword')}
+              </Button>
             </div>
           </form>
         </Form>

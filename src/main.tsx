@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { startMsw } from '@/mocks/browser'
 import '@/app/providers/i18n'
 import App from '@/app/App'
-import '@/styles/globals.css'
+import '@/index.css'
 
 await startMsw()
 
