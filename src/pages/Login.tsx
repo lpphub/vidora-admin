@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { LoginForm, LoginProvider, RegisterForm, ResetForm } from '@/features/auth'
-import { ThemeToggle } from '@/shared/components/common/ThemeToggle'
+import { ThemeToggle } from '@/shared/components/widgets/ThemeToggle'
 import { useAuthStore } from '@/shared/stores/auth'
 
 export default function Login() {
