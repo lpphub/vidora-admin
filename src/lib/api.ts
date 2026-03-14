@@ -1,6 +1,6 @@
 import ky, { type Options } from 'ky'
-import { env } from '@/lib/env'
 import { useAuthStore } from '@/shared/stores/auth'
+import { env } from '@/shared/utils/env'
 
 // ==================== Types ====================
 

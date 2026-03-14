@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { type PersistStorage, persist } from 'zustand/middleware'
-import { StorageKey, ThemeMode } from '@/lib/constants'
+import { StorageKey, ThemeMode } from '@/shared/utils/constants'
 
 type ThemeModeValue = typeof ThemeMode.Light | typeof ThemeMode.Dark
 

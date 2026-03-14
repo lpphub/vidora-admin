@@ -1,5 +1,5 @@
 export { useAuthStore } from '@/shared/stores/auth'
-export type { AuthData, LoginRequest, User } from '@/shared/types/user'
 export { authApi } from './api'
 export { useAuth, useLogin, useLogout, useUser } from './hooks'
 export { default } from './page'
+export type { AuthData, LoginRequest, User } from './types'

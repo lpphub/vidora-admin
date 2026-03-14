@@ -1,5 +1,5 @@
+import type { AuthData, LoginRequest, User } from '@/features/auth/types'
 import api from '@/lib/api'
-import type { AuthData, LoginRequest, User } from '@/shared/types/user'
 
 export const authApi = {
   login: (data: LoginRequest) => api.post<AuthData>('auth/login', data),

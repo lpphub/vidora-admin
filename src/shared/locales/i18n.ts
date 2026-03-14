@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
-import { StorageKey } from '@/lib/constants'
+import { StorageKey } from '@/shared/utils/constants'
 import { resources } from './index'
 
 i18n
