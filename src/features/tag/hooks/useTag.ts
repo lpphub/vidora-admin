@@ -40,26 +40,9 @@ export function useDeleteTag() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id }: { id: string; type: TagType }) => tagApi.delete(id),
-    onMutate: async ({ id, type }) => {
-      await queryClient.cancelQueries({ queryKey: tagKeys.list(type) })
-
-      const previousTags = queryClient.getQueryData<Tag[]>(tagKeys.list(type))
-
-      queryClient.setQueryData<Tag[]>(
-        tagKeys.list(type),
-        old => old?.filter(t => t.id !== id) || []
-      )
-
-      return { previousTags, type }
-    },
-    onError: (_err, _vars, context) => {
-      if (context?.previousTags) {
-        queryClient.setQueryData(tagKeys.list(context.type), context.previousTags)
-      }
-    },
-    onSettled: (_data, _err, _vars, context) => {
-      queryClient.invalidateQueries({ queryKey: tagKeys.list(context?.type) })
+    mutationFn: (id: string) => tagApi.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: tagKeys.all })
     },
   })
 }

@@ -2,6 +2,7 @@ import { Pencil, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Badge } from '@/shared/components/ui/badge'
 import { Button } from '@/shared/components/ui/button'
+import { Skeleton } from '@/shared/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -14,12 +15,65 @@ import type { Tag } from '../types'
 
 interface TagTableProps {
   tags: Tag[]
+  isLoading?: boolean
   onEdit: (tag: Tag) => void
   onDelete?: (tag: Tag) => void
 }
 
-export function TagTable({ tags, onEdit, onDelete }: TagTableProps) {
+function TagRowSkeleton() {
+  return (
+    <TableRow>
+      <TableCell>
+        <div className='flex items-center gap-2'>
+          <Skeleton className='w-3 h-3 rounded-full' />
+          <Skeleton className='h-4 w-20' />
+        </div>
+      </TableCell>
+      <TableCell>
+        <div className='flex items-center gap-2'>
+          <Skeleton className='w-6 h-6 rounded' />
+          <Skeleton className='h-4 w-16' />
+        </div>
+      </TableCell>
+      <TableCell>
+        <Skeleton className='h-5 w-10' />
+      </TableCell>
+      <TableCell>
+        <Skeleton className='h-4 w-28' />
+      </TableCell>
+      <TableCell>
+        <div className='flex items-center gap-1'>
+          <Skeleton className='h-7 w-7' />
+          <Skeleton className='h-7 w-7' />
+        </div>
+      </TableCell>
+    </TableRow>
+  )
+}
+
+export function TagTable({ tags, isLoading, onEdit, onDelete }: TagTableProps) {
   const { t } = useTranslation('tags')
+
+  if (isLoading) {
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>{t('table.name')}</TableHead>
+            <TableHead>{t('table.color')}</TableHead>
+            <TableHead>{t('table.usageCount')}</TableHead>
+            <TableHead>{t('table.createdAt')}</TableHead>
+            <TableHead className='w-25'>{t('table.actions')}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {[0, 1, 2, 3, 4].map(i => (
+            <TagRowSkeleton key={`skeleton-${i}`} />
+          ))}
+        </TableBody>
+      </Table>
+    )
+  }
 
   return (
     <Table>

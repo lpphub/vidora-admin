@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
-import { SkeletonPage } from '@/pages/SkeletonPage'
+import { SkeletonPage } from '@/pages/base/SkeletonPage'
 
 const Main = () => {
   return (

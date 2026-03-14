@@ -1,41 +1,12 @@
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 import type { Tag } from '@/features/tag'
 import { TagFormSheet, TagSearchBar, TagTable } from '@/features/tag'
+import { useCreateTag, useDeleteTag, useTags, useUpdateTag } from '@/features/tag/hooks/useTag'
 import { Button } from '@/shared/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
-
-const mockTags: Tag[] = [
-  {
-    id: '1',
-    name: 'JavaScript',
-    color: '#f7df1e',
-    usageCount: 156,
-    createdAt: '2024-01-15 10:30:00',
-  },
-  {
-    id: '2',
-    name: 'TypeScript',
-    color: '#3178c6',
-    usageCount: 89,
-    createdAt: '2024-02-20 14:20:00',
-  },
-  {
-    id: '3',
-    name: 'React',
-    color: '#61dafb',
-    usageCount: 234,
-    createdAt: '2024-03-10 09:15:00',
-  },
-  {
-    id: '4',
-    name: 'Vue',
-    color: '#42b883',
-    usageCount: 78,
-    createdAt: '2024-03-15 16:45:00',
-  },
-]
 
 export default function Tags() {
   const { t } = useTranslation('tags')
@@ -43,7 +14,12 @@ export default function Tags() {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingTag, setEditingTag] = useState<Tag | null>(null)
 
-  const filteredTags = mockTags.filter(tag => tag.name.toLowerCase().includes(search.toLowerCase()))
+  const { data: tags = [], isLoading } = useTags()
+  const createMutation = useCreateTag()
+  const updateMutation = useUpdateTag()
+  const deleteMutation = useDeleteTag()
+
+  const filteredTags = tags.filter(tag => tag.name.toLowerCase().includes(search.toLowerCase()))
 
   const handleAdd = () => {
     setEditingTag(null)
@@ -55,8 +31,34 @@ export default function Tags() {
     setSheetOpen(true)
   }
 
+  const handleDelete = (tag: Tag) => {
+    deleteMutation.mutate(tag.id, {
+      onSuccess: () => toast.success(t('messages.deleteSuccess')),
+      onError: () => toast.error(t('messages.deleteFailed')),
+    })
+  }
+
   const handleSubmit = (values: { name: string; color: string }) => {
-    console.log('Save:', { ...values, id: editingTag?.id })
+    if (editingTag) {
+      updateMutation.mutate(
+        { id: editingTag.id, data: values },
+        {
+          onSuccess: () => {
+            toast.success(t('messages.updateSuccess'))
+            setSheetOpen(false)
+          },
+          onError: () => toast.error(t('messages.updateFailed')),
+        }
+      )
+    } else {
+      createMutation.mutate(values, {
+        onSuccess: () => {
+          toast.success(t('messages.createSuccess'))
+          setSheetOpen(false)
+        },
+        onError: () => toast.error(t('messages.createFailed')),
+      })
+    }
   }
 
   return (
@@ -73,7 +75,12 @@ export default function Tags() {
           <div className='mb-4 flex items-center gap-2'>
             <TagSearchBar value={search} onChange={setSearch} />
           </div>
-          <TagTable tags={filteredTags} onEdit={handleEdit} />
+          <TagTable
+            tags={filteredTags}
+            isLoading={isLoading}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </CardContent>
       </Card>
 
