@@ -1,9 +1,14 @@
 import ky, { type Options } from 'ky'
 import { useAuthStore } from '@/features/auth/store'
 import { env } from '@/lib/env'
-import type { ApiResponse } from '@/types/api'
 
 // ==================== Types ====================
+
+export interface ApiResponse<T = unknown> {
+  code: number
+  message: string
+  data?: T
+}
 
 export class ApiError extends Error {
   public code: number
