@@ -11,6 +11,7 @@ const Permissions = lazy(() => import('@/pages/system/Permissions'))
 const Roles = lazy(() => import('@/pages/system/Roles'))
 const Users = lazy(() => import('@/pages/system/Users'))
 const Tags = lazy(() => import('@/pages/Tags'))
+const Videos = lazy(() => import('@/pages/videos'))
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: 'tags',
         element: <Tags />,
+      },
+      {
+        path: 'videos',
+        element: <Videos />,
       },
     ],
   },

@@ -1,4 +1,14 @@
-import { ChevronRight, Key, LayoutDashboard, Settings, Shield, Tag, Users } from 'lucide-react'
+import {
+  ChevronRight,
+  Film,
+  Key,
+  LayoutDashboard,
+  Loader2,
+  Settings,
+  Shield,
+  Tag,
+  Users,
+} from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import {
@@ -42,7 +52,11 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
   },
   {
     name: 'groups.features',
-    items: [{ title: 'items.tagManagement', path: '/tags', icon: <Tag size={18} /> }],
+    items: [
+      { title: 'items.videoLibrary', path: '/videos', icon: <Film size={18} /> },
+      { title: 'items.transcoding', path: '/transcoding', icon: <Loader2 size={18} /> },
+      { title: 'items.tagManagement', path: '/tags', icon: <Tag size={18} /> },
+    ],
   },
   {
     name: 'groups.system',

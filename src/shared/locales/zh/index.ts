@@ -7,6 +7,7 @@ import roles from './roles.json'
 import sidebar from './sidebar.json'
 import tags from './tags.json'
 import users from './users.json'
+import videos from './videos.json'
 
 export default {
   common,
@@ -18,4 +19,5 @@ export default {
   roles,
   permissions,
   tags,
+  videos,
 }

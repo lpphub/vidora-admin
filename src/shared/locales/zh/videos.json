@@ -1,0 +1,20 @@
+{
+	"title": "影视库",
+	"search": "搜索影视...",
+	"type": {
+		"all": "全部类型",
+		"movie": "电影",
+		"series": "电视剧",
+		"short": "短视频"
+	},
+	"status": {
+		"all": "全部状态",
+		"draft": "草稿",
+		"published": "已发布",
+		"archived": "已归档"
+	},
+	"actions": {
+		"create": "新建影视"
+	},
+	"empty": "暂无影视数据"
+}
