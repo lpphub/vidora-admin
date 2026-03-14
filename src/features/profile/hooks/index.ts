@@ -1,18 +1,18 @@
 import { useMutation } from '@tanstack/react-query'
 import { useAuthStore } from '@/shared/stores/auth'
-import { type ChangePasswordRequest, profileApi, type UpdateProfileRequest } from '../api'
+import { type ChangePasswordReq, profileApi, type UpdateProfileReq } from '../api'
 
 export function useUpdateProfile() {
   const setUser = useAuthStore(s => s.setUser)
   return useMutation({
-    mutationFn: (data: UpdateProfileRequest) => profileApi.updateProfile(data),
+    mutationFn: (data: UpdateProfileReq) => profileApi.updateProfile(data),
     onSuccess: user => setUser(user),
   })
 }
 
 export function useChangePassword() {
   return useMutation({
-    mutationFn: (data: ChangePasswordRequest) => profileApi.changePassword(data),
+    mutationFn: (data: ChangePasswordReq) => profileApi.changePassword(data),
   })
 }
 

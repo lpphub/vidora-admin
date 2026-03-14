@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { LoginRequest, User } from '@/features/auth/types'
+import type { LoginReq, User } from '@/features/auth/types'
 import { useAuthStore } from '@/shared/stores/auth'
 import { authApi } from '../api'
 
@@ -30,7 +30,7 @@ export function useAuth() {
 export function useLogin() {
   const { login } = useAuth()
   return useMutation({
-    mutationFn: (data: LoginRequest) => authApi.login(data),
+    mutationFn: (data: LoginReq) => authApi.login(data),
     onSuccess: data => login(data),
   })
 }

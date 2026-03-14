@@ -8,12 +8,12 @@ export interface User {
   createdAt?: string
 }
 
-export interface LoginRequest {
+export interface LoginReq {
   email: string
   password: string
 }
 
-export interface AuthData {
+export interface AuthResp {
   user: User
   accessToken: string
   refreshToken: string

@@ -1,5 +1,5 @@
 import { delay, HttpResponse, http } from 'msw'
-import type { AuthData, LoginRequest, User } from '@/features/auth/types'
+import type { AuthResp, LoginReq, User } from '@/features/auth/types'
 import type { ApiResponse } from '@/lib/api'
 import { generateToken, getEmailByToken, removeToken, storeToken, users } from '../db'
 
@@ -17,7 +17,7 @@ function error(message: string, code = 400): ApiResponse<null> {
 
 export const authHandlers = [
   // 登录
-  http.post<never, LoginRequest, ApiResponse<AuthData | null>>(
+  http.post<never, LoginReq, ApiResponse<AuthResp | null>>(
     `${API_BASE}/auth/login`,
     async ({ request }) => {
       await delay(500)
