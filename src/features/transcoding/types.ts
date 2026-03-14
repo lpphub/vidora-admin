@@ -24,6 +24,7 @@ export interface TranscodingTask {
 }
 
 export interface TranscodingListParams {
+  videoId?: string
   status?: TranscodingStatus
   type?: TranscodingType
 }

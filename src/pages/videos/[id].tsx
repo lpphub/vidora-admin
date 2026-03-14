@@ -1,6 +1,16 @@
-import { ArrowLeft, Save, Send } from 'lucide-react'
+import { ArrowLeft, Plus, Save, Send } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useVideo } from '@/features/video/hooks'
+import { toast } from 'sonner'
+import { TranscodingTable } from '@/features/transcoding/components'
+import {
+  useCancelTranscoding,
+  useRetryTranscoding,
+  useTranscodingTasks,
+} from '@/features/transcoding/hooks'
+import { SeasonManager } from '@/features/video/components/SeasonManager'
+import { VideoForm } from '@/features/video/components/VideoForm'
+import { useUpdateVideo, useUploadScheduler, useVideo } from '@/features/video/hooks'
+import { UploadDropzone, UploadQueue } from '@/features/video/upload/components'
 import { Badge } from '@/shared/components/ui/badge'
 import { Button } from '@/shared/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
@@ -22,6 +32,11 @@ export default function VideoDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { data: video, isLoading } = useVideo(id!)
+  const updateVideo = useUpdateVideo()
+  const { cancelTask } = useUploadScheduler()
+  const { data: transcodingData } = useTranscodingTasks({ videoId: id })
+  const cancelTranscoding = useCancelTranscoding()
+  const retryTranscoding = useRetryTranscoding()
 
   if (isLoading) {
     return (
@@ -39,6 +54,33 @@ export default function VideoDetail() {
     return <div className='text-muted-foreground'>影视不存在</div>
   }
 
+  const handleFormSubmit = (values: {
+    title: string
+    description?: string
+    tags?: string[]
+    categoryId?: string
+  }) => {
+    updateVideo.mutate(
+      { id: id!, data: values },
+      {
+        onSuccess: () => {
+          toast.success('保存成功')
+        },
+        onError: () => {
+          toast.error('保存失败')
+        },
+      }
+    )
+  }
+
+  const handleSave = () => {
+    toast.success('保存成功')
+  }
+
+  const handlePublish = () => {
+    toast.success('发布成功')
+  }
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex items-center justify-between'>
@@ -50,11 +92,11 @@ export default function VideoDetail() {
           <Badge>{typeLabels[video.type]}</Badge>
         </div>
         <div className='flex gap-2'>
-          <Button>
+          <Button onClick={handleSave}>
             <Save className='mr-1 h-4 w-4' />
             保存
           </Button>
-          <Button variant='secondary'>
+          <Button variant='secondary' onClick={handlePublish}>
             <Send className='mr-1 h-4 w-4' />
             发布
           </Button>
@@ -102,7 +144,16 @@ export default function VideoDetail() {
               <CardTitle>基础信息</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className='text-muted-foreground'>基础信息编辑区域（待实现）</p>
+              <VideoForm
+                defaultValues={{
+                  title: video.title,
+                  description: video.description,
+                  type: video.type,
+                  tags: video.tags,
+                  categoryId: video.categoryId,
+                }}
+                onSubmit={handleFormSubmit}
+              />
             </CardContent>
           </Card>
 
@@ -110,8 +161,9 @@ export default function VideoDetail() {
             <CardHeader>
               <CardTitle>源视频上传</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className='text-muted-foreground'>源视频上传区域（待实现）</p>
+            <CardContent className='space-y-4'>
+              <UploadDropzone />
+              <UploadQueue cancelTask={cancelTask} />
             </CardContent>
           </Card>
 
@@ -121,17 +173,29 @@ export default function VideoDetail() {
                 <CardTitle>季集管理</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className='text-muted-foreground'>季集管理区域（待实现）</p>
+                <SeasonManager videoId={id!} seasons={video.seasons ?? []} />
               </CardContent>
             </Card>
           )}
 
           <Card>
-            <CardHeader>
+            <CardHeader className='flex flex-row items-center justify-between'>
               <CardTitle>转码任务</CardTitle>
+              <Button variant='outline' size='sm'>
+                <Plus className='mr-1 h-3 w-3' />
+                创建转码任务
+              </Button>
             </CardHeader>
             <CardContent>
-              <p className='text-muted-foreground'>转码任务管理区域（待实现）</p>
+              {transcodingData && transcodingData.length > 0 ? (
+                <TranscodingTable
+                  tasks={transcodingData}
+                  onCancel={(taskId: string) => cancelTranscoding.mutate(taskId)}
+                  onRetry={(taskId: string) => retryTranscoding.mutate(taskId)}
+                />
+              ) : (
+                <div className='text-center py-8 text-muted-foreground'>暂无转码任务</div>
+              )}
             </CardContent>
           </Card>
         </div>

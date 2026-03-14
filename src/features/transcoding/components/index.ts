@@ -1,0 +1,1 @@
+export { TranscodingTable } from './TranscodingTable'
