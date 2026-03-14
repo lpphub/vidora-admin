@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { type PersistStorage, persist } from 'zustand/middleware'
-import type { LanguageCode } from '@/locales'
 import { StorageKey } from '@/shared/lib/constants'
+import type { LanguageCode } from '@/shared/locales'
 
 export interface LocaleState {
   language: LanguageCode
