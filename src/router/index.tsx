@@ -9,9 +9,9 @@ const Auth = lazy(() => import('@/features/auth'))
 const Categories = lazy(() => import('@/features/categories'))
 const Dashboard = lazy(() => import('@/features/dashboard'))
 const Profile = lazy(() => import('@/features/profile'))
-const Permissions = lazy(() => import('@/features/permissions'))
-const Roles = lazy(() => import('@/features/roles'))
-const Users = lazy(() => import('@/features/users'))
+const Permissions = lazy(() => import('@/features/system/permissions'))
+const Roles = lazy(() => import('@/features/system/roles'))
+const Users = lazy(() => import('@/features/system/users'))
 const Tags = lazy(() => import('@/features/tags'))
 
 const router = createBrowserRouter([
