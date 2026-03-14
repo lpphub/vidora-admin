@@ -1,8 +1,7 @@
 import { delay, HttpResponse, http } from 'msw'
 import type { Tag } from '@/features/tag/types'
-import { env } from '@/shared/utils/env'
 
-const API_URL = env.API_BASE_URL
+const API_BASE = '/api'
 
 const tags: Tag[] = [
   {
@@ -50,7 +49,7 @@ const tags: Tag[] = [
 ]
 
 export const tagHandlers = [
-  http.get(`${API_URL}tags`, async () => {
+  http.get(`${API_BASE}/tags`, async () => {
     await delay(200)
     return HttpResponse.json({
       code: 0,
@@ -59,7 +58,7 @@ export const tagHandlers = [
     })
   }),
 
-  http.get(`${API_URL}tags/:id`, async ({ params }) => {
+  http.get(`${API_BASE}/tags/:id`, async ({ params }) => {
     await delay(100)
     const tag = tags.find(t => t.id === params.id)
     if (!tag) {
@@ -68,7 +67,7 @@ export const tagHandlers = [
     return HttpResponse.json({ code: 0, message: 'success', data: tag })
   }),
 
-  http.post(`${API_URL}tags`, async ({ request }) => {
+  http.post(`${API_BASE}/tags`, async ({ request }) => {
     await delay(300)
     const body = (await request.json()) as Partial<Tag>
     const newTag: Tag = {
@@ -82,7 +81,7 @@ export const tagHandlers = [
     return HttpResponse.json({ code: 0, message: 'success', data: newTag })
   }),
 
-  http.put(`${API_URL}tags/:id`, async ({ params, request }) => {
+  http.put(`${API_BASE}/tags/:id`, async ({ params, request }) => {
     await delay(300)
     const id = params.id as string
     const index = tags.findIndex(t => t.id === id)
@@ -94,7 +93,7 @@ export const tagHandlers = [
     return HttpResponse.json({ code: 0, message: 'success', data: tags[index] })
   }),
 
-  http.delete(`${API_URL}tags/:id`, async ({ params }) => {
+  http.delete(`${API_BASE}/tags/:id`, async ({ params }) => {
     await delay(200)
     const id = params.id as string
     const index = tags.findIndex(t => t.id === id)
