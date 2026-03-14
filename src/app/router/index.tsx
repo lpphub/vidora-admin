@@ -1,15 +1,15 @@
 import { lazy } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { NotFound, ServerError, Unauthorized } from '@/pages/base/ErrorPages'
+import { NotFound, ServerError, Unauthorized } from '@/pages/base/ErrorPage'
 import MainLayout from '@/shared/components/layout'
 import { AuthGuard } from './guard'
 
 const Auth = lazy(() => import('@/pages/Auth'))
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
 const Profile = lazy(() => import('@/pages/Profile'))
-const Permissions = lazy(() => import('@/pages/Permissions'))
-const Roles = lazy(() => import('@/pages/Roles'))
-const Users = lazy(() => import('@/pages/Users'))
+const Permissions = lazy(() => import('@/pages/system/Permissions'))
+const Roles = lazy(() => import('@/pages/system/Roles'))
+const Users = lazy(() => import('@/pages/system/Users'))
 const Tags = lazy(() => import('@/pages/Tags'))
 const VideoLibrary = lazy(() => import('@/pages/video/Library'))
 const VideoTranscoding = lazy(() => import('@/pages/video/Transcoding'))

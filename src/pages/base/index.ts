@@ -1,2 +1,2 @@
-export * from './ErrorPages'
+export * from './ErrorPage'
 export * from './SkeletonPage'

@@ -37,7 +37,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/shared/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs'
 import { Textarea } from '@/shared/components/ui/textarea'
-import { formatBitrate, formatDate, formatDuration, formatFileSize } from '@/shared/lib/format'
+import { formatBitrate, formatDate, formatDuration, formatFileSize } from '@/shared/utils/format'
 import { TranscodingPanel } from './TranscodingPanel'
 
 const videoSchema = z.object({
