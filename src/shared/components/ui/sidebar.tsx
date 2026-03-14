@@ -4,6 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { PanelLeftIcon } from 'lucide-react'
 import { Slot } from 'radix-ui'
 import * as React from 'react'
+import { cn } from '@/lib/utils'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { Separator } from '@/shared/components/ui/separator'
@@ -17,7 +18,6 @@ import {
 import { Skeleton } from '@/shared/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/components/ui/tooltip'
 import { down, useMediaQuery } from '@/shared/hooks/useMediaQuery'
-import { cn } from '@/shared/lib/utils'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

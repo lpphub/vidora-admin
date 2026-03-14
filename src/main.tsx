@@ -1,18 +1,11 @@
-import { QueryClientProvider } from '@tanstack/react-query'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { queryClient } from '@/shared/lib/query'
-import '@/shared/locales/i18n'
-import { startMsw } from '@/mocks/browser'
-import App from './App'
-import './index.css'
-
-await startMsw()
+import '@/app/providers/i18n'
+import App from '@/app/App'
+import '@/styles/globals.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <App />
   </StrictMode>
 )

@@ -1,4 +1,3 @@
-// 用户类型
 export interface User {
   id: number
   username: string
@@ -8,13 +7,11 @@ export interface User {
   createdAt?: string
 }
 
-// 登录请求
 export interface LoginRequest {
   email: string
   password: string
 }
 
-// 认证数据
 export interface AuthData {
   user: User
   accessToken: string

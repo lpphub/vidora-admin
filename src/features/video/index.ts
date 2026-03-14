@@ -6,4 +6,4 @@ export type {
   Video,
   VideoStatus,
   VideoType,
-} from './types'
+} from '@/shared/types/video'

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { StorageKey } from '@/shared/lib/constants'
-import type { User } from './types'
+import { StorageKey } from '@/lib/constants'
+import type { User } from '@/shared/types/user'
 
 export interface AuthState {
   user: User | null

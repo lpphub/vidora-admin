@@ -1,6 +1,6 @@
 import { delay, HttpResponse, http } from 'msw'
-import type { AuthData, LoginRequest, User } from '@/features/auth/types'
-import type { ApiResponse } from '@/shared/lib/api'
+import type { ApiResponse } from '@/lib/api'
+import type { AuthData, LoginRequest, User } from '@/shared/types/user'
 import { generateToken, getEmailByToken, removeToken, storeToken, users } from '../db'
 
 const API_BASE = '/api'

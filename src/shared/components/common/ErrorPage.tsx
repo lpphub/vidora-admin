@@ -1,7 +1,7 @@
 import { SearchX, ServerCrash, ShieldX } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { cn } from '@/lib/utils'
 import { Button } from '@/shared/components/ui/button'
-import { cn } from '@/shared/lib/utils'
 
 interface ErrorPageProps {
   code: string

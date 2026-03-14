@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { apiClient } from '@/shared/lib/api'
+import { apiClient } from '@/lib/api'
 
 export interface UploadProgress {
   loaded: number
