@@ -61,7 +61,7 @@ export function RoleFormSheet({ open, onOpenChange, role, onSubmit }: RoleFormSh
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className='w-100 sm:w-135'>
+      <SheetContent className='w-80 sm:w-100'>
         <SheetHeader>
           <SheetTitle>{role ? t('form.editTitle') : t('form.addTitle')}</SheetTitle>
         </SheetHeader>
