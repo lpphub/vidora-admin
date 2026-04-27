@@ -1,5 +1,7 @@
+import { NextResponse } from 'next/server'
+
 export async function POST() {
-  const response = Response.json({ code: 0, message: 'success' })
+  const response = NextResponse.json({ code: 0, message: 'success' })
 
   response.cookies.set({
     name: 'accessToken',

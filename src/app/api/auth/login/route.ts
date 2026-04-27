@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server'
+
 const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
 
 export async function POST(request: Request) {
@@ -7,7 +9,7 @@ export async function POST(request: Request) {
     // Dev mock: simulate successful login
     const { email, password } = body
     if (email === 'admin@vidora.com' && password === 'admin123') {
-      const response = Response.json({
+      const response = NextResponse.json({
         code: 0,
         message: 'success',
         data: {
@@ -41,7 +43,7 @@ export async function POST(request: Request) {
       })
       return response
     }
-    return Response.json({ code: 401, message: '邮箱或密码错误' }, { status: 401 })
+    return NextResponse.json({ code: 401, message: '邮箱或密码错误' }, { status: 401 })
   }
 
   // Production: proxy to real backend
@@ -53,10 +55,10 @@ export async function POST(request: Request) {
   const data = await res.json()
 
   if (data.code !== 0) {
-    return Response.json(data, { status: res.status })
+    return NextResponse.json(data, { status: res.status })
   }
 
-  const response = Response.json(data)
+  const response = NextResponse.json(data)
   response.cookies.set({
     name: 'accessToken',
     value: data.data.accessToken,
