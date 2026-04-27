@@ -1,15 +1,17 @@
+'use client'
+
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import type { Tag } from '@/features/tag'
 import { TagFormSheet, TagSearchBar, TagTable } from '@/features/tag'
-import { useCreateTag, useDeleteTag, useTags, useUpdateTag } from '@/features/tag/hooks/useTag'
-import { Button } from '@/shared/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
+import { useCreateTag, useDeleteTag, useTags, useUpdateTag } from '@/features/tag/hooks'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Tags() {
-  const { t } = useTranslation('tags')
+  const t = useTranslations('tags')
   const [search, setSearch] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingTag, setEditingTag] = useState<Tag | null>(null)

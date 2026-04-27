@@ -1,28 +1,21 @@
+'use client'
+
 import { Plus, Search } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import type { Permission, PermissionType } from '@/features/system/permissions'
-import {
-  mockPermissions,
-  PermissionFormSheet,
-  PermissionTable,
-} from '@/features/system/permissions'
-import { Button } from '@/shared/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
-import { Input } from '@/shared/components/ui/input'
+import { useTranslations } from 'next-intl'
+import { mockRoles, type Role, RoleFormSheet, RoleTable } from '@/features/system/roles'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 
-export default function Permissions() {
-  const { t } = useTranslation('permissions')
+export default function Roles() {
+  const t = useTranslations('roles')
   const [search, setSearch] = useState('')
   const [searchLower, setSearchLower] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [editingPermission, setEditingPermission] = useState<Permission | null>(null)
+  const [editingRole, setEditingRole] = useState<Role | null>(null)
 
-  const filteredPermissions = mockPermissions.filter(
-    permission =>
-      permission.name.toLowerCase().includes(searchLower) ||
-      permission.code.toLowerCase().includes(searchLower)
-  )
+  const filteredRoles = mockRoles.filter(role => role.name.toLowerCase().includes(searchLower))
 
   const handleSearchChange = (value: string) => {
     setSearch(value)
@@ -30,22 +23,17 @@ export default function Permissions() {
   }
 
   const handleAdd = () => {
-    setEditingPermission(null)
+    setEditingRole(null)
     setSheetOpen(true)
   }
 
-  const handleEdit = (permission: Permission) => {
-    setEditingPermission(permission)
+  const handleEdit = (role: Role) => {
+    setEditingRole(role)
     setSheetOpen(true)
   }
 
-  const handleSubmit = (values: {
-    name: string
-    code: string
-    type: PermissionType
-    status: boolean
-  }) => {
-    console.log('Save:', { ...values, id: editingPermission?.id })
+  const handleSubmit = (values: { name: string; description?: string; permissions: string[] }) => {
+    console.log('Save:', { ...values, id: editingRole?.id })
     setSheetOpen(false)
   }
 
@@ -71,15 +59,14 @@ export default function Permissions() {
               />
             </div>
           </div>
-
-          <PermissionTable permissions={filteredPermissions} onEdit={handleEdit} />
+          <RoleTable roles={filteredRoles} onEdit={handleEdit} />
         </CardContent>
       </Card>
 
-      <PermissionFormSheet
+      <RoleFormSheet
         open={sheetOpen}
         onOpenChange={setSheetOpen}
-        permission={editingPermission}
+        role={editingRole}
         onSubmit={handleSubmit}
       />
     </div>

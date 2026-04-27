@@ -1,10 +1,12 @@
+'use client'
+
 import { ArrowDown, ArrowUp, Film, Plus, TrendingUp, Users, Video } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Chart, useChart } from '@/shared/components/chart'
-import { Button } from '@/shared/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
-import { Progress } from '@/shared/components/ui/progress'
+import { useTranslations } from 'next-intl'
+import { Chart, useChart } from '@/components/chart'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
 
 function rgbAlpha(color: string, alpha: number): string {
   const hex = color.replace('#', '')
@@ -107,7 +109,8 @@ function SparklineChart({ color }: { color: string }) {
 }
 
 export default function Dashboard() {
-  const { t } = useTranslation('dashboard')
+  const t = useTranslations('dashboard')
+  const common = useTranslations('common')
   const [activeTab, setActiveTab] = useState(t('tabs.all'))
 
   const monthlyRevenue = {
@@ -309,9 +312,9 @@ export default function Dashboard() {
           </div>
           <div className='flex items-center justify-between mt-4 gap-2'>
             <Button variant='outline' className='flex-1'>
-              {t('actions.viewAll', { ns: 'common' })}
+              {common('actions.viewAll')}
             </Button>
-            <Button className='flex-1'>{t('actions.createNew', { ns: 'common' })}</Button>
+            <Button className='flex-1'>{common('actions.createNew')}</Button>
           </div>
         </Card>
         <Card className='flex flex-col p-6'>

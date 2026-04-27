@@ -1,11 +1,13 @@
+'use client'
+
 import { Key, User } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { useTranslations } from 'next-intl'
 import General from '@/features/profile/components/General'
 import Security from '@/features/profile/components/Security'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 function Profile() {
-  const { t } = useTranslation('profile')
+  const t = useTranslations('profile')
 
   return (
     <div className='p-6'>

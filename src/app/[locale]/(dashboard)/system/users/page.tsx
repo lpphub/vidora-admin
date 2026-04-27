@@ -1,6 +1,8 @@
+'use client'
+
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslations } from 'next-intl'
 import {
   UserFormSheet,
   type UserFormValues,
@@ -8,11 +10,11 @@ import {
   UserTable,
 } from '@/features/system/users'
 import { MOCK_USERS, type User } from '@/features/system/users/types'
-import { Button } from '@/shared/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Users() {
-  const { t } = useTranslation('users')
+  const t = useTranslations('users')
   const [searchLower, setSearchLower] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingUser, setEditingUser] = useState<User | null>(null)
