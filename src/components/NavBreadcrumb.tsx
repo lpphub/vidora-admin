@@ -1,9 +1,12 @@
+'use client'
+
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
-import { useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link, useMatches } from 'react-router-dom'
-import { NAVIGATION_CONFIG, type NavItem } from '@/shared/components/layout/Sidebar'
+import { useMemo } from 'react'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { NAVIGATION_CONFIG, type NavItem } from '@/components/layout/Sidebar'
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -12,13 +15,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/shared/components/ui/breadcrumb'
+} from '@/components/ui/breadcrumb'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/shared/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu'
 
 interface BreadcrumbItemData {
   key: string
@@ -33,9 +36,32 @@ interface NavBreadcrumbProps {
   maxItems?: number
 }
 
+function findBreadcrumbPath(pathname: string, items: NavItem[]): BreadcrumbItemData[] {
+  for (const item of items) {
+    if (item.path === pathname) {
+      const children = item.children?.map(child => ({
+        key: child.path,
+        title: child.title,
+      })) ?? []
+      return [{ key: item.path, title: item.title, items: children }]
+    }
+    if (item.children) {
+      const found = findBreadcrumbPath(pathname, item.children)
+      if (found.length > 0) {
+        const children = item.children?.map(child => ({
+          key: child.path,
+          title: child.title,
+        })) ?? []
+        return [{ key: item.path, title: item.title, items: children }, ...found]
+      }
+    }
+  }
+  return []
+}
+
 export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
-  const { t } = useTranslation('sidebar')
-  const matches = useMatches()
+  const t = useTranslations('sidebar')
+  const pathname = usePathname()
 
   // Flatten all nav items from groups
   const allNavItems = useMemo(() => {
@@ -48,45 +74,12 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
     return items
   }, [])
 
-  const findPathInNavData = useCallback((path: string, items: NavItem[]): NavItem[] => {
-    for (const item of items) {
-      if (item.path === path) {
-        return [item]
-      }
-      if (item.children) {
-        const found = findPathInNavData(path, item.children)
-        if (found.length > 0) {
-          return [item, ...found]
-        }
-      }
-    }
-    return []
-  }, [])
-
   const breadcrumbs = useMemo(() => {
-    const paths = matches.filter(item => item.pathname !== '/').map(item => item.pathname)
-
-    return paths
-      .map(path => {
-        const pathItems = findPathInNavData(path, allNavItems)
-
-        if (pathItems.length === 0) return null
-
-        const currentItem = pathItems[pathItems.length - 1]
-        const children =
-          currentItem.children?.map(child => ({
-            key: child.path,
-            title: child.title,
-          })) ?? []
-
-        return {
-          key: currentItem.path,
-          title: currentItem.title,
-          items: children,
-        }
-      })
-      .filter((item): item is BreadcrumbItemData => item !== null)
-  }, [matches, findPathInNavData, allNavItems])
+    // Remove locale prefix from pathname for matching
+    const pathParts = pathname.split('/').filter(Boolean)
+    const cleanPath = pathParts.length > 1 ? '/' + pathParts.slice(1).join('/') : '/'
+    return findBreadcrumbPath(cleanPath, allNavItems)
+  }, [pathname, allNavItems])
 
   const renderBreadcrumbItem = (item: BreadcrumbItemData, isLast: boolean) => {
     const hasItems = item.items && item.items.length > 0
@@ -102,7 +95,7 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
             <DropdownMenuContent align='start'>
               {item.items.map(subItem => (
                 <DropdownMenuItem key={subItem.key} asChild>
-                  <Link to={subItem.key}>{t(subItem.title)}</Link>
+                  <Link href={subItem.key}>{t(subItem.title)}</Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -117,7 +110,7 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
           <BreadcrumbPage>{t(item.title)}</BreadcrumbPage>
         ) : (
           <BreadcrumbLink asChild>
-            <Link to={item.key}>{t(item.title)}</Link>
+            <Link href={item.key}>{t(item.title)}</Link>
           </BreadcrumbLink>
         )}
       </BreadcrumbItem>
@@ -134,7 +127,6 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
       ))
     }
 
-    // Show first item, ellipsis, and last maxItems-1 items
     const firstItem = breadcrumbs[0]
     const lastItems = breadcrumbs.slice(-(maxItems - 1))
     const hiddenItems = breadcrumbs.slice(1, -(maxItems - 1))
@@ -151,7 +143,7 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
             <DropdownMenuContent align='start'>
               {hiddenItems.map(item => (
                 <DropdownMenuItem key={item.key} asChild>
-                  <Link to={item.key}>{t(item.title)}</Link>
+                  <Link href={item.key}>{t(item.title)}</Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

@@ -1,25 +1,34 @@
+'use client'
+
 import { LogOut, Settings, User } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar'
-import { Button } from '@/shared/components/ui/button'
+import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/shared/components/ui/dropdown-menu'
-import { useAuthStore } from '@/shared/stores/auth'
+} from '@/components/ui/dropdown-menu'
 
 export function UserDropdown() {
-  const { t } = useTranslation('common')
-  const navigate = useNavigate()
-  const { user, logout } = useAuthStore()
+  const t = useTranslations('common')
+  const router = useRouter()
+  const [user, setUser] = useState<{ username: string; email: string } | null>(null)
 
-  const handleLogout = () => {
-    logout()
-    navigate('/login')
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => { if (data.code === 0) setUser(data.data) })
+      .catch(() => {})
+  }, [])
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/login')
   }
 
   const userInitial = user?.username?.charAt(0).toUpperCase() || null
@@ -48,7 +57,7 @@ export function UserDropdown() {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate('/profile')}>
+        <DropdownMenuItem onClick={() => router.push('/profile')}>
           <Settings size={16} className='mr-2' />
           {t('user.settings')}
         </DropdownMenuItem>

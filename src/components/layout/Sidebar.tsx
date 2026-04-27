@@ -6,7 +6,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/shared/components/ui/collapsible'
+} from '@/components/ui/collapsible'
 import {
   Sidebar,
   SidebarContent,
@@ -21,8 +21,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from '@/shared/components/ui/sidebar'
-import { TooltipProvider } from '@/shared/components/ui/tooltip'
+} from '@/components/ui/sidebar'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 export interface NavItem {
   title: string

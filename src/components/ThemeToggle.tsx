@@ -1,6 +1,8 @@
+'use client'
+
 import { Moon, Sun } from 'lucide-react'
-import { Button } from '@/shared/components/ui/button'
-import { useThemeMode, useToggleTheme } from '@/shared/stores/theme'
+import { Button } from '@/components/ui/button'
+import { useThemeMode, useToggleTheme } from '@/stores/theme'
 
 interface ThemeToggleProps {
   className?: string

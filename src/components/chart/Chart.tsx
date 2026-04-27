@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import type { Props as ApexChartProps } from 'react-apexcharts'
-import { Skeleton } from '@/shared/components/ui/skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const ApexChart = lazy(() => import('react-apexcharts'))
 
