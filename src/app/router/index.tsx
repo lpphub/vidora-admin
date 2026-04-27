@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { NotFound, ServerError, Unauthorized } from '@/pages/base'
-import MainLayout from '@/shared/components/layout'
+import MainLayout from '@/components/layout'
 import { AuthGuard } from './guard'
 
 const Auth = lazy(() => import('@/pages/Auth'))

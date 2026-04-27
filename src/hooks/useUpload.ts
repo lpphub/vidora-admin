@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { apiClient } from '@/lib/api'
 
 export interface UploadProgress {
   loaded: number
@@ -45,11 +44,12 @@ export function useUpload() {
     )
 
     try {
-      const response = await apiClient
-        .post('/upload', {
-          body: uploadFile.file,
-        })
-        .json<{ url: string }>()
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadFile.file,
+      })
+      const data = await res.json()
+      const response: { url: string } = data.data
 
       setFiles(prev =>
         prev.map(f =>

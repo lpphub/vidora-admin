@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Input } from '@/shared/components/ui/input'
+import { Input } from '@/components/ui/input'
 
 interface UserSearchBarProps {
   value: string
