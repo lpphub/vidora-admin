@@ -1,4 +1,4 @@
-import { BACKEND_URL } from './constants'
+const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
 
 export async function POST(request: Request) {
   const body = await request.json()
