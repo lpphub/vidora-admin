@@ -1,3 +1,5 @@
+import type { NextRequest } from 'next/server'
+
 const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
 
 const MOCK_TAGS = [
@@ -6,7 +8,7 @@ const MOCK_TAGS = [
   { id: '3', name: '科幻', color: '#3b82f6', usageCount: 64, createdAt: '2024-02-10' },
 ]
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   if (process.env.NODE_ENV === 'development') {
     return Response.json({ code: 0, message: 'success', data: MOCK_TAGS })
   }
@@ -18,7 +20,7 @@ export async function GET(request: Request) {
   return Response.json(await res.json(), { status: res.status })
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const body = await request.json()
 
   if (process.env.NODE_ENV === 'development') {

@@ -1,6 +1,8 @@
+import type { NextRequest } from 'next/server'
+
 const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
 
-export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const body = await request.json()
 
@@ -17,7 +19,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   return Response.json(await res.json(), { status: res.status })
 }
 
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   if (process.env.NODE_ENV === 'development') {
     return Response.json({ code: 0, message: 'success', data: null })

@@ -11,6 +11,8 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  // Log error in development
+  if (process.env.NODE_ENV === 'development') console.error(error)
   return (
     <div className='min-h-svh flex items-center justify-center bg-background p-4'>
       <div className='relative w-full max-w-md'>

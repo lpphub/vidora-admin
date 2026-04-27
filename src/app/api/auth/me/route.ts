@@ -1,6 +1,8 @@
+import type { NextRequest } from 'next/server'
+
 const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value
 
   if (!accessToken) {

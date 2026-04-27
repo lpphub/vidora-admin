@@ -1,6 +1,6 @@
 const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
 
-async function handleProxy(request: Request, { params }: { params: Promise<{ path: string[] }> }) {
+async function handleProxy(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params
   const pathname = path.join('/')
 
