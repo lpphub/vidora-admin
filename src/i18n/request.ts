@@ -1,7 +1,8 @@
 import { getRequestConfig } from 'next-intl/server'
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  const locale = await requestLocale
+  const requested = await requestLocale
+  const locale = requested ?? 'zh'
 
   const messages = {
     common: (await import(`@/messages/${locale}/common.json`)).default,
