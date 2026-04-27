@@ -1,0 +1,1 @@
+export const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'

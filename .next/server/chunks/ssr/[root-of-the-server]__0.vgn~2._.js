@@ -1,0 +1,3 @@
+module.exports=[25040,a=>a.a(async(b,c)=>{try{var d=a.i(8171),e=a.i(2736),f=b([e]);[e]=f.then?(await f)():f,a.s(["Skeleton",0,function({className:a,...b}){return(0,d.jsx)("div",{"data-slot":"skeleton",className:(0,e.cn)("animate-pulse rounded-none bg-muted",a),...b})}]),c()}catch(a){c(a)}},!1),22350,a=>a.a(async(b,c)=>{try{let b=await a.y("sonner-41b6cfc5e3bc69bc");a.n(b),c()}catch(a){c(a)}},!0),19565,a=>a.a(async(b,c)=>{try{let b=await a.y("@tanstack/react-query-2546eb1e8333a922");a.n(b),c()}catch(a){c(a)}},!0)];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__0.vgn~2._.js.map
