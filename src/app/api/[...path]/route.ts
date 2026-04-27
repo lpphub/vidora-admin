@@ -1,3 +1,5 @@
+import type { NextRequest } from 'next/server'
+
 const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
 
 async function handleProxy(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
