@@ -1,6 +1,7 @@
 import { ChevronRight, Key, LayoutDashboard, Settings, Shield, Tag, Users } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from 'react-router-dom'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   Collapsible,
   CollapsibleContent,
@@ -70,8 +71,8 @@ function isChildActive(item: NavItem, pathname: string): boolean {
 }
 
 export function AppSidebar() {
-  const { t } = useTranslation('sidebar')
-  const location = useLocation()
+  const t = useTranslations('sidebar')
+  const pathname = usePathname()
 
   return (
     <TooltipProvider>
@@ -80,7 +81,7 @@ export function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size='lg' asChild>
-                <Link to='/'>
+                <Link href='/'>
                   <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground'>
                     <span className='text-sm font-bold'>V</span>
                   </div>
@@ -97,7 +98,7 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {group.items.map(item => (
-                    <NavItemComponent key={item.path} item={item} location={location} t={t} />
+                    <NavItemComponent key={item.path} item={item} pathname={pathname} t={t} />
                   ))}
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -112,17 +113,17 @@ export function AppSidebar() {
 
 function NavItemComponent({
   item,
-  location,
+  pathname,
   t,
 }: {
   item: NavItem
-  location: ReturnType<typeof useLocation>
+  pathname: string
   t: (key: string) => string
 }) {
   const hasChildren = item.children && item.children.length > 0
-  const childActive = isChildActive(item, location.pathname)
+  const childActive = isChildActive(item, pathname)
   const isParentActive =
-    location.pathname === item.path || location.pathname.startsWith(`${item.path}/`)
+    pathname === item.path || pathname.startsWith(`${item.path}/`)
   const isActive = hasChildren ? childActive : isParentActive
 
   if (hasChildren) {
@@ -140,8 +141,8 @@ function NavItemComponent({
             <SidebarMenuSub>
               {item.children!.map(child => (
                 <SidebarMenuSubItem key={child.path}>
-                  <SidebarMenuSubButton asChild isActive={location.pathname === child.path}>
-                    <Link to={child.path}>
+                  <SidebarMenuSubButton asChild isActive={pathname === child.path}>
+                    <Link href={child.path}>
                       {child.icon}
                       <span>{t(child.title)}</span>
                     </Link>
@@ -158,7 +159,7 @@ function NavItemComponent({
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive} tooltip={t(item.title)}>
-        <Link to={item.path}>
+        <Link href={item.path}>
           {item.icon}
           <span>{t(item.title)}</span>
         </Link>
