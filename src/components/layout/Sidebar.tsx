@@ -1,3 +1,5 @@
+'use client'
+
 import { ChevronRight, Key, LayoutDashboard, Settings, Shield, Tag, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'

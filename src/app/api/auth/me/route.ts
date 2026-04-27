@@ -1,4 +1,4 @@
-import { BACKEND_URL } from './_constants'
+import { BACKEND_URL } from './constants'
 
 export async function GET(request: Request) {
   const accessToken = request.cookies.get('accessToken')?.value

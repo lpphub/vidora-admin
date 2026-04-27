@@ -1,4 +1,4 @@
-import { BACKEND_URL } from './_constants'
+import { BACKEND_URL } from './constants'
 
 export async function POST(request: Request) {
   const body = await request.json()
