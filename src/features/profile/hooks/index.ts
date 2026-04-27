@@ -1,25 +1,31 @@
 import { useMutation } from '@tanstack/react-query'
-import { useAuthStore } from '@/shared/stores/auth'
-import { type ChangePasswordReq, profileApi, type UpdateProfileReq } from '../api'
+import { bff } from '@/lib/bff'
+import type { User } from '@/features/auth/types'
+
+export interface UpdateProfileReq {
+  username: string
+  about?: string
+}
+
+export interface ChangePasswordReq {
+  oldPassword: string
+  newPassword: string
+}
 
 export function useUpdateProfile() {
-  const setUser = useAuthStore(s => s.setUser)
   return useMutation({
-    mutationFn: (data: UpdateProfileReq) => profileApi.updateProfile(data),
-    onSuccess: user => setUser(user),
+    mutationFn: (data: UpdateProfileReq) => bff.patch<User>('profile', data),
   })
 }
 
 export function useChangePassword() {
   return useMutation({
-    mutationFn: (data: ChangePasswordReq) => profileApi.changePassword(data),
+    mutationFn: (data: ChangePasswordReq) => bff.post<void>('profile/password', data),
   })
 }
 
 export function useDeleteAccount() {
-  const logout = useAuthStore(s => s.logout)
   return useMutation({
-    mutationFn: () => profileApi.deleteAccount(),
-    onSuccess: () => logout(),
+    mutationFn: () => bff.delete<void>('profile'),
   })
 }
