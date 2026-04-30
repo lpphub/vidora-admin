@@ -1,0 +1,47 @@
+{
+	"title": "权限管理",
+	"search": {
+		"placeholder": "搜索权限名称或标识"
+	},
+	"table": {
+		"name": "权限名称",
+		"code": "权限标识",
+		"type": "类型",
+		"status": "状态",
+		"createdAt": "创建时间",
+		"actions": "操作"
+	},
+	"form": {
+		"addTitle": "新增权限",
+		"editTitle": "编辑权限",
+		"name": "权限名称",
+		"namePlaceholder": "请输入权限名称",
+		"nameRequired": "请输入权限名称",
+		"code": "权限标识",
+		"codePlaceholder": "请输入权限标识，如 user:create",
+		"codeRequired": "请输入权限标识",
+		"type": "权限类型",
+		"typePlaceholder": "请选择权限类型",
+		"status": "状态"
+	},
+	"type": {
+		"menu": "菜单",
+		"button": "按钮",
+		"api": "接口"
+	},
+	"status": {
+		"enabled": "启用",
+		"disabled": "禁用"
+	},
+	"actions": {
+		"edit": "编辑",
+		"delete": "删除",
+		"deleteConfirm": "确定要删除该权限吗？"
+	},
+	"permNames": {
+		"userRead": "用户查看",
+		"userCreate": "用户新增",
+		"userDelete": "用户删除",
+		"roleManage": "角色管理"
+	}
+}

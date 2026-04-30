@@ -13,14 +13,10 @@
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
-		"@tailwindcss/vite": "^4.2.1",
 		"@tanstack/react-query": "^5.90.21",
 		"apexcharts": "^5.10.1",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
-		"i18next": "^25.8.14",
-		"i18next-browser-languagedetector": "^8.2.1",
-		"ky": "^1.14.3",
 		"lucide-react": "^0.576.0",
 		"next": "^16.2.4",
 		"next-intl": "^4.9.1",
@@ -30,8 +26,6 @@
 		"react-dom": "^19.2.4",
 		"react-dropzone": "^15.0.0",
 		"react-hook-form": "^7.71.2",
-		"react-i18next": "^16.5.5",
-		"react-router-dom": "^7.13.1",
 		"sonner": "^2.0.7",
 		"tailwind-merge": "^3.5.0",
 		"tailwindcss": "^4.2.1",
@@ -44,14 +38,6 @@
 		"@types/node": "^24.11.2",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"@vitejs/plugin-react": "^5.1.4",
-		"msw": "^2.12.10",
-		"typescript": "~5.9.3",
-		"vite": "^7.3.1"
-	},
-	"msw": {
-		"workerDirectory": [
-			"public"
-		]
+		"typescript": "~5.9.3"
 	}
 }

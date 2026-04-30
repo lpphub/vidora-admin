@@ -1,12 +1,14 @@
 'use client'
 
 import { Plus, Search } from 'lucide-react'
-import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { mockRoles, type Role, RoleFormSheet, RoleTable } from '@/features/system/roles'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { RoleFormSheet } from './_components/RoleFormSheet'
+import { RoleTable } from './_components/RoleTable'
+import { mockRoles, type Role } from './types'
 
 export default function Roles() {
   const t = useTranslations('roles')

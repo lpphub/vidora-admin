@@ -1,28 +1,42 @@
 import type { NextRequest } from 'next/server'
+import { BACKEND_URL } from '@/lib/env'
+import { errorResponse } from '@/lib/route-utils'
 
-const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
-
-async function handleProxy(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-  const { path } = await params
-  const pathname = path.join('/')
-
+async function handleProxy(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> }
+) {
   if (process.env.NODE_ENV === 'development') {
-    return Response.json({ code: 0, message: 'success', data: null })
+    if (request.method === 'GET') {
+      return Response.json({ code: 0, message: 'success', data: [] })
+    }
+    return Response.json({ code: 0, message: 'success', data: {} })
   }
 
-  const accessToken = request.cookies.get('accessToken')?.value
+  try {
+    const { path } = await params
+    const pathname = path.join('/')
+    const accessToken = request.cookies.get('accessToken')?.value
 
-  const res = await fetch(`${BACKEND_URL}/${pathname}`, {
-    method: request.method,
-    headers: {
-      'Content-Type': 'application/json',
+    const headers: Record<string, string> = {
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-    },
-    body: request.method !== 'GET' && request.method !== 'DELETE' ? await request.text() : undefined,
-  })
+    }
 
-  const data = await res.json()
-  return Response.json(data, { status: res.status })
+    const hasBody = request.method !== 'GET' && request.method !== 'DELETE'
+    if (hasBody) {
+      headers['Content-Type'] = 'application/json'
+    }
+
+    const res = await fetch(`${BACKEND_URL}/${pathname}`, {
+      method: request.method,
+      headers,
+      body: hasBody ? await request.text() : undefined,
+    })
+    const data = await res.json()
+    return Response.json(data, { status: res.status })
+  } catch {
+    return errorResponse('Internal server error', 500)
+  }
 }
 
 export const GET = handleProxy

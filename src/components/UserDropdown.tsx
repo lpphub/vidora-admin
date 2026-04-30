@@ -1,9 +1,9 @@
 'use client'
 
 import { LogOut, Settings, User } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -22,7 +22,9 @@ export function UserDropdown() {
   useEffect(() => {
     fetch('/api/auth/me')
       .then(res => res.json())
-      .then(data => { if (data.code === 0) setUser(data.data) })
+      .then(data => {
+        if (data.code === 0) setUser(data.data)
+      })
       .catch(() => {})
   }, [])
 

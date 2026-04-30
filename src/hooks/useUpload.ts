@@ -7,7 +7,7 @@ export interface UploadProgress {
   percent: number
 }
 
-export interface UploadFile {
+export interface UploadableFile {
   id: string
   file: File
   progress: UploadProgress
@@ -17,11 +17,11 @@ export interface UploadFile {
 }
 
 export function useUpload() {
-  const [files, setFiles] = useState<UploadFile[]>([])
+  const [files, setFiles] = useState<UploadableFile[]>([])
   const [isUploading, setIsUploading] = useState<boolean>(false)
 
   const addFiles = useCallback((newFiles: File[]) => {
-    const uploadFiles: UploadFile[] = newFiles.map(file => ({
+    const uploadFiles: UploadableFile[] = newFiles.map(file => ({
       id: `${file.name}-${Date.now()}-${Math.random()}`,
       file,
       progress: { loaded: 0, total: file.size, percent: 0 },
@@ -38,7 +38,7 @@ export function useUpload() {
     setFiles([])
   }, [])
 
-  const uploadFile = useCallback(async (uploadFile: UploadFile) => {
+  const uploadFile = useCallback(async (uploadFile: UploadableFile) => {
     setFiles(prev =>
       prev.map(f => (f.id === uploadFile.id ? { ...f, status: 'uploading' as const } : f))
     )
@@ -65,7 +65,7 @@ export function useUpload() {
 
       return response
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : '上传失败'
+      const message = error instanceof Error ? error.message : 'Upload failed'
       setFiles(prev =>
         prev.map(f =>
           f.id === uploadFile.id

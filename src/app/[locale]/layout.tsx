@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
-import { Providers } from '@/lib/query-client'
+import type { ReactNode } from 'react'
 import { Toaster } from 'sonner'
+import { Providers } from '@/lib/query-client'
 import '@/index.css'
 
 export default async function RootLayout({
@@ -21,7 +21,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             {children}
-            <Toaster richColors position="top-right" />
+            <Toaster richColors position='top-right' />
           </Providers>
         </NextIntlClientProvider>
       </body>

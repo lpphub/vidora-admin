@@ -1,0 +1,48 @@
+{
+	"title": "Role Management",
+	"search": {
+		"placeholder": "Search role name"
+	},
+	"table": {
+		"name": "Role Name",
+		"description": "Description",
+		"permissionCount": "Permissions",
+		"createdAt": "Created At",
+		"actions": "Actions"
+	},
+	"form": {
+		"addTitle": "Add Role",
+		"editTitle": "Edit Role",
+		"name": "Role Name",
+		"namePlaceholder": "Enter role name",
+		"nameRequired": "Role name is required",
+		"description": "Description",
+		"descriptionPlaceholder": "Enter description",
+		"permissions": "Permissions"
+	},
+	"actions": {
+		"edit": "Edit",
+		"delete": "Delete",
+		"deleteConfirm": "Are you sure you want to delete this role?"
+	},
+	"mock": {
+		"adminDesc": "Full system access",
+		"editorDesc": "Can manage content and videos",
+		"viewerDesc": "View only access"
+	},
+	"perm": {
+		"userRead": "View Users",
+		"userCreate": "Create Users",
+		"userUpdate": "Edit Users",
+		"userDelete": "Delete Users",
+		"roleRead": "View Roles",
+		"roleCreate": "Create Roles",
+		"contentRead": "View Content",
+		"contentCreate": "Create Content"
+	},
+	"roleNames": {
+		"admin": "Admin",
+		"editor": "Editor",
+		"viewer": "Viewer"
+	}
+}

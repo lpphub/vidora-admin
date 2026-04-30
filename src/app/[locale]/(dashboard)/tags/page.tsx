@@ -1,97 +1,54 @@
-'use client'
+import { getTranslations } from 'next-intl/server'
+import { fetchApi } from '@/lib/api'
+import type { Tag } from '@/types/tag'
+import { TagsClient } from './_components/TagsClient'
 
-import { Plus } from 'lucide-react'
-import { useState } from 'react'
-import { useTranslations } from 'next-intl'
-import { toast } from 'sonner'
-import type { Tag } from '@/features/tag'
-import { TagFormSheet, TagSearchBar, TagTable } from '@/features/tag'
-import { useCreateTag, useDeleteTag, useTags, useUpdateTag } from '@/features/tag/hooks'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+export default async function TagsPage() {
+  const t = await getTranslations('tags')
+  const tc = await getTranslations('common')
+  let initialTags: Tag[] = []
 
-export default function Tags() {
-  const t = useTranslations('tags')
-  const [search, setSearch] = useState('')
-  const [sheetOpen, setSheetOpen] = useState(false)
-  const [editingTag, setEditingTag] = useState<Tag | null>(null)
-
-  const { data: tags = [], isLoading } = useTags()
-  const createMutation = useCreateTag()
-  const updateMutation = useUpdateTag()
-  const deleteMutation = useDeleteTag()
-
-  const filteredTags = tags.filter(tag => tag.name.toLowerCase().includes(search.toLowerCase()))
-
-  const handleAdd = () => {
-    setEditingTag(null)
-    setSheetOpen(true)
-  }
-
-  const handleEdit = (tag: Tag) => {
-    setEditingTag(tag)
-    setSheetOpen(true)
-  }
-
-  const handleDelete = (tag: Tag) => {
-    deleteMutation.mutate(tag.id, {
-      onSuccess: () => toast.success(t('messages.deleteSuccess')),
-      onError: () => toast.error(t('messages.deleteFailed')),
-    })
-  }
-
-  const handleSubmit = (values: { name: string; color: string }) => {
-    if (editingTag) {
-      updateMutation.mutate(
-        { id: editingTag.id, data: values },
-        {
-          onSuccess: () => {
-            toast.success(t('messages.updateSuccess'))
-            setSheetOpen(false)
-          },
-          onError: () => toast.error(t('messages.updateFailed')),
-        }
-      )
-    } else {
-      createMutation.mutate(values, {
-        onSuccess: () => {
-          toast.success(t('messages.createSuccess'))
-          setSheetOpen(false)
-        },
-        onError: () => toast.error(t('messages.createFailed')),
-      })
+  if (process.env.NODE_ENV === 'development') {
+    const { MOCK_TAGS } = await import('./_components/mock-tags')
+    initialTags = MOCK_TAGS
+  } else {
+    try {
+      const { cookies } = await import('next/headers')
+      initialTags = await fetchApi.get<Tag[]>('tags', await cookies())
+    } catch {
+      // fallback to empty, client will fetch via TanStack Query
     }
   }
 
-  return (
-    <div className='flex flex-col gap-4'>
-      <Card>
-        <CardHeader className='flex flex-row items-center justify-between'>
-          <CardTitle>{t('title')}</CardTitle>
-          <Button onClick={handleAdd}>
-            <Plus size={16} className='mr-1' />
-            {t('form.addTitle')}
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <div className='mb-4 flex items-center gap-2'>
-            <TagSearchBar value={search} onChange={setSearch} />
-          </div>
-          <TagTable
-            tags={filteredTags}
-            isLoading={isLoading}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        </CardContent>
-      </Card>
+  const translations = {
+    title: t('title'),
+    addTitle: t('form.addTitle'),
+    deleteSuccess: t('messages.deleteSuccess'),
+    deleteFailed: t('messages.deleteFailed'),
+    updateSuccess: t('messages.updateSuccess'),
+    updateFailed: t('messages.updateFailed'),
+    createSuccess: t('messages.createSuccess'),
+    createFailed: t('messages.createFailed'),
+    searchPlaceholder: t('search.placeholder'),
+    table: {
+      name: t('table.name'),
+      color: t('table.color'),
+      usageCount: t('table.usageCount'),
+      createdAt: t('table.createdAt'),
+      actions: t('table.actions'),
+    },
+    form: {
+      editTitle: t('form.editTitle'),
+      addTitle: t('form.addTitle'),
+      name: t('form.name'),
+      namePlaceholder: t('form.namePlaceholder'),
+      nameRequired: t('form.nameRequired'),
+      color: t('form.color'),
+      colorRequired: t('form.colorRequired'),
+      cancel: tc('actions.cancel'),
+      save: tc('actions.save'),
+    },
+  }
 
-      <TagFormSheet
-        open={sheetOpen}
-        onOpenChange={setSheetOpen}
-        tag={editingTag}
-        onSubmit={handleSubmit}
-      />
-    </div>
-  )
+  return <TagsClient initialTags={initialTags} translations={translations} />
 }

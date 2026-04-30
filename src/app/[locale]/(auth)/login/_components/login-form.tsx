@@ -2,10 +2,10 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { bff } from '@/lib/api'
 
 export function LoginForm() {
   const t = useTranslations('auth')
@@ -40,16 +41,7 @@ export function LoginForm() {
   const handleSubmit = async (values: LoginFormValues) => {
     setIsLoading(true)
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      })
-      const data = await res.json()
-      if (data.code !== 0) {
-        toast.error(data.message || t('login.failed'))
-        return
-      }
+      await bff.post('auth/login', values)
       router.push('/dashboard')
       toast.success(t('login.success'))
     } catch {

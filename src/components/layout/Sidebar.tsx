@@ -1,14 +1,10 @@
 'use client'
 
 import { ChevronRight, Key, LayoutDashboard, Settings, Shield, Tag, Users } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
+import { useTranslations } from 'next-intl'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
   Sidebar,
   SidebarContent,
@@ -124,8 +120,7 @@ function NavItemComponent({
 }) {
   const hasChildren = item.children && item.children.length > 0
   const childActive = isChildActive(item, pathname)
-  const isParentActive =
-    pathname === item.path || pathname.startsWith(`${item.path}/`)
+  const isParentActive = pathname === item.path || pathname.startsWith(`${item.path}/`)
   const isActive = hasChildren ? childActive : isParentActive
 
   if (hasChildren) {

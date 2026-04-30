@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server'
-
-const BACKEND_URL = process.env.API_BACKEND_URL || 'http://localhost:8080'
+import { BACKEND_URL } from '@/lib/env'
+import { authHeaders, errorResponse, getAccessToken, unauthorizedResponse } from '@/lib/route-utils'
 
 const MOCK_TAGS = [
   { id: '1', name: '动作', color: '#ef4444', usageCount: 120, createdAt: '2024-01-15' },
@@ -13,26 +13,49 @@ export async function GET(request: NextRequest) {
     return Response.json({ code: 0, message: 'success', data: MOCK_TAGS })
   }
 
-  const accessToken = request.cookies.get('accessToken')?.value
-  const res = await fetch(`${BACKEND_URL}/tags`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  })
-  return Response.json(await res.json(), { status: res.status })
+  const accessToken = getAccessToken(request)
+  if (!accessToken) return unauthorizedResponse()
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/tags`, {
+      headers: authHeaders(accessToken),
+    })
+    const data = await res.json()
+    return Response.json(data, { status: res.status })
+  } catch {
+    return errorResponse('Internal server error', 500)
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json()
-
   if (process.env.NODE_ENV === 'development') {
-    const newTag = { id: String(Date.now()), ...body, usageCount: 0, createdAt: new Date().toISOString().split('T')[0] }
-    return Response.json({ code: 0, message: 'success', data: newTag })
+    try {
+      const body = await request.json()
+      const newTag = {
+        id: String(Date.now()),
+        ...body,
+        usageCount: 0,
+        createdAt: new Date().toISOString().split('T')[0],
+      }
+      return Response.json({ code: 0, message: 'success', data: newTag })
+    } catch {
+      return errorResponse('Invalid request body', 400)
+    }
   }
 
-  const accessToken = request.cookies.get('accessToken')?.value
-  const res = await fetch(`${BACKEND_URL}/tags`, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
-  })
-  return Response.json(await res.json(), { status: res.status })
+  const accessToken = getAccessToken(request)
+  if (!accessToken) return unauthorizedResponse()
+
+  try {
+    const body = await request.json()
+    const res = await fetch(`${BACKEND_URL}/tags`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: authHeaders(accessToken),
+    })
+    const data = await res.json()
+    return Response.json(data, { status: res.status })
+  } catch {
+    return errorResponse('Internal server error', 500)
+  }
 }

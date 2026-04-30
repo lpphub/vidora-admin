@@ -1,0 +1,47 @@
+{
+	"title": "Permission Management",
+	"search": {
+		"placeholder": "Search permission name or code"
+	},
+	"table": {
+		"name": "Permission Name",
+		"code": "Permission Code",
+		"type": "Type",
+		"status": "Status",
+		"createdAt": "Created At",
+		"actions": "Actions"
+	},
+	"form": {
+		"addTitle": "Add Permission",
+		"editTitle": "Edit Permission",
+		"name": "Permission Name",
+		"namePlaceholder": "Enter permission name",
+		"nameRequired": "Permission name is required",
+		"code": "Permission Code",
+		"codePlaceholder": "Enter permission code, e.g. user:create",
+		"codeRequired": "Permission code is required",
+		"type": "Permission Type",
+		"typePlaceholder": "Select permission type",
+		"status": "Status"
+	},
+	"type": {
+		"menu": "Menu",
+		"button": "Button",
+		"api": "API"
+	},
+	"status": {
+		"enabled": "Enabled",
+		"disabled": "Disabled"
+	},
+	"actions": {
+		"edit": "Edit",
+		"delete": "Delete",
+		"deleteConfirm": "Are you sure you want to delete this permission?"
+	},
+	"permNames": {
+		"userRead": "View Users",
+		"userCreate": "Create Users",
+		"userDelete": "Delete Users",
+		"roleManage": "Manage Roles"
+	}
+}

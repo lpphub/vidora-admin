@@ -1,23 +1,20 @@
 'use client'
 
 import { Plus } from 'lucide-react'
-import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import {
-  UserFormSheet,
-  type UserFormValues,
-  UserSearchBar,
-  UserTable,
-} from '@/features/system/users'
-import { MOCK_USERS, type User } from '@/features/system/users/types'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { UserFormSheet, type UserFormValues } from './_components/UserFormSheet'
+import { UserSearchBar } from './_components/UserSearchBar'
+import { UserTable } from './_components/UserTable'
+import { MOCK_USERS, type SystemUser } from './types'
 
 export default function Users() {
   const t = useTranslations('users')
   const [searchLower, setSearchLower] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [editingUser, setEditingUser] = useState<User | null>(null)
+  const [editingUser, setEditingUser] = useState<SystemUser | null>(null)
 
   const filteredUsers = MOCK_USERS.filter(
     user =>
@@ -30,7 +27,7 @@ export default function Users() {
     setSheetOpen(true)
   }
 
-  const handleEdit = (user: User) => {
+  const handleEdit = (user: SystemUser) => {
     setEditingUser(user)
     setSheetOpen(true)
   }

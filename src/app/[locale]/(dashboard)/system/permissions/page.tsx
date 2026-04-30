@@ -1,17 +1,15 @@
 'use client'
 
 import { Plus, Search } from 'lucide-react'
-import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import type { Permission, PermissionType } from '@/features/system/permissions'
-import {
-  mockPermissions,
-  PermissionFormSheet,
-  PermissionTable,
-} from '@/features/system/permissions'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { PermissionFormSheet } from './_components/PermissionFormSheet'
+import { PermissionTable } from './_components/PermissionTable'
+import type { Permission, PermissionType } from './types'
+import { mockPermissions } from './types'
 
 export default function Permissions() {
   const t = useTranslations('permissions')

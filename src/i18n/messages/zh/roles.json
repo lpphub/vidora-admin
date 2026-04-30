@@ -1,0 +1,48 @@
+{
+	"title": "角色管理",
+	"search": {
+		"placeholder": "搜索角色名称"
+	},
+	"table": {
+		"name": "角色名称",
+		"description": "描述",
+		"permissionCount": "权限数量",
+		"createdAt": "创建时间",
+		"actions": "操作"
+	},
+	"form": {
+		"addTitle": "新增角色",
+		"editTitle": "编辑角色",
+		"name": "角色名称",
+		"namePlaceholder": "请输入角色名称",
+		"nameRequired": "请输入角色名称",
+		"description": "描述",
+		"descriptionPlaceholder": "请输入描述",
+		"permissions": "权限配置"
+	},
+	"actions": {
+		"edit": "编辑",
+		"delete": "删除",
+		"deleteConfirm": "确定要删除该角色吗？"
+	},
+	"mock": {
+		"adminDesc": "拥有系统所有权限",
+		"editorDesc": "可管理内容和视频",
+		"viewerDesc": "仅可查看内容"
+	},
+	"perm": {
+		"userRead": "用户查看",
+		"userCreate": "用户新增",
+		"userUpdate": "用户编辑",
+		"userDelete": "用户删除",
+		"roleRead": "角色查看",
+		"roleCreate": "角色新增",
+		"contentRead": "内容查看",
+		"contentCreate": "内容新增"
+	},
+	"roleNames": {
+		"admin": "管理员",
+		"editor": "编辑",
+		"viewer": "访客"
+	}
+}

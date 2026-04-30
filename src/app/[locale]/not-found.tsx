@@ -1,8 +1,11 @@
-import Link from 'next/link'
 import { SearchX } from 'lucide-react'
+import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Button } from '@/components/ui/button'
 
-export default function NotFound() {
+export default async function NotFound() {
+  const t = await getTranslations('common')
+
   return (
     <div className='min-h-svh flex items-center justify-center bg-background p-4'>
       <div className='relative w-full max-w-md'>
@@ -22,14 +25,12 @@ export default function NotFound() {
             </div>
           </div>
           <div className='space-y-3'>
-            <h1 className='text-2xl font-semibold text-foreground'>页面不存在</h1>
-            <p className='text-muted-foreground max-w-sm mx-auto'>
-              抱歉，您访问的页面不存在或已被移除。请检查网址是否正确。
-            </p>
+            <h1 className='text-2xl font-semibold text-foreground'>{t('notFound.title')}</h1>
+            <p className='text-muted-foreground max-w-sm mx-auto'>{t('notFound.description')}</p>
           </div>
           <div className='flex flex-col sm:flex-row gap-3 justify-center'>
             <Link href='/dashboard'>
-              <Button size='lg'>返回首页</Button>
+              <Button size='lg'>{t('notFound.backHome')}</Button>
             </Link>
           </div>
         </div>

@@ -1,40 +1,47 @@
-'use client'
+import { getTranslations } from 'next-intl/server'
+import { fetchApi } from '@/lib/api'
+import type { User } from '@/types/auth'
+import { ProfileClient } from './_components/ProfileClient'
 
-import { Key, User } from 'lucide-react'
-import { useTranslations } from 'next-intl'
-import General from '@/features/profile/components/General'
-import Security from '@/features/profile/components/Security'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+export default async function ProfilePage() {
+  const t = await getTranslations('profile')
+  let initialUser: User | null = null
 
-function Profile() {
-  const t = useTranslations('profile')
+  try {
+    const { cookies } = await import('next/headers')
+    initialUser = await fetchApi.get<User>('auth/me', await cookies())
+  } catch {
+    // fallback to client-side fetch via useUser()
+  }
 
-  return (
-    <div className='p-6'>
-      <Tabs defaultValue='general'>
-        <TabsList>
-          <TabsTrigger value='general'>
-            <div className='flex items-center'>
-              <User size={18} className='mr-2' />
-              <span>{t('tabs.general')}</span>
-            </div>
-          </TabsTrigger>
-          <TabsTrigger value='security'>
-            <div className='flex items-center'>
-              <Key size={18} className='mr-2' />
-              <span>{t('tabs.security')}</span>
-            </div>
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value='general'>
-          <General />
-        </TabsContent>
-        <TabsContent value='security'>
-          <Security />
-        </TabsContent>
-      </Tabs>
-    </div>
-  )
+  const translations = {
+    tabs: { general: t('tabs.general'), security: t('tabs.security') },
+    general: {
+      username: t('general.username'),
+      email: t('general.email'),
+      about: t('general.about'),
+      aboutPlaceholder: t('general.aboutPlaceholder'),
+      saveChanges: t('general.saveChanges'),
+      saving: t('general.saving'),
+      deleteAccount: t('general.deleteAccount'),
+    },
+    security: {
+      currentPassword: t('security.currentPassword'),
+      newPassword: t('security.newPassword'),
+      confirmPassword: t('security.confirmPassword'),
+      updatePassword: t('security.updatePassword'),
+      updating: t('security.updating'),
+      passwordRequired: t('security.passwordRequired'),
+      passwordMinLength: t('security.passwordMinLength'),
+      passwordMismatch: t('security.passwordMismatch'),
+    },
+    toast: {
+      profileUpdated: t('toast.profileUpdated'),
+      profileUpdateFailed: t('toast.profileUpdateFailed'),
+      passwordUpdated: t('toast.passwordUpdated'),
+      passwordUpdateFailed: t('toast.passwordUpdateFailed'),
+    },
+  }
+
+  return <ProfileClient initialUser={initialUser} translations={translations} />
 }
-
-export default Profile

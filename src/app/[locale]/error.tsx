@@ -1,17 +1,18 @@
 'use client'
 
 import { ServerCrash } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Button } from '@/components/ui/button'
 
-export default function Error({
+export default function GlobalError({
   error,
   reset,
 }: {
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  // Log error in development
+  const t = useTranslations('common')
   if (process.env.NODE_ENV === 'development') console.error(error)
   return (
     <div className='min-h-svh flex items-center justify-center bg-background p-4'>
@@ -32,15 +33,17 @@ export default function Error({
             </div>
           </div>
           <div className='space-y-3'>
-            <h1 className='text-2xl font-semibold text-foreground'>服务器错误</h1>
-            <p className='text-muted-foreground max-w-sm mx-auto'>
-              抱歉，服务器遇到了问题。请稍后重试或联系管理员。
-            </p>
+            <h1 className='text-2xl font-semibold text-foreground'>{t('error.title')}</h1>
+            <p className='text-muted-foreground max-w-sm mx-auto'>{t('error.description')}</p>
           </div>
           <div className='flex flex-col sm:flex-row gap-3 justify-center'>
-            <Button onClick={reset} size='lg'>刷新页面</Button>
+            <Button onClick={reset} size='lg'>
+              {t('error.refresh')}
+            </Button>
             <Link href='/dashboard'>
-              <Button variant='outline' size='lg'>返回首页</Button>
+              <Button variant='outline' size='lg'>
+                {t('error.backHome')}
+              </Button>
             </Link>
           </div>
         </div>

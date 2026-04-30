@@ -1,276 +1,297 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Overview
 
-Vidora Admin is a video content management admin panel built with React 19 + TypeScript.
+Vidora Admin — 视频内容管理后台，基于 Next.js 16 App Router + TypeScript。
 
-## Development Commands
+## Commands
 
 ```bash
-pnpm dev        # Start dev server (port 5173)
-pnpm build      # Build for production (tsc + vite build)
-pnpm lint       # Biome lint check
-pnpm lint:fix   # Biome lint with auto-fix
-pnpm format     # Biome format
+pnpm dev        # 开发服务
+pnpm build      # 生产构建
+pnpm start      # 启动生产服务
+pnpm lint       # Biome 检查
+pnpm lint:fix   # Biome 自动修复
+pnpm format     # Biome 格式化
 ```
 
 ## Tech Stack
 
-- **Build**: Vite 7 (Rolldown) + TypeScript 5.9
-- **UI**: React 19, shadcn/ui v4 (radix-lyra style), Tailwind CSS 4
-- **Radix**: Unified `radix-ui` package (not individual `@radix-ui/react-*`)
-- **Data**: TanStack Query (react-query), Zustand
-- **HTTP**: ky (lightweight fetch wrapper)
-- **Routing**: React Router v7 (lazy loading)
+- **Framework**: Next.js 16 (App Router) + TypeScript 5.9
+- **UI**: React 19, shadcn/ui v4 (radix-lyra), Tailwind CSS 4
+- **Radix**: 统一 `radix-ui` 包（非 `@radix-ui/react-*`）
+- **Data**: TanStack Query, Zustand
+- **i18n**: next-intl（Server + Client 统一）
 - **Forms**: react-hook-form + zod + @hookform/resolvers
-- **i18n**: i18next + react-i18next
-- **Linting**: Biome (not ESLint/Prettier)
+- **Charts**: ApexCharts + react-apexcharts
+- **Lint**: Biome（非 ESLint/Prettier）
 
 ## Project Structure
 
 ```
 src/
-├── app/                    # Application
-│   ├── router/             # Route config with lazy loading
-│   └── providers/          # React Providers
-├── pages/                  # Page components (route entries)
-├── features/               # Feature modules (see below)
-├── shared/                 # Cross-feature shared resources
-│   ├── components/         # UI components
-│   │   ├── ui/            # shadcn/ui primitives
-│   │   └── layout/        # Header, Sidebar, Main
-│   ├── hooks/             # usePagination, useMediaQuery, useUpload
-│   ├── stores/            # auth, theme, locale (Zustand)
-│   ├── locales/           # i18n: zh/, en/
-│   └── utils/             # constants, env
-├── lib/                   # Core library wrappers
-│   ├── api.ts             # ky HTTP client with auth
-│   └── storage.ts         # localStorage wrapper
-└── mocks/                 # MSW mock handlers
+├── app/                          # Next.js App Router
+│   └── [locale]/                 # i18n 动态路由
+│       ├── (auth)/login/          # 登录（route group）
+│       │   └── _components/     # 页面私有组件
+│       ├── (dashboard)/           # 后台页面（route group）
+│       │   ├── dashboard/
+│       │   │   ├── page.tsx       # Server Component（数据获取 + 翻译）
+│       │   │   ├── DashboardClient.tsx  # Client Component（交互）
+│       │   │   ├── data.ts       # 服务端数据获取函数
+│       │   │   └── types.ts      # 页面类型 + Mock 数据
+│       │   ├── tags/
+│       │   │   ├── page.tsx
+│       │   │   └── _components/  # 页面私有组件（TagTable 等）
+│       │   ├── profile/
+│       │   │   ├── page.tsx
+│       │   │   └── _components/  # General, Security
+│       │   └── system/
+│       │       ├── users/        # types.ts, api.ts, _components/
+│       │       ├── roles/        # types.ts, api.ts, _components/
+│       │       └── permissions/  # types.ts, api.ts, _components/
+│       ├── layout.tsx            # 根 layout（providers）
+│       ├── error.tsx
+│       └── not-found.tsx
+├── api/                          # BFF Route Handlers
+│   ├── auth/                     # 登录、登出、刷新 token、获取用户
+│   ├── dashboard/stats/          # Dashboard 统计数据
+│   ├── tags/                     # 标签 CRUD
+│   └── [...path]/                # 全量代理（fallback）
+├── components/                   # 全局共享组件
+│   ├── ui/                       # shadcn/ui 原子组件（勿手动编辑）
+│   ├── layout/                   # 布局组件（Header, Sidebar）
+│   ├── chart/                    # 图表组件
+│   └── *.tsx                     # 通用组件（ConfirmDialog, ThemeToggle 等）
+├── hooks/                        # 全局共享 hooks
+│   ├── auth.ts                   # useUser, useLogout
+│   ├── tag.ts                    # useTags, useCreateTag, useUpdateTag, useDeleteTag
+│   ├── profile.ts                # useUpdateProfile, useChangePassword, useDeleteAccount
+│   ├── useMediaQuery.ts
+│   ├── usePagination.ts
+│   └── useUpload.ts
+├── types/                        # 全局共享类型
+│   ├── auth.ts                   # User, LoginReq, AuthResp
+│   ├── tag.ts                    # Tag, PRESET_COLORS
+│   └── video.ts                  # Video, Season, Episode 等
+├── i18n/                         # next-intl 配置
+│   ├── messages/                # 翻译文件（zh/, en/）
+│   ├── request.ts               # i18n 请求配置
+│   └── routing.ts               # i18n 路由配置
+├── lib/                          # 核心工具
+│   ├── api.ts                    # bff（客户端）+ fetchApi（服务端）
+│   ├── route-utils.ts            # Route Handler 公共工具（token 提取、错误处理、cookie 配置）
+│   ├── constants.ts              # 常量
+│   ├── env.ts                    # 环境变量 + BACKEND_URL
+│   ├── logger.ts                 # 日志
+│   ├── query-client.tsx          # TanStack Query Provider
+│   ├── storage.ts                # localStorage 封装
+│   └── utils.ts                  # cn() 工具
+├── stores/                       # Zustand 状态（theme, locale, auth）
+├── index.css                     # 全局样式 + CSS 变量
+└── proxy.ts                      # Next.js middleware（i18n + auth guard）
 ```
 
 Path alias: `@/` → `./src/`
 
-## Feature-Based Architecture
+## File Colocation Principle
 
-Each feature is self-contained with its own API, types, hooks, and components:
+Next.js App Router 遵循**路由同位**原则：
+
+- 页面私有代码（components、data、types、mock）放在路由目录下
+- 跨页面共享的代码放在 `hooks/`、`types/`、`components/`、`lib/`
 
 ```
-src/features/<feature>/
-├── api.ts                 # API endpoint definitions
-├── types.ts               # TypeScript types
-├── hooks/                 # TanStack Query hooks
-│   └── index.ts
-├── components/            # Feature-specific components
-└── index.ts               # Public exports
+✅ app/[locale]/(dashboard)/tags/
+   ├── page.tsx                      # 页面入口
+   ├── _components/                 # 页面私有组件
+   │   ├── TagTable.tsx
+   │   ├── TagFormSheet.tsx
+   │   └── TagSearchBar.tsx
+   └── (types.ts 如需要)
+
+✅ hooks/tag.ts                     # 跨页面共享的 hooks
+✅ types/tag.ts                     # 跨页面共享的类型
+✅ components/ui/                   # 全局共享 UI 组件
+
+❌ 不要创建 features/ 目录放页面私有代码
 ```
 
-### Adding New API Endpoints
+## Server & Client Components
 
-1. **Define types** in `src/features/<feature>/types.ts`
-2. **Create API object** in `src/features/<feature>/api.ts`:
+遵循 Next.js App Router 最佳实践：
 
-```typescript
-import api from '@/lib/api'
-import type { XxxResp, CreateXxxReq } from './types'
+| 场景 | 方案 |
+|------|------|
+| 数据获取 + 翻译 | **Server Component**（`page.tsx`，默认） |
+| 交互（useState, useEffect, 事件） | **Client Component**（`'use client'`） |
+| API 调用（TanStack Query） | **Client Component** 中的 hooks |
 
-export const xxxApi = {
-  list: () => api.get<XxxResp[]>('xxx'),
-  get: (id: string) => api.get<XxxResp>(`xxx/${id}`),
-  create: (data: CreateXxxReq) => api.post<XxxResp>('xxx', data),
-  update: (id: string, data: Partial<CreateXxxReq>) => api.put<XxxResp>(`xxx/${id}`, data),
-  delete: (id: string) => api.delete(`xxx/${id}`),
-}
-```
+### 页面组成模式
 
-3. **Create hooks** in `src/features/<feature>/hooks/index.ts`:
-
-```typescript
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { xxxApi } from '../api'
-
-export const xxxKeys = {
-  all: ['xxx'] as const,
-  list: () => [...xxxKeys.all, 'list'] as const,
-  detail: (id: string) => [...xxxKeys.all, 'detail', id] as const,
-}
-
-export function useXxxList() {
-  return useQuery({
-    queryKey: xxxKeys.list(),
-    queryFn: () => xxxApi.list(),
-  })
-}
-
-export function useXxx(id: string) {
-  return useQuery({
-    queryKey: xxxKeys.detail(id),
-    queryFn: () => xxxApi.get(id),
-    enabled: !!id,
-  })
-}
-
-export function useCreateXxx() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: xxxApi.create,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: xxxKeys.all }),
-  })
-}
-```
-
-4. **Use in components**:
-
-```typescript
-function XxxPage() {
-  const { data, isLoading } = useXxxList()
-  const createXxx = useCreateXxx()
+```tsx
+// page.tsx — Server Component（async）
+export default async function DashboardPage() {
+  const data = await getDashboardData()          // 服务端数据获取
+  const t = await getTranslations('dashboard')   // 服务端翻译
+  return <DashboardClient data={data} t={t} />   // 传给 Client Component
 }
 ```
 
 ## API Layer
 
-The ky client in `src/lib/api.ts` handles:
+`src/lib/api.ts` 提供两个 HTTP 客户端：
 
-- **Token injection**: Auto-attaches Bearer token from auth store
-- **401 refresh**: Automatic token refresh with singleFlight pattern
-- **Response unwrapping**: Extracts `data` from `{ code, message, data }` response
-- **Error handling**: Throws `ApiError` with code and message
+### bff — 客户端调用
 
-```typescript
-// Response format from backend
-interface ApiResponse<T> {
-  code: number      // 0 = success
-  message: string
-  data?: T
-}
+浏览器端使用，通过 `/api/*` 代理，cookie 自动携带。
+
+```tsx
+// Client Component hooks
+import { bff } from '@/lib/api'
+bff.get<Tag[]>('tags')
+bff.post<Tag>('tags', { name: 'xxx' })
 ```
 
-## Routing
+### fetchApi — 服务端调用
 
-- Uses React Router v7 with lazy loading
-- All routes defined in `src/app/router/index.tsx`
-- Auth guard via `<AuthGuard requireAuth>` wrapper
-- Pages in `src/pages/` are lazy-loaded
+Server Component / Route Handler 使用，直连后端，从 cookies 提取 token 放入 `Authorization` header。
 
-## Component Organization
-
-| Path | Purpose |
-|------|---------|
-| `src/shared/components/ui/` | shadcn/ui primitives - do NOT edit directly |
-| `src/shared/components/layout/` | Layout components (Header, Sidebar, Main) |
-| `src/shared/components/*.tsx` | Reusable components (ConfirmDialog, ThemeToggle) |
-| `src/features/*/components/` | Feature-specific components |
-
-### Adding shadcn Components
-
-```bash
-npx shadcn@latest add <component>              # Add new component
-npx shadcn@latest add <component> --overwrite  # Overwrite existing
+```tsx
+// Server Component
+import { fetchApi } from '@/lib/api'
+import { cookies } from 'next/headers'
+const data = await fetchApi.get('/dashboard/stats', await cookies())
 ```
 
-Note: shadcn v4 uses unified `radix-ui` package with "radix-lyra" style. Components import from `'radix-ui'` not `@radix-ui/react-*`.
+### 数据流
 
-## State Management
+```
+浏览器 ──(cookie 自动带)──→ /api/* ──(从 cookie 取 token → Auth header)──→ 后端
+                                                               ↑
+Server Component ──fetchApi(cookies())──→ 后端（直连，少一跳）
+```
 
-- **Zustand** for global state in `src/shared/stores/`
-- **TanStack Query** for server state (preferred for API data)
-- **Zustand persist** middleware for auth tokens (localStorage key: `vidora-auth`)
+### Route Handler 公共工具
+
+`src/lib/route-utils.ts` 提供统一工具：
+
+```tsx
+import { getAccessToken, authHeaders, unauthorizedResponse, errorResponse, cookieOptions, clearCookieOptions } from '@/lib/route-utils'
+```
+
+## Auth
+
+- **登录**: POST `/api/auth/login` → 后端返回 token → API Route 设置 httpOnly cookie
+- **刷新**: POST `/api/auth/refresh` → 用 httpOnly `refreshToken` cookie 换新 `accessToken` cookie
+- **登出**: POST `/api/auth/logout` → 调用后端撤销 token + 清除 cookie
+- **鉴权**: middleware (`src/proxy.ts`) 检查 `accessToken` cookie
+- **Zustand auth store**: 仅缓存 `user` 信息，不存 token（token 只存在于 httpOnly cookie）
+
+## i18n
+
+- 统一使用 **next-intl**
+- Server Component: `getTranslations('namespace')` (from `next-intl/server`)
+- Client Component: `useTranslations('namespace')`
+- 翻译文件: `src/i18n/messages/{locale}/*.json`
+- **禁止**硬编码中文字符串，**禁止**使用 `react-i18next` 或 `i18next`
 
 ## Code Style (Biome)
 
-- Single quotes, no semicolons, trailing commas (ES5)
-- 2-space indent, 100 char line width
-- `noUnusedImports` and `noUnusedVariables` are errors
-- Run `pnpm lint:fix` before committing
+- 单引号，无分号，尾逗号 (ES5)
+- 2 空格缩进，100 字符行宽
+- `noUnusedImports` 和 `noUnusedVariables` 为 error
+- 提交前运行 `pnpm lint:fix`
 
 ## Environment Variables
 
 ```bash
-VITE_API_BASE_URL=/api       # Backend API base URL
-VITE_ENABLE_PROXY=true       # Enable Vite proxy to localhost:8080
+NEXT_PUBLIC_APP_TITLE=Vidora        # 客户端可见
+BACKEND_API_URL=http://localhost:8080 # 仅服务端（无 NEXT_PUBLIC_ 前缀）
 ```
 
-## Notes
+`BACKEND_URL` 统一从 `@/lib/env` 导入，不在各 Route Handler 中重复声明。
 
-- MSW starts automatically in dev mode (`src/mocks/browser.ts`)
-- 401 responses trigger automatic token refresh; refresh failure triggers logout
-- Use `sonner` for toast notifications
-- Forms use react-hook-form with zod schemas for validation
+## Deployment (Docker)
+
+```bash
+docker compose up -d          # 启动
+docker compose build --no-cache  # 重新构建
+```
+
+环境变量通过 `docker-compose.yml` 或 `.env` 配置：
+
+- `BACKEND_API_URL`：服务端 BFF 代理后端地址
+- `NEXT_PUBLIC_APP_TITLE`：客户端可见标题（构建时注入）
 
 ## Adding New Pages
 
-1. Create page component `src/pages/XxxPage.tsx`
-2. Add lazy-loaded route in router config:
-   ```typescript
-   // src/app/router/index.tsx
-   const XxxPage = lazy(() => import('@/pages/XxxPage'))
-   // Add to children array
-   { path: 'xxx', element: <XxxPage /> }
-   ```
-3. Add navigation item in sidebar config:
-   ```typescript
-   // src/shared/components/layout/Sidebar.tsx
-   // Add to NAVIGATION_CONFIG
-   { title: 'items.xxx', path: '/xxx', icon: <Icon size={18} /> }
-   ```
-4. Add i18n translations in `src/shared/locales/zh/` and `en/`
+1. 创建路由目录 `src/app/[locale]/(dashboard)/xxx/`
+2. 创建 `page.tsx`（Server Component）+ `_components/XxxClient.tsx`（Client Component）
+3. 如需服务端数据获取，创建 `data.ts`
+4. 页面私有类型和 Mock 数据放路由目录下的 `types.ts`
+5. 需要代理的后端接口创建 `src/app/api/xxx/route.ts`（使用 `route-utils.ts` 的公共工具）
+6. 跨页面共享的 hooks 放 `src/hooks/xxx.ts`
+7. 跨页面共享的类型放 `src/types/xxx.ts`
+8. 导航项添加到 `src/components/layout/Sidebar.tsx`
+9. 翻译添加到 `src/i18n/messages/zh/` 和 `src/i18n/messages/en/`
 
-## Modifying Theme Styles
+## Adding New API Routes
 
-### Global Color Variables
-Edit CSS variables in `src/index.css`:
-- `:root` - Light theme colors
-- `.dark` - Dark theme colors
+```typescript
+// src/app/api/xxx/route.ts
+import type { NextRequest } from 'next/server'
+import { BACKEND_URL } from '@/lib/env'
+import { authHeaders, errorResponse, getAccessToken, unauthorizedResponse } from '@/lib/route-utils'
 
-```css
-:root {
-  --primary: oklch(0.60 0.13 163);        /* Primary color */
-  --background: oklch(1 0 0);              /* Background */
-  --foreground: oklch(0.141 0.005 285.823); /* Foreground */
-  /* ... */
+export async function GET(request: NextRequest) {
+  const accessToken = getAccessToken(request)
+  if (!accessToken) return unauthorizedResponse()
+
+  if (process.env.NODE_ENV === 'development') {
+    return Response.json({ code: 0, message: 'success', data: [] })
+  }
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/xxx`, {
+      headers: authHeaders(accessToken),
+    })
+    const data = await res.json()
+    return Response.json(data, { status: res.status })
+  } catch {
+    return errorResponse('Internal server error', 500)
+  }
 }
 ```
 
-### Border Radius
-```css
---radius: 0;  /* Change to 0.5rem etc. to enable rounded corners */
+## Component Guidelines
+
+### shadcn/ui
+
+```bash
+npx shadcn@latest add <component>
+npx shadcn@latest add <component> --overwrite
 ```
 
-### Dark Mode Toggle
-- Store: `useThemeStore` (`src/shared/stores/theme.ts`)
-- Component: `ThemeToggle` (`src/shared/components/ThemeToggle.tsx`)
-- Toggle method: `document.documentElement.classList.toggle('dark')`
+Imports from `'radix-ui'`（非 `@radix-ui/react-*`），勿手动编辑 `src/components/ui/`。
 
-## Component Styling Guidelines
+### 样式
 
-### Using cn() to Merge Classes
-```typescript
+```tsx
 import { cn } from '@/lib/utils'
+<div className={cn('base', condition && 'conditional', className)} />
 
-<div className={cn('base-classes', condition && 'conditional', className)} />
-```
-
-### Using Semantic Color Classes
-```typescript
-// Recommended - theme-aware
+// 用语义色（theme-aware）
 <span className="text-muted-foreground">
-<div className="bg-primary text-primary-foreground">
-
-// Avoid - hardcoded colors
-<span className="text-gray-500">
+// 避免硬编码颜色
+<span className="text-gray-500">  ❌
 ```
 
-### Adding Component Variants
-Use CVA (class-variance-authority), see `src/shared/components/ui/button.tsx`:
-```typescript
-const componentVariants = cva('base-classes', {
-  variants: {
-    variant: { default: '...', outline: '...' },
-    size: { sm: '...', lg: '...' }
-  },
-  defaultVariants: { variant: 'default', size: 'sm' }
+### CVA 变体
+
+```tsx
+const variants = cva('base-classes', {
+  variants: { variant: { default: '...', outline: '...' } },
+  defaultVariants: { variant: 'default' },
 })
 ```

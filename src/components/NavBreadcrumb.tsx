@@ -1,11 +1,11 @@
 'use client'
 
 import { ChevronDown } from 'lucide-react'
-import * as React from 'react'
-import { useMemo } from 'react'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import * as React from 'react'
+import { useMemo } from 'react'
 import { NAVIGATION_CONFIG, type NavItem } from '@/components/layout/Sidebar'
 import {
   Breadcrumb,
@@ -39,19 +39,21 @@ interface NavBreadcrumbProps {
 function findBreadcrumbPath(pathname: string, items: NavItem[]): BreadcrumbItemData[] {
   for (const item of items) {
     if (item.path === pathname) {
-      const children = item.children?.map(child => ({
-        key: child.path,
-        title: child.title,
-      })) ?? []
+      const children =
+        item.children?.map(child => ({
+          key: child.path,
+          title: child.title,
+        })) ?? []
       return [{ key: item.path, title: item.title, items: children }]
     }
     if (item.children) {
       const found = findBreadcrumbPath(pathname, item.children)
       if (found.length > 0) {
-        const children = item.children?.map(child => ({
-          key: child.path,
-          title: child.title,
-        })) ?? []
+        const children =
+          item.children?.map(child => ({
+            key: child.path,
+            title: child.title,
+          })) ?? []
         return [{ key: item.path, title: item.title, items: children }, ...found]
       }
     }
@@ -77,7 +79,7 @@ export function NavBreadcrumb({ maxItems = 3 }: NavBreadcrumbProps) {
   const breadcrumbs = useMemo(() => {
     // Remove locale prefix from pathname for matching
     const pathParts = pathname.split('/').filter(Boolean)
-    const cleanPath = pathParts.length > 1 ? '/' + pathParts.slice(1).join('/') : '/'
+    const cleanPath = pathParts.length > 1 ? `/${pathParts.slice(1).join('/')}` : '/'
     return findBreadcrumbPath(cleanPath, allNavItems)
   }, [pathname, allNavItems])
 
