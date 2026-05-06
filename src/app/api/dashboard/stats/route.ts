@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server'
-import { MOCK_DASHBOARD_DATA } from '@/app/[locale]/(dashboard)/dashboard/types'
+import { MOCK_DASHBOARD_DATA } from '@/app/[locale]/(app)/dashboard/types'
 import { BACKEND_URL } from '@/lib/env'
 import { authHeaders, errorResponse, getAccessToken, unauthorizedResponse } from '@/lib/route-utils'
 
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     return unauthorizedResponse()
   }
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_MOCKS === 'true') {
     return Response.json({ code: 0, message: 'success', data: MOCK_DASHBOARD_DATA })
   }
 

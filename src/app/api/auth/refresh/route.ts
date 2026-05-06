@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.ENABLE_MOCKS === 'true') {
       const response = NextResponse.json({
         code: 0,
         message: 'success',

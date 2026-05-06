@@ -1,7 +1,6 @@
 'use client'
 
 import { Globe } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
@@ -11,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useSetLanguage } from '@/stores/locale'
 
 const supportedLanguages = [
   { code: 'zh', name: '中文' },
@@ -19,14 +19,17 @@ const supportedLanguages = [
 
 export function LanguageSwitcher() {
   const locale = useLocale()
-  const router = useRouter()
-  const pathname = usePathname()
+  const setLanguage = useSetLanguage()
   const [isPending, startTransition] = useTransition()
 
   const handleLanguageChange = (lang: string) => {
     startTransition(() => {
-      const newPath = pathname.replace(`/${locale}`, `/${lang}`)
-      router.replace(newPath)
+      // Update localStorage via Zustand store
+      setLanguage(lang as 'zh' | 'en')
+      // Set cookie for middleware
+      document.cookie = `locale=${lang};path=/;max-age=${60 * 60 * 24 * 365}`
+      // Reload to pick up new locale
+      window.location.reload()
     })
   }
 

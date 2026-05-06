@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
 import { fetchApi } from '@/lib/api'
 import type { User } from '@/types/auth'
@@ -8,10 +9,9 @@ export default async function ProfilePage() {
   let initialUser: User | null = null
 
   try {
-    const { cookies } = await import('next/headers')
     initialUser = await fetchApi.get<User>('auth/me', await cookies())
   } catch {
-    // fallback to client-side fetch via useUser()
+    // fallback to null, client will fetch via useUser()
   }
 
   const translations = {

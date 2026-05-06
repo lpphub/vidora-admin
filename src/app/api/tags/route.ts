@@ -9,7 +9,7 @@ const MOCK_TAGS = [
 ]
 
 export async function GET(request: NextRequest) {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_MOCKS === 'true') {
     return Response.json({ code: 0, message: 'success', data: MOCK_TAGS })
   }
 
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_MOCKS === 'true') {
     try {
       const body = await request.json()
       const newTag = {

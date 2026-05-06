@@ -5,7 +5,7 @@ import { authHeaders, errorResponse, getAccessToken, unauthorizedResponse } from
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_MOCKS === 'true') {
     try {
       const body = await request.json()
       return Response.json({ code: 0, message: 'success', data: { id, ...body } })
@@ -37,7 +37,7 @@ export async function DELETE(
 ) {
   const { id } = await params
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_MOCKS === 'true') {
     return Response.json({ code: 0, message: 'success', data: null })
   }
 

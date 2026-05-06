@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { DashboardClient, ICON_MAP } from './DashboardClient'
 import { getDashboardData } from './data'
@@ -5,6 +6,10 @@ import { getDashboardData } from './data'
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard')
   const dashboardData = await getDashboardData()
+
+  if (!dashboardData) {
+    redirect('/login')
+  }
 
   const labelTranslations = {
     stats: Object.fromEntries(dashboardData.stats.map(s => [s.labelKey, t(s.labelKey)])),

@@ -6,7 +6,7 @@ async function handleProxy(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_MOCKS === 'true') {
     if (request.method === 'GET') {
       return Response.json({ code: 0, message: 'success', data: [] })
     }

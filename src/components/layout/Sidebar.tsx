@@ -64,13 +64,25 @@ export const NAVIGATION_CONFIG: NavGroup[] = [
   },
 ]
 
-function isChildActive(item: NavItem, pathname: string): boolean {
-  return item.children?.some(child => pathname === child.path) ?? false
+const locales = ['zh', 'en']
+
+/** Strip locale prefix from pathname: /zh/dashboard → /dashboard */
+function stripLocale(pathname: string): string {
+  for (const l of locales) {
+    if (pathname.startsWith(`/${l}/`)) return pathname.slice(`/${l}`.length)
+    if (pathname === `/${l}`) return '/'
+  }
+  return pathname
+}
+
+function isChildActive(item: NavItem, cleanPath: string): boolean {
+  return item.children?.some(child => cleanPath === child.path) ?? false
 }
 
 export function AppSidebar() {
   const t = useTranslations('sidebar')
   const pathname = usePathname()
+  const cleanPath = stripLocale(pathname)
 
   return (
     <TooltipProvider>
@@ -96,7 +108,7 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {group.items.map(item => (
-                    <NavItemComponent key={item.path} item={item} pathname={pathname} t={t} />
+                    <NavItemComponent key={item.path} item={item} cleanPath={cleanPath} t={t} />
                   ))}
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -111,16 +123,16 @@ export function AppSidebar() {
 
 function NavItemComponent({
   item,
-  pathname,
+  cleanPath,
   t,
 }: {
   item: NavItem
-  pathname: string
+  cleanPath: string
   t: (key: string) => string
 }) {
   const hasChildren = item.children && item.children.length > 0
-  const childActive = isChildActive(item, pathname)
-  const isParentActive = pathname === item.path || pathname.startsWith(`${item.path}/`)
+  const childActive = isChildActive(item, cleanPath)
+  const isParentActive = cleanPath === item.path || cleanPath.startsWith(`${item.path}/`)
   const isActive = hasChildren ? childActive : isParentActive
 
   if (hasChildren) {
@@ -138,7 +150,7 @@ function NavItemComponent({
             <SidebarMenuSub>
               {item.children!.map(child => (
                 <SidebarMenuSubItem key={child.path}>
-                  <SidebarMenuSubButton asChild isActive={pathname === child.path}>
+                  <SidebarMenuSubButton asChild isActive={cleanPath === child.path}>
                     <Link href={child.path}>
                       {child.icon}
                       <span>{t(child.title)}</span>

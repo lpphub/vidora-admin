@@ -41,18 +41,12 @@ interface TagsTranslations {
   }
 }
 
-export function TagsClient({
-  initialTags,
-  translations: t,
-}: {
-  initialTags: Tag[]
-  translations: TagsTranslations
-}) {
+export function TagsClient({ translations: t }: { translations: TagsTranslations }) {
   const [search, setSearch] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingTag, setEditingTag] = useState<Tag | null>(null)
 
-  const { data: tags = initialTags } = useTags()
+  const { data: tags = [] } = useTags()
   const createMutation = useCreateTag()
   const updateMutation = useUpdateTag()
   const deleteMutation = useDeleteTag()

@@ -1,24 +1,9 @@
 import { getTranslations } from 'next-intl/server'
-import { fetchApi } from '@/lib/api'
-import type { Tag } from '@/types/tag'
 import { TagsClient } from './_components/TagsClient'
 
 export default async function TagsPage() {
   const t = await getTranslations('tags')
   const tc = await getTranslations('common')
-  let initialTags: Tag[] = []
-
-  if (process.env.NODE_ENV === 'development') {
-    const { MOCK_TAGS } = await import('./_components/mock-tags')
-    initialTags = MOCK_TAGS
-  } else {
-    try {
-      const { cookies } = await import('next/headers')
-      initialTags = await fetchApi.get<Tag[]>('tags', await cookies())
-    } catch {
-      // fallback to empty, client will fetch via TanStack Query
-    }
-  }
 
   const translations = {
     title: t('title'),
@@ -50,5 +35,5 @@ export default async function TagsPage() {
     },
   }
 
-  return <TagsClient initialTags={initialTags} translations={translations} />
+  return <TagsClient translations={translations} />
 }

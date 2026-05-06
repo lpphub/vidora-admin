@@ -3,7 +3,7 @@ import { Header } from '@/components/layout/Header'
 import { AppSidebar } from '@/components/layout/Sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />

@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { useUser } from '@/hooks/auth'
 import { useUpdateProfile } from '@/hooks/profile'
 import type { User as UserType } from '@/types/auth'
 
@@ -36,14 +37,15 @@ type FormValues = {
 }
 
 export function General({
-  user,
+  initialUser,
   translations: t,
   toastTranslations: tt,
 }: {
-  user: UserType | null
+  initialUser: UserType | null
   translations: GeneralTranslations
   toastTranslations: ToastTranslations
 }) {
+  const { data: user = initialUser } = useUser()
   const updateProfile = useUpdateProfile()
 
   const form = useForm<FormValues>({

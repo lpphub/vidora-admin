@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     return unauthorizedResponse()
   }
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_MOCKS === 'true') {
     return Response.json({
       code: 0,
       message: 'success',

@@ -65,7 +65,7 @@ export function ProfileClient({
       </div>
 
       {activeTab === 'general' && (
-        <General user={initialUser} translations={t.general} toastTranslations={t.toast} />
+        <General initialUser={initialUser} translations={t.general} toastTranslations={t.toast} />
       )}
       {activeTab === 'security' && (
         <Security translations={t.security} toastTranslations={t.toast} />
