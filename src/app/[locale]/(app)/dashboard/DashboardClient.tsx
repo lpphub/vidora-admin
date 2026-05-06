@@ -1,5 +1,6 @@
 'use client'
 
+import type { LucideIcon } from 'lucide-react'
 import { ArrowDown, ArrowUp, Film, Plus, TrendingUp, Users, Video } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
@@ -8,7 +9,11 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 
-export const ICON_MAP = { Video, Film, Users, TrendingUp } as const
+const ICON_MAP: Record<string, LucideIcon> = { Video, Film, Users, TrendingUp }
+
+function getIcon(name: string): LucideIcon {
+  return ICON_MAP[name] ?? Video
+}
 
 function rgbAlpha(color: string, alpha: number): string {
   const hex = color.replace('#', '')
@@ -18,14 +23,12 @@ function rgbAlpha(color: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
-type IconComponent = (typeof ICON_MAP)[keyof typeof ICON_MAP]
-
 interface StatItem {
   labelKey: string
   value: string
   percent: number
   color: string
-  icon: IconComponent
+  icon: string
   sparkline: number[]
 }
 
@@ -36,7 +39,7 @@ interface TaskItem {
 }
 
 interface TransactionItem {
-  icon: IconComponent
+  icon: string
   nameKey: string
   id: string
   amount: number
@@ -116,7 +119,7 @@ export function DashboardClient({
     <div className='flex flex-col gap-4 w-full'>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
         {stats.map(stat => {
-          const Icon = stat.icon
+          const Icon = getIcon(stat.icon)
           return (
             <Card key={stat.labelKey} className='flex flex-col justify-between h-full'>
               <CardContent className='flex flex-col gap-2 p-4'>
@@ -225,7 +228,7 @@ export function DashboardClient({
             <table className='w-full text-sm'>
               <tbody>
                 {transactions.map(tx => {
-                  const Icon = tx.icon
+                  const Icon = getIcon(tx.icon)
                   return (
                     <tr
                       key={tx.id}

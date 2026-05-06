@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { DashboardClient, ICON_MAP } from './DashboardClient'
+import { DashboardClient } from './DashboardClient'
 import { getDashboardData } from './data'
 
 export default async function DashboardPage() {
@@ -19,21 +19,11 @@ export default async function DashboardPage() {
     ),
   }
 
-  const statsWithIcons = dashboardData.stats.map(s => ({
-    ...s,
-    icon: ICON_MAP[s.icon as keyof typeof ICON_MAP],
-  }))
-
-  const transactionsWithIcons = dashboardData.transactions.map(tx => ({
-    ...tx,
-    icon: ICON_MAP[tx.icon as keyof typeof ICON_MAP],
-  }))
-
   return (
     <DashboardClient
-      stats={statsWithIcons}
+      stats={dashboardData.stats}
       tasks={dashboardData.tasks}
-      transactions={transactionsWithIcons}
+      transactions={dashboardData.transactions}
       monthlyPlay={dashboardData.monthlyPlay}
       totalIncome={dashboardData.totalIncome}
       labelTranslations={labelTranslations}
