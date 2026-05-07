@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { bff } from '@/lib/api'
+import { login } from '@/hooks/auth'
 
 export function LoginForm() {
   const t = useTranslations('auth')
@@ -41,7 +41,7 @@ export function LoginForm() {
   const handleSubmit = async (values: LoginFormValues) => {
     setIsLoading(true)
     try {
-      await bff.post('auth/login', values)
+      await login(values)
       router.push('/dashboard')
       toast.success(t('login.success'))
     } catch {

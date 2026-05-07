@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { BACKEND_URL } from '@/lib/env'
-import { errorResponse } from '@/lib/route-utils'
+import { errorResponse } from '@/lib/bff-utils'
 
 async function handleProxy(
   request: NextRequest,

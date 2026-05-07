@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { BACKEND_URL } from '@/lib/env'
-import { clearCookieOptions, getAccessToken } from '@/lib/route-utils'
+import { clearCookieOptions, getAccessToken } from '@/lib/bff-utils'
 
 export async function POST(request: NextRequest) {
   const accessToken = getAccessToken(request)

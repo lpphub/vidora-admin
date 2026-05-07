@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useChangePassword } from '@/hooks/profile'
+import { changePassword } from '@/hooks/profile'
 
 interface SecurityTranslations {
   currentPassword: string
@@ -47,7 +47,7 @@ export function Security({
   const [showOldPassword, setShowOldPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const changePassword = useChangePassword()
+  const [isPending, startTransition] = useTransition()
 
   const passwordSchema = z
     .object({
@@ -72,21 +72,18 @@ export function Security({
   })
 
   const onSubmit = (data: PasswordFormValues) => {
-    changePassword.mutate(
-      { oldPassword: data.oldPassword, newPassword: data.newPassword },
-      {
-        onSuccess: () => {
-          toast.success(tt.passwordUpdated)
-          form.reset()
-          setShowOldPassword(false)
-          setShowNewPassword(false)
-          setShowConfirmPassword(false)
-        },
-        onError: () => {
-          toast.error(tt.passwordUpdateFailed)
-        },
+    startTransition(async () => {
+      try {
+        await changePassword({ oldPassword: data.oldPassword, newPassword: data.newPassword })
+        toast.success(tt.passwordUpdated)
+        form.reset()
+        setShowOldPassword(false)
+        setShowNewPassword(false)
+        setShowConfirmPassword(false)
+      } catch {
+        toast.error(tt.passwordUpdateFailed)
       }
-    )
+    })
   }
 
   return (
@@ -176,8 +173,8 @@ export function Security({
             />
 
             <div className='flex justify-end pt-2'>
-              <Button type='submit' disabled={changePassword.isPending}>
-                {changePassword.isPending ? t.updating : t.updatePassword}
+              <Button type='submit' disabled={isPending}>
+                {isPending ? t.updating : t.updatePassword}
               </Button>
             </div>
           </form>

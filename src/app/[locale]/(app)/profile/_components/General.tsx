@@ -1,6 +1,7 @@
 'use client'
 
 import { User } from 'lucide-react'
+import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -10,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useUser } from '@/hooks/auth'
-import { useUpdateProfile } from '@/hooks/profile'
+import { updateProfile } from '@/hooks/profile'
 import type { User as UserType } from '@/types/auth'
 
 interface GeneralTranslations {
@@ -46,7 +47,7 @@ export function General({
   toastTranslations: ToastTranslations
 }) {
   const { data: user = initialUser } = useUser()
-  const updateProfile = useUpdateProfile()
+  const [isPending, startTransition] = useTransition()
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -57,17 +58,14 @@ export function General({
   })
 
   const onSubmit = (data: FormValues) => {
-    updateProfile.mutate(
-      { username: data.username, about: data.about },
-      {
-        onSuccess: () => {
-          toast.success(tt.profileUpdated)
-        },
-        onError: () => {
-          toast.error(tt.profileUpdateFailed)
-        },
+    startTransition(async () => {
+      try {
+        await updateProfile({ username: data.username, about: data.about })
+        toast.success(tt.profileUpdated)
+      } catch {
+        toast.error(tt.profileUpdateFailed)
       }
-    )
+    })
   }
 
   const userInitial = user?.username?.charAt(0).toUpperCase() || null
@@ -128,8 +126,8 @@ export function General({
               )}
             />
             <div className='flex justify-end gap-2 pt-2'>
-              <Button type='submit' disabled={updateProfile.isPending}>
-                {updateProfile.isPending ? t.saving : t.saveChanges}
+              <Button type='submit' disabled={isPending}>
+                {isPending ? t.saving : t.saveChanges}
               </Button>
             </div>
           </form>

@@ -1,7 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { authKeys } from '@/hooks/auth'
-import { bff } from '@/lib/api'
-import type { User } from '@/types/auth'
+import { mutate } from 'swr'
+import { USER_KEY } from '@/hooks/auth'
+import { clientFetch } from '@/lib/http/client'
 
 export interface UpdateProfileReq {
   username: string
@@ -13,28 +12,16 @@ export interface ChangePasswordReq {
   newPassword: string
 }
 
-export function useUpdateProfile() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (data: UpdateProfileReq) => bff.patch<User>('profile', data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: authKeys.user() })
-    },
-  })
+export async function updateProfile(data: UpdateProfileReq) {
+  await clientFetch('profile', { method: 'PATCH', body: JSON.stringify(data) })
+  await mutate(USER_KEY)
 }
 
-export function useChangePassword() {
-  return useMutation({
-    mutationFn: (data: ChangePasswordReq) => bff.post<void>('profile/password', data),
-  })
+export async function changePassword(data: ChangePasswordReq) {
+  await clientFetch('profile/password', { method: 'POST', body: JSON.stringify(data) })
 }
 
-export function useDeleteAccount() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => bff.delete<void>('profile'),
-    onSuccess: () => {
-      queryClient.clear()
-    },
-  })
+export async function deleteAccount() {
+  await clientFetch('profile', { method: 'DELETE' })
+  await mutate(() => true, false)
 }

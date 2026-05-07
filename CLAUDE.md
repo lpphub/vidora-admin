@@ -20,7 +20,7 @@ pnpm format     # Biome 格式化
 - **Framework**: Next.js 16 (App Router) + TypeScript 5.9
 - **UI**: React 19, shadcn/ui v4 (radix-lyra), Tailwind CSS 4
 - **Radix**: 统一 `radix-ui` 包（非 `@radix-ui/react-*`）
-- **Data**: TanStack Query, Zustand
+- **Data**: SWR, Zustand
 - **i18n**: next-intl（cookie-based locale，URL 无 locale 前缀）
 - **Forms**: react-hook-form + zod + @hookform/resolvers
 - **Charts**: ApexCharts + react-apexcharts
@@ -83,13 +83,14 @@ src/
 │   ├── messages/                 # 翻译文件（zh/, en/）
 │   └── request.ts                # i18n 请求配置（从 cookie 读取 locale）
 ├── lib/                          # 核心工具
-│   ├── api.ts                    # bff（客户端）+ fetchApi（服务端）
+│   ├── http/                     # HTTP 客户端
+│   │   ├── bff.ts                # 客户端 BFF（调 /api/*）
+│   │   ├── fetch.ts              # 服务端 fetchApi（调 BACKEND_URL/*）
+│   │   └── shared.ts             # ApiError + unwrap + CookieSource
+│   ├── swr.tsx                   # SWRConfig Provider
 │   ├── route-utils.ts            # Route Handler 公共工具
 │   ├── constants.ts              # 常量
 │   ├── env.ts                    # 环境变量 + BACKEND_URL
-│   ├── logger.ts                 # 日志
-│   ├── query-client.tsx          # TanStack Query Provider
-│   ├── storage.ts                # localStorage 封装
 │   └── utils.ts                  # cn() 工具
 ├── stores/                       # Zustand 状态（theme, locale, auth）
 ├── proxy.ts                      # Proxy（i18n rewrite + auth guard）
@@ -153,7 +154,7 @@ export default async function DashboardPage() {
 }
 ```
 
-### 模式 B：Client Component + TanStack Query
+### 模式 B：Client Component + SWR
 
 适用于需要交互、缓存、自动重新获取的场景。
 
@@ -165,7 +166,7 @@ export default async function TagsPage() {
 }
 
 // TagsClient.tsx — 客户端自行管理数据
-const { data: tags = [] } = useTags()  // TanStack Query
+const { data: tags = [] } = useTags()  // SWR
 ```
 
 ### 模式 C：Server 传初始值 + Client 接管
@@ -179,19 +180,19 @@ return <ProfileClient initialUser={user} translations={t} />
 
 // General.tsx
 const { data: user = initialUser } = useUser()  // 用服务端数据初始化缓存
-// useUpdateProfile() 成功后 invalidate → useUser 自动重新获取
+// updateProfile() 成功后 mutate(USER_KEY) → useUser 自动重新获取
 ```
 
 ## API Layer
 
-`src/lib/api.ts` 提供两个 HTTP 客户端：
+`src/lib/http/` 提供两个 HTTP 客户端，共享 `shared.ts` 中的 `ApiError` + `unwrap`：
 
 ### bff — 客户端调用
 
 浏览器端使用，通过 `/api/*` BFF 代理，cookie 自动携带。
 
 ```tsx
-import { bff } from '@/lib/api'
+import { bff } from '@/lib/http/bff'
 bff.get<Tag[]>('tags')
 bff.post<Tag>('tags', { name: 'xxx' })
 ```
@@ -201,7 +202,7 @@ bff.post<Tag>('tags', { name: 'xxx' })
 Server Component / Route Handler 使用，直连后端，从 cookies 提取 token。
 
 ```tsx
-import { fetchApi } from '@/lib/api'
+import { fetchApi } from '@/lib/http/fetch'
 import { cookies } from 'next/headers'
 const data = await fetchApi.get<DashboardData>('dashboard/stats', await cookies())
 ```

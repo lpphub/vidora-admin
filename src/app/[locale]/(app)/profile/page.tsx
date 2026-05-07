@@ -1,6 +1,5 @@
-import { cookies } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
-import { fetchApi } from '@/lib/api'
+import { getAuthUser } from '@/lib/api/auth'
 import type { User } from '@/types/auth'
 import { ProfileClient } from './_components/ProfileClient'
 
@@ -9,7 +8,7 @@ export default async function ProfilePage() {
   let initialUser: User | null = null
 
   try {
-    initialUser = await fetchApi.get<User>('auth/me', await cookies())
+    initialUser = await getAuthUser()
   } catch {
     // fallback to null, client will fetch via useUser()
   }

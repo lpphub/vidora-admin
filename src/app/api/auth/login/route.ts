@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { BACKEND_URL } from '@/lib/env'
-import { cookieOptions, errorResponse } from '@/lib/route-utils'
+import { cookieOptions, errorResponse } from '@/lib/bff-utils'
 
 export async function POST(request: Request) {
   try {

@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { BACKEND_URL } from '@/lib/env'
-import { clearCookieOptions, cookieOptions, errorResponse } from '@/lib/route-utils'
+import { clearCookieOptions, cookieOptions, errorResponse } from '@/lib/bff-utils'
 
 export async function POST(request: NextRequest) {
   const refreshToken = request.cookies.get('refreshToken')?.value

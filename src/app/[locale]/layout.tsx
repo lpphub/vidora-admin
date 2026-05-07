@@ -2,7 +2,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import type { ReactNode } from 'react'
 import { Toaster } from 'sonner'
-import { Providers } from '@/lib/query-client'
+import { Providers } from '@/lib/swr'
 import '@/index.css'
 
 export default async function RootLayout({

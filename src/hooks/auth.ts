@@ -1,26 +1,20 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { bff } from '@/lib/api'
+import useSWR, { mutate } from 'swr'
+import { clientFetch } from '@/lib/http/client'
 import type { User } from '@/types/auth'
 
-export const authKeys = {
-  all: ['auth'] as const,
-  user: () => [...authKeys.all, 'user'] as const,
-}
+export const USER_KEY = 'auth/me'
 
 export function useUser() {
-  return useQuery({
-    queryKey: authKeys.user(),
-    queryFn: () => bff.get<User>('auth/me'),
-    retry: false,
+  return useSWR(USER_KEY, (path) => clientFetch<User>(path), {
+    shouldRetryOnError: false,
   })
 }
 
-export function useLogout() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => bff.post('auth/logout'),
-    onSuccess: () => {
-      queryClient.clear()
-    },
-  })
+export async function login(data: { email: string; password: string }) {
+  await clientFetch('auth/login', { method: 'POST', body: JSON.stringify(data) })
+}
+
+export async function logout() {
+  await clientFetch('auth/logout', { method: 'POST' })
+  await mutate(() => true, false)
 }

@@ -1,11 +1,11 @@
 'use client'
 
 import { Plus } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useCreateTag, useDeleteTag, useTags, useUpdateTag } from '@/hooks/tag'
+import { createTag, deleteTag, updateTag, useTags } from '@/hooks/tag'
 import type { Tag } from '@/types/tag'
 import { TagFormSheet } from './TagFormSheet'
 import { TagSearchBar } from './TagSearchBar'
@@ -47,9 +47,7 @@ export function TagsClient({ translations: t }: { translations: TagsTranslations
   const [editingTag, setEditingTag] = useState<Tag | null>(null)
 
   const { data: tags = [] } = useTags()
-  const createMutation = useCreateTag()
-  const updateMutation = useUpdateTag()
-  const deleteMutation = useDeleteTag()
+  const [, startTransition] = useTransition()
 
   const filteredTags = tags.filter(tag => tag.name.toLowerCase().includes(search.toLowerCase()))
 
@@ -64,33 +62,31 @@ export function TagsClient({ translations: t }: { translations: TagsTranslations
   }
 
   const handleDelete = (tag: Tag) => {
-    deleteMutation.mutate(tag.id, {
-      onSuccess: () => toast.success(t.deleteSuccess),
-      onError: () => toast.error(t.deleteFailed),
+    startTransition(async () => {
+      try {
+        await deleteTag(tag.id)
+        toast.success(t.deleteSuccess)
+      } catch {
+        toast.error(t.deleteFailed)
+      }
     })
   }
 
   const handleSubmit = (values: { name: string; color: string }) => {
-    if (editingTag) {
-      updateMutation.mutate(
-        { id: editingTag.id, data: values },
-        {
-          onSuccess: () => {
-            toast.success(t.updateSuccess)
-            setSheetOpen(false)
-          },
-          onError: () => toast.error(t.updateFailed),
-        }
-      )
-    } else {
-      createMutation.mutate(values, {
-        onSuccess: () => {
+    startTransition(async () => {
+      try {
+        if (editingTag) {
+          await updateTag(editingTag.id, values)
+          toast.success(t.updateSuccess)
+        } else {
+          await createTag(values)
           toast.success(t.createSuccess)
-          setSheetOpen(false)
-        },
-        onError: () => toast.error(t.createFailed),
-      })
-    }
+        }
+        setSheetOpen(false)
+      } catch {
+        toast.error(editingTag ? t.updateFailed : t.createFailed)
+      }
+    })
   }
 
   return (
